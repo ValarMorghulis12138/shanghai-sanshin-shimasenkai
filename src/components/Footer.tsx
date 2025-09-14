@@ -24,7 +24,6 @@ const Footer: React.FC = () => {
         <div className="footer-content">
           <div className="footer-section">
             <h4 className="footer-title">{getSiteName()}</h4>
-            <p className="footer-subtitle">{t.common.siteName}</p>
             <p className="footer-description">{t.footer.description}</p>
           </div>
 

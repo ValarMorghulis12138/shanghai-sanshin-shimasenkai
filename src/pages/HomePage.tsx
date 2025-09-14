@@ -22,7 +22,9 @@ const HomePage: React.FC = () => {
         <div className="container">
           <div className="hero-content">
             <h1 className="hero-title fade-in">{t.home.hero.title}</h1>
-            <p className="hero-subtitle fade-in">{t.home.hero.subtitle}</p>
+            {t.home.hero.subtitle && (
+              <p className="hero-subtitle fade-in">{t.home.hero.subtitle}</p>
+            )}
             <p className="hero-description fade-in">
               {t.home.hero.description}
             </p>

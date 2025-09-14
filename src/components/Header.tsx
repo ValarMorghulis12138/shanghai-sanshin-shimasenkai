@@ -39,7 +39,6 @@ const Header: React.FC = () => {
           <Link to="/" className="logo">
             <span className="logo-text-primary">{logoText.primary}</span>
             <span className="logo-text-secondary">{logoText.secondary}</span>
-            <span className="logo-subtitle">{t.common.siteName}</span>
           </Link>
 
           <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>

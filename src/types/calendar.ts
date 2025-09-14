@@ -20,7 +20,9 @@ export interface SessionDay {
 }
 
 export interface Registration {
+  id: string;
   name: string;
   timestamp: number;
   sessionId: string;
 }
+

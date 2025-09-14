@@ -169,3 +169,4 @@ export interface Translations {
     rights: string;
   };
 }
+

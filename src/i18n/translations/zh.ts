@@ -16,7 +16,7 @@ export const zh: Translations = {
   home: {
     hero: {
       title: '上海三线岛线会',
-      subtitle: '上海三线岛线会',
+      subtitle: '',
       description: '在上海传承和分享冲绳三线音乐的传统艺术',
       cta: '探索三线'
     },
@@ -82,7 +82,6 @@ export const zh: Translations = {
       title: '需要携带',
       items: [
         '您自己的三线（可租赁）',
-        '乐谱架',
         '记录乐谱的笔记本',
         '学习的热情！'
       ]

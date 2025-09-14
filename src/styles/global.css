@@ -162,3 +162,4 @@ input:focus, textarea:focus, select:focus {
 .fade-in {
   animation: fadeIn var(--transition-normal) ease-out;
 }
+

@@ -1,71 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useI18n } from '../i18n/useI18n';
 import type { SessionDay, ClassSession, Registration } from '../types/calendar';
+import { 
+  fetchSessions, 
+  fetchRegistrations, 
+  addRegistration,
+  initializeDemoData 
+} from '../services/jsonBinService';
+import AdminPanel from '../components/AdminPanel';
 import './SessionsPage.css';
 
-// Mock data for demonstration
-const generateMockSessions = (): SessionDay[] => {
-  const today = new Date();
-  const sessions: SessionDay[] = [];
-  
-  // Generate sessions for next 3 months
-  for (let month = 0; month < 3; month++) {
-    for (let week = 0; week < 4; week += 2) { // Every 2 weeks
-      const sessionDate = new Date(today.getFullYear(), today.getMonth() + month, 7 + week * 7);
-      if (sessionDate.getDay() !== 6) { // Adjust to Saturday
-        sessionDate.setDate(sessionDate.getDate() + (6 - sessionDate.getDay()));
-      }
-      
-      sessions.push({
-        id: `session-${month}-${week}`,
-        date: sessionDate.toISOString().split('T')[0],
-        location: '酒友(sakatomo): 水城南路71号1F',
-        classes: [
-          {
-            id: `class-${month}-${week}-1`,
-            date: sessionDate.toISOString().split('T')[0],
-            type: 'intermediate',
-            startTime: '14:00',
-            duration: 50,
-            maxParticipants: 15,
-            registrations: [],
-            instructor: '田中先生'
-          },
-          {
-            id: `class-${month}-${week}-2`,
-            date: sessionDate.toISOString().split('T')[0],
-            type: 'experience',
-            startTime: '15:00',
-            duration: 50,
-            maxParticipants: 20,
-            registrations: [],
-            instructor: '田中先生'
-          },
-          {
-            id: `class-${month}-${week}-3`,
-            date: sessionDate.toISOString().split('T')[0],
-            type: 'beginner',
-            startTime: '16:00',
-            duration: 50,
-            maxParticipants: 15,
-            registrations: [],
-            instructor: '田中先生'
-          }
-        ]
-      });
-    }
-  }
-  
-  return sessions;
-};
 
 const SessionsPage: React.FC = () => {
   const { t, language } = useI18n();
-  const [sessions, setSessions] = useState<SessionDay[]>(generateMockSessions());
+  const [sessions, setSessions] = useState<SessionDay[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [selectedClass, setSelectedClass] = useState<ClassSession | null>(null);
   const [registrationName, setRegistrationName] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
+
+  // Load sessions and registrations on component mount
+  useEffect(() => {
+    initializeAndLoad();
+  }, []);
+
+  const initializeAndLoad = async () => {
+    await initializeDemoData();
+    await loadData();
+  };
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const [sessionsData, registrationsData] = await Promise.all([
+        fetchSessions(),
+        fetchRegistrations()
+      ]);
+      
+      // Merge registrations into sessions
+      const mergedData = sessionsData.map(session => ({
+        ...session,
+        classes: session.classes.map(classItem => ({
+          ...classItem,
+          registrations: registrationsData.filter(reg => reg.sessionId === classItem.id)
+        }))
+      }));
+      
+      setSessions(mergedData);
+    } catch (error) {
+      console.error('Error loading data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getClassTypeName = (type: string) => {
     const classNames = {
@@ -98,34 +87,39 @@ const SessionsPage: React.FC = () => {
     setShowRegistrationModal(true);
   };
 
-  const submitRegistration = () => {
+  const submitRegistration = async () => {
     if (!selectedClass || !registrationName.trim()) return;
 
     const newRegistration: Registration = {
+      id: `reg-${Date.now()}`,
+      sessionId: selectedClass.id,
       name: registrationName.trim(),
-      timestamp: Date.now(),
-      sessionId: selectedClass.id
+      timestamp: Date.now()
     };
 
-    // In a real app, this would save to Firebase
-    // For now, we'll update local state
-    setSessions(prevSessions => 
-      prevSessions.map(day => ({
-        ...day,
-        classes: day.classes.map(cls => 
-          cls.id === selectedClass.id 
-            ? { ...cls, registrations: [...cls.registrations, newRegistration] }
-            : cls
-        )
-      }))
-    );
-
-    setShowRegistrationModal(false);
-    setRegistrationName('');
-    setSelectedClass(null);
-    
-    // Show success message
-    alert(language === 'zh' ? '报名成功！' : language === 'ja' ? '登録完了！' : 'Registration successful!');
+    setLoading(true);
+    try {
+      const success = await addRegistration(newRegistration);
+      
+      if (success) {
+        // Reload data to show the new registration
+        await loadData();
+        
+        setShowRegistrationModal(false);
+        setRegistrationName('');
+        setSelectedClass(null);
+        
+        // Show success message
+        alert(language === 'zh' ? '报名成功！' : language === 'ja' ? '登録完了！' : 'Registration successful!');
+      } else {
+        alert(language === 'zh' ? '报名失败，请重试' : language === 'ja' ? '登録に失敗しました' : 'Registration failed, please try again');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert(language === 'zh' ? '报名出错' : language === 'ja' ? 'エラーが発生しました' : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getSessionsForMonth = () => {
@@ -146,6 +140,13 @@ const SessionsPage: React.FC = () => {
         <section className="page-header">
           <h1>{t.sessions.title}</h1>
           <p className="page-description">{t.sessions.description}</p>
+          <p className="data-notice">
+            📅 {language === 'zh' 
+              ? '显示最近3个月的课程安排' 
+              : language === 'ja' 
+              ? '過去3ヶ月のクラススケジュールを表示' 
+              : 'Showing sessions from the last 3 months'}
+          </p>
         </section>
 
         {/* Schedule Information */}
@@ -316,15 +317,42 @@ const SessionsPage: React.FC = () => {
           </div>
         )}
 
-        {/* Teacher Admin Hint */}
+        {/* Admin Panel */}
+        {showAdminPanel && (
+          <AdminPanel 
+            onClose={() => setShowAdminPanel(false)}
+            onSessionsUpdate={loadData}
+          />
+        )}
+
+        {/* Loading State */}
+        {loading && (
+          <div className="loading-overlay">
+            <div className="loading-spinner">
+              {language === 'zh' ? '加载中...' : language === 'ja' ? '読み込み中...' : 'Loading...'}
+            </div>
+          </div>
+        )}
+
+        {/* Teacher Admin Access */}
         <section className="admin-hint">
           <div className="hint-box">
-            <p>
-              💡 {language === 'zh' 
-                ? '老师登录后可以创建新课程和查看完整报名名单' 
+            <button 
+              className="admin-access-button"
+              onClick={() => setShowAdminPanel(true)}
+            >
+              🔐 {language === 'zh' 
+                ? '教师管理入口' 
                 : language === 'ja' 
-                ? '先生はログイン後、新しいクラスを作成し、完全な登録リストを表示できます' 
-                : 'Teachers can log in to create new sessions and view full registration lists'}
+                ? '先生管理画面' 
+                : 'Teacher Admin Access'}
+            </button>
+            <p className="small-text">
+              {language === 'zh' 
+                ? '教师可以使用密码登录管理课程' 
+                : language === 'ja' 
+                ? '先生はパスワードでログインしてクラスを管理できます' 
+                : 'Teachers can login with password to manage sessions'}
             </p>
           </div>
         </section>

@@ -16,7 +16,7 @@ export const en: Translations = {
   home: {
     hero: {
       title: 'Shanghai Sanshi Shimasenkai',
-      subtitle: 'Shanghai Sanshi Shimasenkai',
+      subtitle: '',
       description: 'Preserving and sharing the traditional art of Okinawan sanshin music in Shanghai',
       cta: 'Discover Sanshin'
     },
@@ -82,7 +82,6 @@ export const en: Translations = {
       title: 'What to Bring',
       items: [
         'Your own sanshin (rental available)',
-        'Music stand',
         'Notebook for music sheets',
         'Enthusiasm to learn!'
       ]

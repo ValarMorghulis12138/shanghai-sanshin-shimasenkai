@@ -16,7 +16,7 @@ export const ja: Translations = {
   home: {
     hero: {
       title: '上海三線島線会',
-      subtitle: '上海三線島線会',
+      subtitle: '',
       description: '上海で沖縄三線音楽の伝統芸術を保存し共有する',
       cta: '三線を探る'
     },
@@ -82,7 +82,6 @@ export const ja: Translations = {
       title: '持ち物',
       items: [
         'ご自身の三線（レンタル可）',
-        '譜面台',
         '楽譜用のノート',
         '学ぶ意欲！'
       ]

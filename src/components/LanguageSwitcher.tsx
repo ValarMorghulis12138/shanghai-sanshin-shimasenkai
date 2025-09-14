@@ -7,9 +7,9 @@ const LanguageSwitcher: React.FC = () => {
   const { language, setLanguage } = useI18n();
 
   const languages: { code: Language; label: string; flag: string }[] = [
-    { code: 'en', label: 'EN', flag: '🇬🇧' },
     { code: 'zh', label: '中文', flag: '🇨🇳' },
-    { code: 'ja', label: '日本語', flag: '🇯🇵' }
+    { code: 'ja', label: '日本語', flag: '🇯🇵' },
+    { code: 'en', label: 'EN', flag: '🇬🇧' }
   ];
 
   return (
