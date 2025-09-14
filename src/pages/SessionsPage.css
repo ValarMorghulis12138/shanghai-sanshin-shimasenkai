@@ -265,6 +265,19 @@
   font-size: 0.75rem;
 }
 
+.name-tag.user-registration {
+  background-color: var(--primary-color);
+  font-weight: 600;
+  box-shadow: 0 0 0 2px var(--primary-color);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
 .more-names {
   display: inline-block;
   color: var(--text-secondary);
@@ -290,6 +303,39 @@
 
 .register-button:disabled {
   background-color: var(--text-light);
+  cursor: not-allowed;
+}
+
+/* Cancel Registration Button */
+.cancel-button {
+  background-color: #f44336;
+  color: white;
+  border: 2px solid #f44336;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  margin-top: var(--spacing-sm);
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  text-align: center;
+  min-height: 36px;
+}
+
+.cancel-button:hover:not(:disabled) {
+  background-color: #d32f2f;
+  border-color: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cancel-button:disabled {
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
@@ -439,6 +485,36 @@
   color: var(--text-primary);
 }
 
+.saved-info-container {
+  margin: var(--spacing-md) 0;
+  text-align: center;
+}
+
+.saved-info-note {
+  font-size: 0.875rem;
+  color: var(--success-color);
+  text-align: center;
+  margin: 0 0 var(--spacing-xs) 0;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: rgba(76, 175, 80, 0.1);
+  border-radius: var(--radius-sm);
+}
+
+.clear-info-button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  transition: color var(--transition-fast);
+}
+
+.clear-info-button:hover {
+  color: var(--primary-color);
+}
+
 .form-actions {
   display: flex;
   gap: var(--spacing-md);
@@ -542,6 +618,72 @@
   gap: var(--spacing-sm);
 }
 
+/* Special Event Styles */
+.event-badge {
+  display: inline-block;
+  margin-left: var(--spacing-sm);
+  padding: 4px var(--spacing-sm);
+  background: var(--accent-color);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  vertical-align: middle;
+}
+
+.special-event-content {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-top: var(--spacing-md);
+}
+
+.event-title {
+  font-size: 1.25rem;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-sm);
+}
+
+.event-description {
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.6;
+}
+
+.event-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-md);
+}
+
+.event-time,
+.event-location {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Event Registration Section */
+.event-registration-section {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border-color);
+}
+
+.event-registration-section .registration-status {
+  margin-bottom: var(--spacing-md);
+}
+
+.event-registration-section .register-button,
+.event-registration-section .cancel-button {
+  width: 100%;
+  margin-top: var(--spacing-md);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .page-header h1 {
@@ -564,4 +706,30 @@
   .session-day {
     padding: var(--spacing-md);
   }
+
+  .special-event-content {
+    padding: var(--spacing-md);
+  }
+
+  .event-title {
+    font-size: 1.1rem;
+  }
+
+  /* 确保取消按钮在移动端也清晰可见 */
+  .cancel-button {
+    font-size: 0.875rem;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  
+  .class-card .cancel-button {
+    width: 100%;
+    margin-top: var(--spacing-sm);
+  }
+}
+
+/* 额外确保取消按钮始终可见 */
+.class-info .cancel-button {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
 }

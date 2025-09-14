@@ -39,6 +39,35 @@
   color: var(--text-primary);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.logout-button {
+  background: var(--error-color);
+  color: white;
+  border: none;
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.logout-button:hover {
+  background: #d32f2f;
+}
+
+.session-info {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--info-bg, #e3f2fd);
+  color: var(--info-color, #1976d2);
+  text-align: center;
+  font-size: 0.875rem;
+}
+
 .close-button {
   width: 40px;
   height: 40px;
@@ -152,10 +181,16 @@
   color: var(--text-secondary);
 }
 
-.add-session-button {
-  width: 100%;
+.admin-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+}
+
+.add-session-button,
+.change-password-button {
+  flex: 1;
   padding: var(--spacing-md);
-  background: var(--accent-color);
   color: white;
   border: none;
   border-radius: var(--radius-md);
@@ -163,14 +198,26 @@
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-fast);
-  margin-bottom: var(--spacing-lg);
+}
+
+.add-session-button {
+  background: var(--accent-color);
 }
 
 .add-session-button:hover:not(:disabled) {
   background: var(--accent-dark);
 }
 
-.add-session-button:disabled {
+.change-password-button {
+  background: var(--text-secondary);
+}
+
+.change-password-button:hover:not(:disabled) {
+  background: var(--text-primary);
+}
+
+.add-session-button:disabled,
+.change-password-button:disabled {
   background: var(--text-light);
   cursor: not-allowed;
 }
@@ -323,6 +370,145 @@
   background: var(--text-light);
 }
 
+/* Password Change Modal */
+.password-change-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: calc(var(--z-modal) + 2);
+}
+
+.password-change-modal .modal-content {
+  background: var(--surface-color);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-md);
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.password-change-modal h3 {
+  margin: 0 0 var(--spacing-lg) 0;
+  color: var(--text-primary);
+}
+
+.password-change-modal .form-group {
+  margin-bottom: var(--spacing-md);
+}
+
+.password-change-modal input {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  transition: border-color var(--transition-fast);
+}
+
+.password-change-modal input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.modal-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: var(--spacing-md);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.modal-actions button[type="submit"] {
+  background: var(--primary-color);
+  color: white;
+}
+
+.modal-actions button[type="submit"]:hover:not(:disabled) {
+  background: var(--primary-dark);
+}
+
+.modal-actions button[type="submit"]:disabled {
+  background: var(--text-light);
+  cursor: not-allowed;
+}
+
+.modal-actions button[type="button"] {
+  background: var(--background-color);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.modal-actions button[type="button"]:hover {
+  background: var(--text-light);
+}
+
+/* Session Type Selector */
+.session-type-selector {
+  display: flex;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-sm);
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  cursor: pointer;
+}
+
+.radio-label input[type="radio"] {
+  cursor: pointer;
+}
+
+.radio-label span {
+  font-size: 0.95rem;
+}
+
+/* Event Badge */
+.event-badge {
+  display: inline-block;
+  margin-left: var(--spacing-sm);
+  padding: 2px var(--spacing-sm);
+  background: var(--accent-color);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  vertical-align: middle;
+}
+
+/* Form Group Textarea */
+.form-group textarea {
+  width: 100%;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color var(--transition-fast);
+}
+
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .admin-panel {
@@ -331,5 +517,28 @@
 
   .class-editor {
     grid-template-columns: 1fr;
+  }
+  
+  .admin-actions {
+    flex-direction: column;
+  }
+  
+  .password-change-modal .modal-content {
+    width: 95%;
+    padding: var(--spacing-lg);
+  }
+  
+  .session-type-selector {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .header-actions {
+    gap: var(--spacing-xs);
+  }
+  
+  .logout-button {
+    font-size: 0.75rem;
+    padding: var(--spacing-xs) var(--spacing-sm);
   }
 }
