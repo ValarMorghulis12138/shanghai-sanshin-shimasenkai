@@ -62,13 +62,15 @@ export function mergeRegistrationsIntoSessions(
 export function createRegistrationRequest(
   sessionId: string,
   name: string,
-  email: string
+  email: string,
+  color?: string
 ): Registration {
   return {
     id: `reg-${Date.now()}`,
     sessionId,
     name,
     email,
+    color,
     timestamp: Date.now()
   };
 }
@@ -82,6 +84,7 @@ export function getRegistrationInstructions(registration: Registration): string 
     sessionId: registration.sessionId,
     name: registration.name,
     email: registration.email,
+    color: registration.color,
     timestamp: new Date(registration.timestamp).toISOString()
   }, null, 2);
 

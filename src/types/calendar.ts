@@ -26,6 +26,7 @@ export interface Registration {
   id: string;
   name: string;
   email: string;
+  color?: string;
   timestamp: number;
   sessionId: string;
 }

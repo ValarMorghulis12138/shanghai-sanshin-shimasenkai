@@ -268,7 +268,6 @@
 .name-tag.user-registration {
   background-color: var(--primary-color);
   font-weight: 600;
-  box-shadow: 0 0 0 2px var(--primary-color);
   animation: pulse 2s ease-in-out infinite;
 }
 

@@ -401,6 +401,20 @@ const SessionEditor: React.FC<{
   const [eventStartTime, setEventStartTime] = useState(session?.eventStartTime || '14:00');
   const [eventEndTime, setEventEndTime] = useState(session?.eventEndTime || '17:00');
   const [eventMaxParticipants, setEventMaxParticipants] = useState(session?.eventMaxParticipants || 50);
+  
+  // Get default instructor name based on language
+  const getDefaultInstructor = () => {
+    switch (language) {
+      case 'zh':
+        return 'Keisuke老师';
+      case 'ja':
+        return 'Keisuke先生';
+      case 'en':
+      default:
+        return 'Keisuke';
+    }
+  };
+  
   const [classes, setClasses] = useState<ClassSession[]>(session?.classes || [
     {
       id: '',
@@ -409,7 +423,7 @@ const SessionEditor: React.FC<{
       startTime: '14:00',
       duration: 50,
       maxParticipants: 20,
-      instructor: 'Keisuke老师'
+      instructor: getDefaultInstructor()
     },
     {
       id: '',
@@ -418,7 +432,7 @@ const SessionEditor: React.FC<{
       startTime: '15:00',
       duration: 50,
       maxParticipants: 20,
-      instructor: 'Keisuke老师'
+      instructor: getDefaultInstructor()
     },
     {
       id: '',
@@ -427,7 +441,7 @@ const SessionEditor: React.FC<{
       startTime: '16:00',
       duration: 50,
       maxParticipants: 20,
-      instructor: 'Keisuke老师'
+      instructor: getDefaultInstructor()
     }
   ]);
 

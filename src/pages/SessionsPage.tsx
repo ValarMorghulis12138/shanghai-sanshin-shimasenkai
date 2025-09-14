@@ -9,6 +9,7 @@ import {
   initializeDemoData 
 } from '../services/jsonBinService';
 import AdminPanel from '../components/AdminPanel';
+import ColorPicker from '../components/ColorPicker';
 import './SessionsPage.css';
 
 
@@ -24,6 +25,7 @@ const SessionsPage: React.FC = () => {
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
+  const [userColor, setUserColor] = useState<string>('#E53E3E');
   const [selectedEvent, setSelectedEvent] = useState<SessionDayWithRegistrations | null>(null);
 
   // Load sessions and registrations on component mount
@@ -36,6 +38,7 @@ const SessionsPage: React.FC = () => {
     // Load user info from localStorage
     const savedEmail = localStorage.getItem('sanshi_user_email');
     const savedName = localStorage.getItem('sanshi_user_name');
+    const savedColor = localStorage.getItem('sanshi_user_color');
     
     if (savedEmail) {
       setUserEmail(savedEmail);
@@ -45,6 +48,10 @@ const SessionsPage: React.FC = () => {
     if (savedName) {
       setUserName(savedName);
       setRegistrationName(savedName);
+    }
+    
+    if (savedColor) {
+      setUserColor(savedColor);
     }
     
     initializeAndLoad();
@@ -141,12 +148,14 @@ const SessionsPage: React.FC = () => {
       sessionId: selectedClass.id,
       name: registrationName.trim(),
       email: registrationEmail.trim(),
+      color: userColor,
       timestamp: Date.now()
     };
     
     // Save user info to localStorage for future use
     localStorage.setItem('sanshi_user_email', registrationEmail.trim());
     localStorage.setItem('sanshi_user_name', registrationName.trim());
+    localStorage.setItem('sanshi_user_color', userColor);
     setUserEmail(registrationEmail.trim());
     setUserName(registrationName.trim());
 
@@ -343,6 +352,7 @@ const SessionsPage: React.FC = () => {
                               <span 
                                 key={idx} 
                                 className={`name-tag ${userEmail && reg.email === userEmail ? 'user-registration' : ''}`}
+                                style={{ backgroundColor: reg.color || '#E53E3E' }}
                               >
                                 {reg.name}
                               </span>
@@ -421,6 +431,7 @@ const SessionsPage: React.FC = () => {
                                 <span 
                                   key={idx} 
                                   className={`name-tag ${userEmail && reg.email === userEmail ? 'user-registration' : ''}`}
+                                  style={{ backgroundColor: reg.color || '#E53E3E' }}
                                 >
                                   {reg.name}
                                 </span>
@@ -529,6 +540,12 @@ const SessionsPage: React.FC = () => {
                   required
                 />
                 
+                <ColorPicker 
+                  selectedColor={userColor}
+                  onColorChange={setUserColor}
+                  language={language}
+                />
+                
                 {(userName || userEmail) && (
                   <div className="saved-info-container">
                     <p className="saved-info-note">
@@ -542,8 +559,10 @@ const SessionsPage: React.FC = () => {
                       onClick={() => {
                         localStorage.removeItem('sanshi_user_email');
                         localStorage.removeItem('sanshi_user_name');
+                        localStorage.removeItem('sanshi_user_color');
                         setUserEmail(null);
                         setUserName(null);
+                        setUserColor('#E53E3E');
                         setRegistrationName('');
                         setRegistrationEmail('');
                       }}
