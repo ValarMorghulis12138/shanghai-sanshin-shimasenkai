@@ -160,8 +160,7 @@ export async function initializeDemoData(): Promise<void> {
               startTime: "14:00",
               duration: 50,
               maxParticipants: 15,
-              instructor: "田中先生",
-              registrations: []
+              instructor: "田中先生"
             },
             {
               id: "class-2025-01-18-15:00",
@@ -170,8 +169,7 @@ export async function initializeDemoData(): Promise<void> {
               startTime: "15:00",
               duration: 50,
               maxParticipants: 20,
-              instructor: "田中先生",
-              registrations: []
+              instructor: "田中先生"
             },
             {
               id: "class-2025-01-18-16:00",
@@ -180,8 +178,7 @@ export async function initializeDemoData(): Promise<void> {
               startTime: "16:00",
               duration: 50,
               maxParticipants: 15,
-              instructor: "田中先生",
-              registrations: []
+              instructor: "田中先生"
             }
           ]
         }
