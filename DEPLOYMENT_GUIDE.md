@@ -11,7 +11,7 @@
 ### 2. 创建 GitHub 仓库
 1. 登录您的个人 GitHub 账户
 2. 创建新的私有仓库（Private Repository）
-   - 仓库名：`shanghai-sanshi-shimasenkai`
+   - 仓库名：`shanghai-sanshin-shimasenkai`
    - **不要**勾选 "Initialize this repository with a README"
    - **不要**添加 .gitignore 或 license
 
@@ -19,10 +19,10 @@
 复制您的仓库地址（SSH 或 HTTPS），然后运行：
 ```bash
 # 使用 SSH（推荐，如果您已配置 SSH keys）
-git remote add origin git@github.com:YOUR_USERNAME/shanghai-sanshi-shimasenkai.git
+git remote add origin git@github.com:YOUR_USERNAME/shanghai-sanshin-shimasenkai.git
 
 # 或使用 HTTPS
-git remote add origin https://github.com/YOUR_USERNAME/shanghai-sanshi-shimasenkai.git
+git remote add origin https://github.com/YOUR_USERNAME/shanghai-sanshin-shimasenkai.git
 ```
 
 ### 4. 首次提交和推送
@@ -99,7 +99,7 @@ export default defineConfig({
 
 如果不使用自定义域名，保持现有配置：
 ```typescript
-base: process.env.NODE_ENV === 'production' ? '/shanghai-sanshi-shimasenkai/' : '/',
+base: process.env.NODE_ENV === 'production' ? '/shanghai-sanshin-shimasenkai/' : '/',
 ```
 
 ## 常见问题
@@ -126,7 +126,7 @@ npm run deploy
 ## 访问您的网站
 
 部署成功后，您可以通过以下地址访问：
-- GitHub Pages 默认地址：`https://YOUR_USERNAME.github.io/shanghai-sanshi-shimasenkai/`
+- GitHub Pages 默认地址：`https://YOUR_USERNAME.github.io/shanghai-sanshin-shimasenkai/`
 - 自定义域名：`https://您的域名.com`
 
 ---

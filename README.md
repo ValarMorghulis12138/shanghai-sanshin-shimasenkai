@@ -28,7 +28,7 @@ A modern website for the Shanghai Sanshi Shimasenkai group, dedicated to preserv
 1. Clone the repository:
 ```bash
 git clone [your-repo-url]
-cd shanghai-sanshi-shimasenkai
+cd shanghai-sanshin-shimasenkai
 ```
 
 2. Install dependencies:

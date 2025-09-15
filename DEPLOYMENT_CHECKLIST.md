@@ -43,7 +43,7 @@ This command builds and deploys in one step!
 ## Step 5: Wait for Deployment
 
 - GitHub Pages takes 2-5 minutes to update
-- Check deployment status at: https://github.com/YOUR-USERNAME/shanghai-sanshi-shimasenkai/actions
+- Check deployment status at: https://github.com/YOUR-USERNAME/shanghai-sanshin-shimasenkai/actions
 
 ## Step 6: Test Live Site
 
