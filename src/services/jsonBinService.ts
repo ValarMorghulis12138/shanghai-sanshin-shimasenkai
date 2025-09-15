@@ -4,15 +4,16 @@
  */
 
 import type { SessionDay, Registration } from '../types/calendar';
+import { JSONBIN_CONFIG } from '../config/jsonbin.config';
 
 // JSONBin.io configuration
 const JSONBIN_BASE_URL = 'https://api.jsonbin.io/v3';
 
-// Get credentials from environment variables
-const SESSIONS_BIN_ID = import.meta.env.VITE_SESSIONS_BIN_ID;
-const REGISTRATIONS_BIN_ID = import.meta.env.VITE_REGISTRATIONS_BIN_ID;
-const API_KEY = import.meta.env.VITE_JSONBIN_API_KEY;
-const ADMIN_CONFIG_BIN_ID = import.meta.env.VITE_ADMIN_CONFIG_BIN_ID;
+// Get credentials from environment variables with fallback to config values
+const SESSIONS_BIN_ID = import.meta.env.VITE_SESSIONS_BIN_ID || JSONBIN_CONFIG.SESSIONS_BIN_ID;
+const REGISTRATIONS_BIN_ID = import.meta.env.VITE_REGISTRATIONS_BIN_ID || JSONBIN_CONFIG.REGISTRATIONS_BIN_ID;
+const API_KEY = import.meta.env.VITE_JSONBIN_API_KEY || JSONBIN_CONFIG.API_KEY;
+const ADMIN_CONFIG_BIN_ID = import.meta.env.VITE_ADMIN_CONFIG_BIN_ID || JSONBIN_CONFIG.ADMIN_CONFIG_BIN_ID;
 
 
 /**
@@ -88,7 +89,11 @@ async function updateBin(binId: string, data: any): Promise<boolean> {
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to update: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('JSONBin update error response:', errorText);
+      console.error('Response status:', response.status);
+      console.error('Response headers:', Object.fromEntries(response.headers.entries()));
+      throw new Error(`Failed to update: ${response.status} ${response.statusText} - ${errorText}`);
     }
 
     // Also save to localStorage as backup (use the same data we sent to JSONBin)

@@ -31,6 +31,10 @@ dist-ssr
 # Firebase config (if you add it later)
 src/services/firebase.ts
 
+# Production config files
+src/config/jsonbin.config.prod.ts
+src/config/*.prod.ts
+
 # Temporary files
 .cache
 .temp

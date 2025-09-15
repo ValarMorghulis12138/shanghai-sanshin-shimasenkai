@@ -108,7 +108,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
       }
     } catch (error) {
       console.error('Error saving session:', error);
-      alert(language === 'zh' ? '保存失败' : language === 'ja' ? '保存に失敗しました' : 'Failed to save');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      alert(language === 'zh' ? `保存失败: ${errorMessage}` : language === 'ja' ? `保存に失敗しました: ${errorMessage}` : `Failed to save: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
@@ -127,7 +128,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
       }
     } catch (error) {
       console.error('Error adding session:', error);
-      alert(language === 'zh' ? '添加失败' : language === 'ja' ? '追加に失敗しました' : 'Failed to add');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      alert(language === 'zh' ? `添加失败: ${errorMessage}` : language === 'ja' ? `追加に失敗しました: ${errorMessage}` : `Failed to add: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
