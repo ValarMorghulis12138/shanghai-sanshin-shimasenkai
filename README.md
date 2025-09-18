@@ -1,4 +1,4 @@
-# Shanghai Sanshi Shimasenkai - 上海三線島専会
+# Shanghai Sanshi Shimasenkai - 上海三線島線会
 
 A modern website for the Shanghai Sanshi Shimasenkai group, dedicated to preserving and sharing the traditional art of Okinawan sanshin music in Shanghai.
 
