@@ -1,4 +1,4 @@
-# Shanghai Sanshi Shimasenkai - 上海三線島線会
+# Shanghai Sanshin Shimasenkai - 上海三線島線会
 
 A modern website for the Shanghai Sanshin Shimasenkai group, dedicated to preserving and sharing the traditional art of Okinawan sanshin music in Shanghai.
 
@@ -91,4 +91,4 @@ src/
 
 ## License
 
-This project is private and intended for Shanghai Sanshi Shimasenkai use only.
+This project is private and intended for Shanghai Sanshin Shimasenkai use only.
