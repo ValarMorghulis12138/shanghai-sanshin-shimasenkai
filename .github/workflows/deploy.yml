@@ -9,7 +9,7 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
+  contents: write  # Changed from 'read' to 'write' to allow pushing to gh-pages branch
   pages: write
   id-token: write
 
@@ -55,5 +55,9 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist
+        force_orphan: true  # Create gh-pages branch if it doesn't exist
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        commit_message: 'Deploy to GitHub Pages'
         # Optionally, you can specify a custom domain if you have one
         # cname: your-custom-domain.com
