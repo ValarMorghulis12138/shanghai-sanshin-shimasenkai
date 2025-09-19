@@ -1,0 +1,23 @@
+{
+  "lastUpdated": "2024-01-01T00:00:00Z",
+  "registrations": [
+    {
+      "id": "reg-001",
+      "sessionId": "class-2024-01-06-14:00",
+      "name": "王小明",
+      "timestamp": "2024-01-01T10:30:00Z"
+    },
+    {
+      "id": "reg-002",
+      "sessionId": "class-2024-01-06-14:00",
+      "name": "李华",
+      "timestamp": "2024-01-01T11:00:00Z"
+    },
+    {
+      "id": "reg-003",
+      "sessionId": "class-2024-01-06-15:00",
+      "name": "张三",
+      "timestamp": "2024-01-01T14:20:00Z"
+    }
+  ]
+}

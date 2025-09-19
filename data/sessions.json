@@ -1,0 +1,73 @@
+{
+  "lastUpdated": "2024-01-01T00:00:00Z",
+  "sessions": [
+    {
+      "id": "session-2024-01-06",
+      "date": "2024-01-06",
+      "location": "酒友(sakatomo): 水城南路71号1F",
+      "classes": [
+        {
+          "id": "class-2024-01-06-14:00",
+          "date": "2024-01-06",
+          "type": "intermediate",
+          "startTime": "14:00",
+          "duration": 50,
+          "maxParticipants": 15,
+          "instructor": "田中先生"
+        },
+        {
+          "id": "class-2024-01-06-15:00",
+          "date": "2024-01-06",
+          "type": "experience",
+          "startTime": "15:00",
+          "duration": 50,
+          "maxParticipants": 20,
+          "instructor": "田中先生"
+        },
+        {
+          "id": "class-2024-01-06-16:00",
+          "date": "2024-01-06",
+          "type": "beginner",
+          "startTime": "16:00",
+          "duration": 50,
+          "maxParticipants": 15,
+          "instructor": "田中先生"
+        }
+      ]
+    },
+    {
+      "id": "session-2024-01-20",
+      "date": "2024-01-20",
+      "location": "酒友(sakatomo): 水城南路71号1F",
+      "classes": [
+        {
+          "id": "class-2024-01-20-14:00",
+          "date": "2024-01-20",
+          "type": "intermediate",
+          "startTime": "14:00",
+          "duration": 50,
+          "maxParticipants": 15,
+          "instructor": "田中先生"
+        },
+        {
+          "id": "class-2024-01-20-15:00",
+          "date": "2024-01-20",
+          "type": "experience",
+          "startTime": "15:00",
+          "duration": 50,
+          "maxParticipants": 20,
+          "instructor": "田中先生"
+        },
+        {
+          "id": "class-2024-01-20-16:00",
+          "date": "2024-01-20",
+          "type": "beginner",
+          "startTime": "16:00",
+          "duration": 50,
+          "maxParticipants": 15,
+          "instructor": "田中先生"
+        }
+      ]
+    }
+  ]
+}
