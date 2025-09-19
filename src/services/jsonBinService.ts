@@ -10,10 +10,24 @@ import { JSONBIN_CONFIG } from '../config/jsonbin.config';
 const JSONBIN_BASE_URL = 'https://api.jsonbin.io/v3';
 
 // Get credentials from environment variables with fallback to config values
+// Vite automatically loads .env.development in dev mode and .env.production in build mode
 const SESSIONS_BIN_ID = import.meta.env.VITE_SESSIONS_BIN_ID || JSONBIN_CONFIG.SESSIONS_BIN_ID;
 const REGISTRATIONS_BIN_ID = import.meta.env.VITE_REGISTRATIONS_BIN_ID || JSONBIN_CONFIG.REGISTRATIONS_BIN_ID;
-const API_KEY = import.meta.env.VITE_JSONBIN_API_KEY || JSONBIN_CONFIG.API_KEY;
+// Temporary fix for development environment
+const API_KEY = import.meta.env.DEV 
+  ? "$2a$10$BdDC5VXTHvvwh4UU74hBAuA04DHMsFrKjyC2BthFWYga6tq3lmUn." 
+  : (import.meta.env.VITE_JSONBIN_API_KEY || JSONBIN_CONFIG.API_KEY);
 const ADMIN_CONFIG_BIN_ID = import.meta.env.VITE_ADMIN_CONFIG_BIN_ID || JSONBIN_CONFIG.ADMIN_CONFIG_BIN_ID;
+
+// Log environment info (only in development)
+if (import.meta.env.DEV) {
+  console.log('🔧 Development mode - JSONBin configuration loaded from .env.development');
+  console.log('Mode:', import.meta.env.MODE);
+  console.log('Sessions Bin:', SESSIONS_BIN_ID);
+  console.log('Raw API Key from env:', import.meta.env.VITE_JSONBIN_API_KEY);
+  console.log('API_KEY variable:', API_KEY);
+  console.log('All VITE env vars:', Object.keys(import.meta.env).filter(k => k.startsWith('VITE_')));
+}
 
 
 /**
@@ -79,6 +93,13 @@ async function updateBin(binId: string, data: any): Promise<boolean> {
       }
     }
     
+    if (import.meta.env.DEV) {
+      console.log('🔍 Update Debug Info:');
+      console.log('Bin ID:', binId);
+      console.log('API Key (first 20 chars):', cleanApiKey?.substring(0, 20) + '...');
+      console.log('Data to send:', dataToSend);
+    }
+    
     const response = await fetch(`${JSONBIN_BASE_URL}/b/${binId}`, {
       method: 'PUT',
       headers: {
@@ -134,7 +155,9 @@ async function cleanupOrphanedRegistrations(validClassIds: Set<string>): Promise
   
   // Only update if we removed some registrations
   if (validRegistrations.length < registrations.length) {
-    console.log(`Cleaning up ${registrations.length - validRegistrations.length} orphaned registrations`);
+    if (import.meta.env.DEV) {
+      console.log(`Cleaning up ${registrations.length - validRegistrations.length} orphaned registrations`);
+    }
     await updateBin(REGISTRATIONS_BIN_ID, validRegistrations);
   }
 }
@@ -257,7 +280,9 @@ export async function deleteSession(sessionId: string): Promise<boolean> {
     );
     
     if (filteredRegistrations.length < registrations.length) {
-      console.log(`Deleting ${registrations.length - filteredRegistrations.length} registrations for deleted session`);
+      if (import.meta.env.DEV) {
+        console.log(`Deleting ${registrations.length - filteredRegistrations.length} registrations for deleted session`);
+      }
       await updateBin(REGISTRATIONS_BIN_ID, filteredRegistrations);
     }
   }
