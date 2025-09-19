@@ -15,6 +15,8 @@ A modern website for the Shanghai Sanshin Shimasenkai group, dedicated to preser
 - Vite for fast development and building
 - CSS with custom properties for theming
 - Responsive design for all devices
+- JSONBin.io for cloud data storage
+- GitHub Actions for automated deployment
 
 ## Getting Started
 
@@ -52,6 +54,12 @@ npm run build
 The built files will be in the `dist` directory.
 
 ## Deploying to GitHub Pages
+
+### Option 1: Automatic Deployment (Recommended)
+
+The project includes GitHub Actions for automatic deployment. Once set up, any push to the main branch will automatically deploy to GitHub Pages. See [GitHub Actions Setup Guide](docs/GITHUB_ACTIONS_SETUP.md) for configuration instructions.
+
+### Option 2: Manual Deployment
 
 1. Update the `base` in `vite.config.ts` to match your repository name
 2. Build and deploy:

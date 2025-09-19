@@ -1,0 +1,59 @@
+name: Deploy to GitHub Pages
+
+# Trigger deployment on push to main branch
+on:
+  push:
+    branches: [ main ]
+  # Allow manual trigger from Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Create .env.production
+      # Create production environment file from GitHub secrets
+      run: |
+        echo "VITE_JSONBIN_API_KEY=${{ secrets.VITE_JSONBIN_API_KEY }}" > .env.production
+        echo "VITE_SESSIONS_BIN_ID=${{ secrets.VITE_SESSIONS_BIN_ID }}" >> .env.production
+        echo "VITE_REGISTRATIONS_BIN_ID=${{ secrets.VITE_REGISTRATIONS_BIN_ID }}" >> .env.production
+        echo "VITE_ADMIN_CONFIG_BIN_ID=${{ secrets.VITE_ADMIN_CONFIG_BIN_ID }}" >> .env.production
+        # Beijing branch environment variables - uncomment when Beijing JSONBin is created
+        # echo "VITE_BEIJING_SESSIONS_BIN_ID=${{ secrets.VITE_BEIJING_SESSIONS_BIN_ID }}" >> .env.production
+        # echo "VITE_BEIJING_REGISTRATIONS_BIN_ID=${{ secrets.VITE_BEIJING_REGISTRATIONS_BIN_ID }}" >> .env.production
+        # echo "VITE_BEIJING_ADMIN_CONFIG_BIN_ID=${{ secrets.VITE_BEIJING_ADMIN_CONFIG_BIN_ID }}" >> .env.production
+
+    - name: Build project
+      run: npm run build
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
+        # Optionally, you can specify a custom domain if you have one
+        # cname: your-custom-domain.com
