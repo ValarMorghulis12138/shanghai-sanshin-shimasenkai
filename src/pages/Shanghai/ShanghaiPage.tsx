@@ -601,9 +601,7 @@ const ShanghaiPage: React.FC = () => {
         {/* Loading State */}
         {loading && (
           <div className="loading-overlay">
-            <div className="loading-spinner">
-              {language === 'zh' ? '加载中...' : language === 'ja' ? '読み込み中...' : 'Loading...'}
-            </div>
+            <div className="loading-spinner"></div>
           </div>
         )}
 

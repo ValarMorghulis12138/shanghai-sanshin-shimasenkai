@@ -556,13 +556,19 @@
 }
 
 .loading-spinner {
-  background: var(--surface-color);
-  padding: var(--spacing-xl) var(--spacing-xxl);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  color: var(--text-primary);
-  font-size: 1.125rem;
-  font-weight: 500;
+  width: 36px;
+  height: 36px;
+  margin: 0 auto;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: simple-spin 0.8s linear infinite;
+}
+
+@keyframes simple-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Instructions Modal */

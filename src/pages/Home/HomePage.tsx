@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useI18n } from '../../i18n/useI18n';
 import './HomePage.css';
@@ -16,7 +16,7 @@ import kobudoPhoto from '../../assets/photos/sanshin_member/sanshin_kobudo.jpg';
 import eventPhoto from '../../assets/photos/sanshin_member/shimasenkai_event.jpg';
 
 const HomePage: React.FC = () => {
-  const { t, language } = useI18n();
+  const { t } = useI18n();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
@@ -25,17 +25,17 @@ const HomePage: React.FC = () => {
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0]));
   
   // Gallery images array
-  const galleryImages = [
+  const galleryImages = useMemo(() => [
     { src: bandPhoto, alt: "Haisai Sanshin Band Performance" },
     { src: memberPhoto1, alt: "Sanshin Shimasenkai Members" },
     { src: memberPhoto2, alt: "Teaching Scene" },
     { src: memberPhoto3, alt: "Group Practice Session" },
     { src: kobudoPhoto, alt: "Sanshin and Okinawan Kobudo Collaboration" },
     { src: eventPhoto, alt: "Sanshin Shimasenkai Event" }
-  ];
+  ], []);
   
   // 预加载下一张图片
-  const preloadImage = (index: number) => {
+  const preloadImage = useCallback((index: number) => {
     if (index >= 0 && index < galleryImages.length && !loadedImages.has(index)) {
       const img = new Image();
       img.src = galleryImages[index].src;
@@ -43,13 +43,13 @@ const HomePage: React.FC = () => {
         setLoadedImages(prev => new Set(prev).add(index));
       };
     }
-  };
+  }, [galleryImages, loadedImages]);
   
   // 预加载第一张和第二张图片
   useEffect(() => {
     preloadImage(0);
     preloadImage(1);
-  }, []);
+  }, [preloadImage]);
   
   const changeImage = (newIndex: number) => {
     if (isTransitioning) return;
@@ -278,7 +278,6 @@ const HomePage: React.FC = () => {
                 {isImageLoading && (
                   <div className="gallery-loading">
                     <div className="loading-spinner"></div>
-                    <p>{language === 'zh' ? '加载中...' : language === 'ja' ? '読み込み中...' : 'Loading...'}</p>
                   </div>
                 )}
                 <img
