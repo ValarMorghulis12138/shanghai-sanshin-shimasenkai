@@ -183,19 +183,27 @@
   }
 
   .nav-open {
-    max-height: 300px;
+    max-height: 500px; /* 进一步增加高度以确保所有内容都能显示 */
+    overflow-y: auto; /* 如果内容仍然太多，允许滚动 */
   }
 
   .nav {
     flex-direction: column;
     align-items: stretch;
-    gap: 0;
+    gap: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
   }
   
   .nav-list {
     flex-direction: column;
     gap: 0;
     padding: var(--spacing-md);
+    padding-bottom: 0;
+  }
+  
+  /* Ensure LanguageSwitcher is visible in mobile menu */
+  .language-switcher {
+    padding: 0 var(--spacing-md) var(--spacing-md);
   }
 
   .nav-item {
