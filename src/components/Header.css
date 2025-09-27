@@ -180,11 +180,17 @@
     max-height: 0;
     overflow: hidden;
     transition: max-height var(--transition-normal);
+    visibility: hidden; /* 确保完全隐藏 */
+    opacity: 0; /* 添加透明度过渡 */
+    transition: max-height var(--transition-normal), visibility 0s linear 0.3s, opacity var(--transition-normal);
   }
 
   .nav-open {
     max-height: 500px; /* 进一步增加高度以确保所有内容都能显示 */
     overflow-y: auto; /* 如果内容仍然太多，允许滚动 */
+    visibility: visible; /* 显示内容 */
+    opacity: 1; /* 完全不透明 */
+    transition: max-height var(--transition-normal), visibility 0s, opacity var(--transition-normal);
   }
 
   .nav {
