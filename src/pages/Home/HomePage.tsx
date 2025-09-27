@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 import { useI18n } from '../../i18n/useI18n';
 import './HomePage.css';
 import keisukeSenseiPhoto from '../../assets/photos/keisuke_sensei/keisuke_sensei_photo.jpg';
-import teacherCertificate from '../../assets/photos/keisuke_sensei/三線・教師免許（教师证.jpg';
-import ambassadorAward from '../../assets/photos/keisuke_sensei/沖縄民間大使表彰.jpg';
-import consulGeneralAward from '../../assets/photos/keisuke_sensei/2024年在外公馆长表彰.jpg';
+import teacherCertificate from '../../assets/photos/keisuke_sensei/teacher_certificate.jpg';
+import ambassadorAward from '../../assets/photos/keisuke_sensei/okinawa_ambassador_award.jpg';
+import consulGeneralAward from '../../assets/photos/keisuke_sensei/consul_general_award_2024.jpg';
 import heroBackground from '../../assets/photos/sanshin_member/shanghai_sanshin_shimasenkai.jpg';
 import bandPhoto from '../../assets/photos/haisai/haisai_sanshin_band.jpg';
 // Import new member photos for gallery
 import memberPhoto1 from '../../assets/photos/sanshin_member/shimasenkai_member_1.jpg';
 import memberPhoto2 from '../../assets/photos/sanshin_member/shimasenkai_member_2.jpg';
 import memberPhoto3 from '../../assets/photos/sanshin_member/shimasenkai_member_3.jpg';
-import kobudoPhoto from '../../assets/photos/sanshin_member/三线会_古武道.jpg';
+import kobudoPhoto from '../../assets/photos/sanshin_member/sanshin_kobudo.jpg';
 import eventPhoto from '../../assets/photos/sanshin_member/shimasenkai_event.jpg';
 
 const HomePage: React.FC = () => {
