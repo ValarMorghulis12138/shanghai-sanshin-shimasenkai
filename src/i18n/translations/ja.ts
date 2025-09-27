@@ -15,18 +15,27 @@ export const ja: Translations = {
   
   home: {
     hero: {
-      title: '上海三線島線会',
+      title: '三線島線会',
       subtitle: '',
-      description: '上海で沖縄三線音楽の伝統芸術を保存し共有する',
-      cta: '三線を探る'
+      description: '2008年より活動する上海三線島線会。沖縄出身の演奏者・認定講師・文化大使KEISUKEが、沖縄の魂を上海にお届けします。',
+      cta: '講師について'
     },
-    about: {
-      title: '三線とは？',
-      subtitle: '沖縄音楽の魂',
+    teacher: {
+      title: '講師紹介',
+      name: 'KEISUKE（西原圭佑）',
+      subtitle: '唄三線(Sanshin)演奏者・琉球島うた音楽協会教師',
+      introduction: [
+        'KEISUKE（西原圭佑）は沖縄出身。上海を拠点に唄三線(Sanshin)の演奏者として活躍中。琉球島うた音楽協会教師免許保持者。',
+        '2008年より三線サークル「上海三線島線会」を立ち上げ。中国にてMongol800や喜納昌吉と同じ舞台で演者として華を添える。その他、中国各地の沖縄県関連イベントにてPRの協力をしている。',
+        '2020年上海国際映画祭公式日本映画week司会＆オープニングアクト演奏を務めた。2021年より上海にて自己プロデュース沖縄料理店（海唄UMIBE）をオープン。'
+      ]
+    },
+    certification: {
+      title: '受賞歴・表彰',
+      subtitle: '文化交流における功績',
       description: [
-        '三線（さんしん）は日本の沖縄の伝統的な三弦楽器です。その独特な音色は600年以上にわたって沖縄音楽の中心となってきました。',
-        '「沖縄バンジョー」とも呼ばれる三線は、伝統的にニシキヘビまたは合成皮で覆われた小さな胴体と、琉球諸島の精神を捉える独特で共鳴する音色を生み出す3本の弦が特徴です。',
-        'この楽器は沖縄文化の中心的な役割を果たし、古典的な宮廷音楽から民謡まですべてを伴奏し、世界中の新世代のミュージシャンにインスピレーションを与え続けています。'
+        '2022年、沖縄県政府より「沖縄民間大使」表彰を受賞。これは沖縄文化の海外普及に貢献した個人に授与される名誉ある称号です。',
+        '2024年、在上海日本国総領事館より「在外公館長表彰」を受賞。これは日中文化交流の促進に対する長年の貢献が認められたものです。'
       ]
     },
     features: {
@@ -36,13 +45,28 @@ export const ja: Translations = {
         description: '伝統的および現代的な三線音楽を一緒に探求する定期的な練習セッションに参加してください。'
       },
       instruction: {
-        title: '専門指導',
-        description: '沖縄の音楽伝統を保存し共有することに情熱を持つ経験豊富な教師から学びます。'
+        title: '専門的な指導',
+        description: '沖縄の音楽的伝統を保存し共有することに情熱を持つ経験豊富な教師から学びましょう。'
       },
       cultural: {
         title: '文化交流',
-        description: '同じ趣味を持つ仲間とつながり、沖縄の豊かな文化遺産に浸ってください。'
+        description: '他の愛好家とつながり、沖縄の豊かな文化遺産に浸ってください。'
       }
+    },
+    awards: {
+      title: '受賞歴・表彰',
+      ambassador: {
+        title: '2022年 沖縄民間大使',
+        description: '沖縄文化を国際的に推進・普及する重要な貢献に対して、沖縄県政府から授与された名誉。'
+      },
+      consulGeneral: {
+        title: '2024年 在外公館長表彰',
+        description: '沖縄音楽と文化を通じた日中文化交流の促進に対する長年の貢献が認められ、在上海日本国総領事館から授与された表彰。'
+      }
+    },
+    gallery: {
+      title: '私たちの音楽の旅の瞬間',
+      ambassadorCaption: '2022年 沖縄民間大使表彰'
     },
     history: {
       title: '三線の歴史',
@@ -95,6 +119,7 @@ export const ja: Translations = {
         beginner: '初級',
         intermediate: '中級',
         advanced: '上級',
+        experience: '体験クラス',
         all: '全レベル'
       }
     },
@@ -122,13 +147,13 @@ export const ja: Translations = {
     location: {
       title: '所在地',
       address: [
-        '上海コミュニティセンター',
-        '静安区文化路123号',
-        '上海、中国 200040'
+        '沖縄県北京事務所',
+        '北京市朝陽区東三環北路3号 幸福大厦B座1701室'
       ]
     },
     email: 'メール',
     wechat: 'WeChat',
+    wechatId: 'WeChat ID',
     responseTime: {
       title: '返信時間',
       description: '通常24〜48時間以内に返信します'
@@ -142,7 +167,7 @@ export const ja: Translations = {
         },
         cost: {
           question: '費用はいくらですか？',
-          answer: 'セッションは1回150元、または月額パス500元（4セッション）です。初回の方は50元でトライアルセッションに参加できます。'
+          answer: '初回体験レッスンは無料、その後は1回50元です。'
         },
         experience: {
           question: '音楽経験は必要ですか？',
@@ -166,10 +191,6 @@ export const ja: Translations = {
       messagePlaceholder: 'お知りになりたいことをお聞かせください...',
       sendMessage: 'メッセージを送信',
       sending: '送信中...'
-    },
-    map: {
-      title: '場所を見つける',
-      interactiveMap: 'インタラクティブマップ'
     }
   },
   

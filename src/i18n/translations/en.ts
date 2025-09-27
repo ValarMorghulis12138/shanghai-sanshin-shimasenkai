@@ -15,18 +15,27 @@ export const en: Translations = {
   
   home: {
     hero: {
-      title: 'Shanghai Sanshi Shimasenkai',
+      title: 'Sanshin Shimasenkai',
       subtitle: '',
-      description: 'Preserving and sharing the traditional art of Okinawan sanshin music in Shanghai',
-      cta: 'Discover Sanshin'
+      description: 'Join Shanghai Sanshin Shimasenkai, led by KEISUKE - Okinawan performer, certified instructor, and cultural ambassador bringing the soul of Okinawa to Shanghai since 2008.',
+      cta: 'Meet Our Teacher'
     },
-    about: {
-      title: 'What is Sanshin?',
-      subtitle: 'The Soul of Okinawan Music',
+    teacher: {
+      title: 'Instructor Introduction',
+      name: 'KEISUKE (Nishihara Keisuke)',
+      subtitle: 'Sanshin Performer & Certified Instructor',
+      introduction: [
+        'KEISUKE is from Okinawa and currently based in Shanghai as an active Uta-Sanshin performer. He holds a teaching license from the Ryukyu Island Uta Music Association.',
+        'Since 2008, he has been leading the "Shanghai Sanshin Shimasenkai" circle, providing monthly sanshin instruction. He has performed on the same stage as Mongol800 and Kina Shoukichi in China, and actively promotes Okinawan culture including awamori and music throughout China.',
+        'In 2020, he served as MC and opening act for the Shanghai International Film Festival\'s official Japan Film Week. In 2021, he opened his own Okinawan restaurant "UMIBE" in Shanghai, hosting regular live performances.'
+      ]
+    },
+    certification: {
+      title: 'Awards & Recognition',
+      subtitle: 'Achievements in Cultural Exchange',
       description: [
-        'The sanshin (三線) is a traditional three-stringed instrument from Okinawa, Japan. Its distinctive sound has been the heart of Okinawan music for over 600 years.',
-        'Often called the "Okinawan banjo," the sanshin features a small body traditionally covered with python or synthetic skin, and three strings that produce a unique, resonant tone that captures the spirit of the Ryukyu Islands.',
-        'The instrument plays a central role in Okinawan culture, accompanying everything from classical court music to folk songs, and continues to inspire new generations of musicians worldwide.'
+        'In 2022, KEISUKE received the "Okinawa Civilian Ambassador" award from the Okinawa Prefectural Government, a prestigious honor recognizing individuals who contribute to spreading Okinawan culture overseas.',
+        'In 2024, he was awarded the "Consul General\'s Commendation" by the Consulate-General of Japan in Shanghai, acknowledging his long-standing contributions to promoting Japan-China cultural exchange.'
       ]
     },
     features: {
@@ -43,6 +52,21 @@ export const en: Translations = {
         title: 'Cultural Exchange',
         description: 'Connect with fellow enthusiasts and immerse yourself in the rich cultural heritage of Okinawa.'
       }
+    },
+    awards: {
+      title: 'Awards & Recognition',
+      ambassador: {
+        title: '2022 Okinawa Civilian Ambassador',
+        description: 'Awarded by the Okinawa Prefectural Government for significant contributions to promoting and spreading Okinawan culture internationally.'
+      },
+      consulGeneral: {
+        title: '2024 Consul General\'s Commendation',
+        description: 'Awarded by the Consulate-General of Japan in Shanghai, recognizing long-standing contributions to promoting Japan-China cultural exchange through Okinawan music and culture.'
+      }
+    },
+    gallery: {
+      title: 'Moments from Our Musical Journey',
+      ambassadorCaption: '2022 Okinawa Civilian Ambassador Award'
     },
     history: {
       title: 'The History of Sanshin',
@@ -92,10 +116,11 @@ export const en: Translations = {
       participants: 'registered',
       sessionFull: 'Session Full',
       level: {
-        beginner: 'beginner',
-        intermediate: 'intermediate',
-        advanced: 'advanced',
-        all: 'all levels'
+        beginner: 'Beginner',
+        intermediate: 'Intermediate',
+        advanced: 'Advanced',
+        experience: 'Trial Class',
+        all: 'All Levels'
       }
     },
     registration: {
@@ -122,13 +147,13 @@ export const en: Translations = {
     location: {
       title: 'Location',
       address: [
-        'Shanghai Community Center',
-        '123 Culture Road, Jing\'an District',
-        'Shanghai, China 200040'
+        'Okinawa Prefecture Beijing Office',
+        'Block B, Room 1701, Xingfu Building, No.3 North Road, East 3rd Ring, Chaoyang District, Beijing'
       ]
     },
     email: 'Email',
     wechat: 'WeChat',
+    wechatId: 'WeChat ID',
     responseTime: {
       title: 'Response Time',
       description: 'We typically respond within 24-48 hours'
@@ -142,7 +167,7 @@ export const en: Translations = {
         },
         cost: {
           question: 'What is the cost?',
-          answer: 'Sessions are ¥150 per class, or ¥500 for a monthly pass (4 sessions). First-time visitors can attend a trial session for ¥50.'
+          answer: 'First trial class is free, then ¥50 per class.'
         },
         experience: {
           question: 'Do I need prior musical experience?',
@@ -166,10 +191,6 @@ export const en: Translations = {
       messagePlaceholder: 'Tell us what you\'d like to know...',
       sendMessage: 'Send Message',
       sending: 'Sending...'
-    },
-    map: {
-      title: 'Find Us',
-      interactiveMap: 'Interactive Map'
     }
   },
   

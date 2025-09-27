@@ -1,5 +1,80 @@
 @import './variables.css';
 
+/* Import beautiful fonts for Chinese and Japanese */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Ma+Shan+Zheng&family=Inter:wght@400;500;600;700&display=swap');
+
+/* Custom font - HuaWen LiShu (available for future use) */
+/*
+@font-face {
+  font-family: 'HuaWen LiShu';
+  src: url('../assets/fonts/HuaWenLiShu.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+*/
+
+/* Beautiful number styling with Inter font */
+:root {
+  --font-numbers: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Enable better number display globally */
+body {
+  font-feature-settings: 'kern' 1, 'liga' 1, 'tnum' 1;
+}
+
+/* Apply Inter font to specific elements containing numbers */
+.hero-title,
+.hero-subtitle, 
+.hero-description,
+.section-description,
+.timeline-year,
+.stats-number,
+.price,
+time,
+.date,
+.session-time,
+.session-date,
+.participants-count,
+.faq-item p,
+.award-content p,
+.teacher-content p {
+  font-family: var(--font-numbers), var(--font-primary);
+  /* Enable tabular numbers for better alignment */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* Special styling for prominent numbers */
+.price,
+.stats-number,
+.timeline-year {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Utility class for number-heavy content */
+.number-content {
+  font-family: var(--font-numbers), var(--font-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Style for inline numbers in paragraphs */
+p, li, h1, h2, h3, h4, h5, h6, span, div {
+  /* Mix font for better number display */
+  font-family: inherit;
+}
+
+/* Override for elements that should always use Inter for numbers */
+.session-info,
+.contact-info,
+.timeline-content,
+.certification-content,
+.awards-section {
+  font-family: var(--font-numbers), var(--font-primary);
+}
+
 * {
   margin: 0;
   padding: 0;

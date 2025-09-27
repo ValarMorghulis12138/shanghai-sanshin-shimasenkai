@@ -4,6 +4,9 @@ import { useI18n } from '../i18n/useI18n';
 import LanguageSwitcher from './LanguageSwitcher';
 import './Header.css';
 
+// Import the selected logo icon
+import logoIcon from '../assets/icons/img_app_sanshin_body.png';
+
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
@@ -11,7 +14,9 @@ const Header: React.FC = () => {
 
   const navItems = [
     { path: '/', label: t.common.home },
-    { path: '/sessions', label: t.common.sessions },
+    { path: '/shanghai', label: language === 'zh' ? '上海分会' : language === 'ja' ? '上海分会' : 'Shanghai Branch' },
+    { path: '/beijing', label: language === 'zh' ? '北京分会' : language === 'ja' ? '北京分会' : 'Beijing Branch' },
+    { path: '/fuzhou', label: language === 'zh' ? '福州分会' : language === 'ja' ? '福州分会' : 'Fuzhou Branch' },
     { path: '/contact', label: t.common.contact }
   ];
 
@@ -22,11 +27,11 @@ const Header: React.FC = () => {
   const getLogoText = () => {
     switch (language) {
       case 'zh':
-        return { primary: '上海三线', secondary: '岛线会' };
+        return '三线岛线会';
       case 'ja':
-        return { primary: '上海三線', secondary: '島線会' };
+        return '三線島線会';
       default:
-        return { primary: 'Shanghai Sanshi', secondary: 'Shimasenkai' };
+        return 'Sanshin Shimasenkai';
     }
   };
 
@@ -37,8 +42,8 @@ const Header: React.FC = () => {
       <div className="container">
         <div className="header-content">
           <Link to="/" className="logo">
-            <span className="logo-text-primary">{logoText.primary}</span>
-            <span className="logo-text-secondary">{logoText.secondary}</span>
+            <img src={logoIcon} alt="Sanshin Logo" className="logo-icon" />
+            <span className="logo-text">{logoText}</span>
           </Link>
 
           <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>

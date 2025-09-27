@@ -15,18 +15,27 @@ export const zh: Translations = {
   
   home: {
     hero: {
-      title: '上海三线岛线会',
+      title: '三线岛线会',
       subtitle: '',
-      description: '在上海传承和分享冲绳三线音乐的传统艺术',
-      cta: '探索三线'
+      description: '由冲绳演奏家、认证讲师、文化大使KEISUKE（琉球小哥）带领，自2008年起将冲绳之魂带到上海。',
+      cta: '认识我们的老师'
     },
-    about: {
-      title: '什么是三线？',
-      subtitle: '冲绳音乐之魂',
+    teacher: {
+      title: '讲师介绍',
+      name: 'KEISUKE（西原圭佑/琉球小哥keisuke）',
+      subtitle: '冲绳传统乐器三线的传承人',
+      introduction: [
+        'KEISUKE（西原圭佑）是冲绳县人，冲绳传统乐器三线(Sanshin)的传承人。持有"琉球岛うた(歌)音乐协会"教师证。',
+        '自2008年起，作为"上海三线岛线会"的负责人，每月定期指导弹唱三线。在中国各地介绍泡盛酒，冲绳音乐等冲绳文化。',
+        '2021年在上海开了一家冲绳料理餐厅(海呗UMIBE)，定期办演唱会。2022年获得冲绳县政府"冲绳民间大使"荣誉，2024年获得在上海日本国总领事馆"在外公馆长表彰"。'
+      ]
+    },
+    certification: {
+      title: '专业资质',
+      subtitle: '三线教育领域的卓越认证',
       description: [
-        '三线是来自日本冲绳的传统三弦乐器。600多年来，其独特的音色一直是冲绳音乐的核心。',
-        '三线常被称为"冲绳班卓琴"，琴身较小，传统上覆盖蟒蛇皮或合成皮，三根琴弦能产生独特而共鸣的音色，捕捉琉球群岛的精神。',
-        '该乐器在冲绳文化中扮演着核心角色，从古典宫廷音乐到民间歌曲无所不包，并继续激励着世界各地的新一代音乐家。'
+        '圭介老师持有冲绳县三线协会颁发的权威大师教师认证，这是最高级别的教学资格。这个认证不仅代表了技术的精通，还代表了对冲绳音乐历史和文化传统的深刻了解。',
+        '此外，他还因在国际上推广冲绳文化的工作而获得了冲绳文化交流基金会的嘉奖。他的学生在地区比赛和文化展览中持续取得优异成绩。'
       ]
     },
     features: {
@@ -41,8 +50,23 @@ export const zh: Translations = {
       },
       cultural: {
         title: '文化交流',
-        description: '与同好者交流，沉浸在冲绳丰富的文化遗产中。'
+        description: '与其他爱好者联系，沉浸在冲绳丰富的文化遗产中。'
       }
+    },
+    awards: {
+      title: '荣誉与表彰',
+      ambassador: {
+        title: '2022年冲绳民间大使',
+        description: '因在国际上推广和传播冲绳文化方面做出的重要贡献，获得冲绳县政府颁发的荣誉。'
+      },
+      consulGeneral: {
+        title: '2024年在外公馆长表彰',
+        description: '因通过冲绳音乐和文化长期促进中日文化交流做出的贡献，获得在上海日本国总领事馆颁发的表彰。'
+      }
+    },
+    gallery: {
+      title: '我们音乐之旅的精彩瞬间',
+      ambassadorCaption: '2022年冲绳民间大使表彰'
     },
     history: {
       title: '三线的历史',
@@ -95,6 +119,7 @@ export const zh: Translations = {
         beginner: '初级',
         intermediate: '中级',
         advanced: '高级',
+        experience: '体验课',
         all: '所有级别'
       }
     },
@@ -122,13 +147,13 @@ export const zh: Translations = {
     location: {
       title: '地址',
       address: [
-        '上海社区中心',
-        '静安区文化路123号',
-        '上海，中国 200040'
+        '冲绳县北京事务所',
+        '北京市朝阳区东三环北路3号 幸福大厦B座1701室'
       ]
     },
     email: '电子邮箱',
     wechat: '微信',
+    wechatId: '微信ID',
     responseTime: {
       title: '回复时间',
       description: '我们通常在24-48小时内回复'
@@ -142,7 +167,7 @@ export const zh: Translations = {
         },
         cost: {
           question: '费用是多少？',
-          answer: '每节课150元，或月卡500元（4节课）。首次访客可以以50元参加试听课程。'
+          answer: '首次体验课免费，以后每节课50元。'
         },
         experience: {
           question: '我需要音乐经验吗？',
@@ -166,10 +191,6 @@ export const zh: Translations = {
       messagePlaceholder: '告诉我们您想了解什么...',
       sendMessage: '发送留言',
       sending: '发送中...'
-    },
-    map: {
-      title: '找到我们',
-      interactiveMap: '交互式地图'
     }
   },
   

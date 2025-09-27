@@ -20,7 +20,13 @@ export interface Translations {
       description: string;
       cta: string;
     };
-    about: {
+    teacher: {
+      title: string;
+      name: string;
+      subtitle: string;
+      introduction: string[];
+    };
+    certification: {
       title: string;
       subtitle: string;
       description: string[];
@@ -39,6 +45,21 @@ export interface Translations {
         title: string;
         description: string;
       };
+    };
+    awards?: {
+      title: string;
+      ambassador?: {
+        title: string;
+        description: string;
+      };
+      consulGeneral?: {
+        title: string;
+        description: string;
+      };
+    };
+    gallery: {
+      title: string;
+      ambassadorCaption?: string;
     };
     history: {
       title: string;
@@ -87,6 +108,7 @@ export interface Translations {
         beginner: string;
         intermediate: string;
         advanced: string;
+        experience: string;
         all: string;
       };
     };
@@ -117,6 +139,7 @@ export interface Translations {
     };
     email: string;
     wechat: string;
+    wechatId: string;
     responseTime: {
       title: string;
       description: string;
@@ -154,10 +177,6 @@ export interface Translations {
       messagePlaceholder: string;
       sendMessage: string;
       sending: string;
-    };
-    map: {
-      title: string;
-      interactiveMap: string;
     };
   };
   

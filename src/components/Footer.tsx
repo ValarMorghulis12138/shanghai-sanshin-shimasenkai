@@ -10,11 +10,11 @@ const Footer: React.FC = () => {
   const getSiteName = () => {
     switch (language) {
       case 'zh':
-        return '上海三线岛线会';
+        return '三线岛线会';
       case 'ja':
-        return '上海三線島線会';
+        return '三線島線会';
       default:
-        return 'Shanghai Sanshi Shimasenkai';
+        return 'Sanshin Shimasenkai';
     }
   };
 
@@ -31,7 +31,9 @@ const Footer: React.FC = () => {
             <h4 className="footer-title">{t.footer.quickLinks}</h4>
             <ul className="footer-links">
               <li><Link to="/">{t.common.home}</Link></li>
-              <li><Link to="/sessions">{t.common.sessions}</Link></li>
+              <li><Link to="/shanghai">{language === 'zh' ? '上海分会' : language === 'ja' ? '上海分会' : 'Shanghai Branch'}</Link></li>
+              <li><Link to="/beijing">{language === 'zh' ? '北京分会' : language === 'ja' ? '北京分会' : 'Beijing Branch'}</Link></li>
+              <li><Link to="/fuzhou">{language === 'zh' ? '福州分会' : language === 'ja' ? '福州分会' : 'Fuzhou Branch'}</Link></li>
               <li><Link to="/contact">{t.common.contact}</Link></li>
             </ul>
           </div>
