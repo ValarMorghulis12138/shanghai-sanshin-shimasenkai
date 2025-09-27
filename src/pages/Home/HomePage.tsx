@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useI18n } from '../../i18n/useI18n';
 import './HomePage.css';
@@ -16,11 +16,13 @@ import kobudoPhoto from '../../assets/photos/sanshin_member/sanshin_kobudo.jpg';
 import eventPhoto from '../../assets/photos/sanshin_member/shimasenkai_event.jpg';
 
 const HomePage: React.FC = () => {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(false);
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0]));
   
   // Gallery images array
   const galleryImages = [
@@ -32,8 +34,30 @@ const HomePage: React.FC = () => {
     { src: eventPhoto, alt: "Sanshin Shimasenkai Event" }
   ];
   
+  // 预加载下一张图片
+  const preloadImage = (index: number) => {
+    if (index >= 0 && index < galleryImages.length && !loadedImages.has(index)) {
+      const img = new Image();
+      img.src = galleryImages[index].src;
+      img.onload = () => {
+        setLoadedImages(prev => new Set(prev).add(index));
+      };
+    }
+  };
+  
+  // 预加载第一张和第二张图片
+  useEffect(() => {
+    preloadImage(0);
+    preloadImage(1);
+  }, []);
+  
   const changeImage = (newIndex: number) => {
     if (isTransitioning) return;
+    
+    // 如果图片还没加载过，显示加载状态
+    if (!loadedImages.has(newIndex)) {
+      setIsImageLoading(true);
+    }
     
     setIsTransitioning(true);
     setTimeout(() => {
@@ -45,11 +69,17 @@ const HomePage: React.FC = () => {
   const nextImage = () => {
     const newIndex = currentImageIndex === galleryImages.length - 1 ? 0 : currentImageIndex + 1;
     changeImage(newIndex);
+    // 预加载再下一张
+    const preloadIndex = newIndex === galleryImages.length - 1 ? 0 : newIndex + 1;
+    preloadImage(preloadIndex);
   };
   
   const prevImage = () => {
     const newIndex = currentImageIndex === 0 ? galleryImages.length - 1 : currentImageIndex - 1;
     changeImage(newIndex);
+    // 预加载再上一张
+    const preloadIndex = newIndex === 0 ? galleryImages.length - 1 : newIndex - 1;
+    preloadImage(preloadIndex);
   };
   
   const goToImage = (index: number) => {
@@ -245,10 +275,24 @@ const HomePage: React.FC = () => {
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
               >
+                {isImageLoading && (
+                  <div className="gallery-loading">
+                    <div className="loading-spinner"></div>
+                    <p>{language === 'zh' ? '加载中...' : language === 'ja' ? '読み込み中...' : 'Loading...'}</p>
+                  </div>
+                )}
                 <img
+                  key={currentImageIndex}
                   src={galleryImages[currentImageIndex].src}
                   alt={galleryImages[currentImageIndex].alt}
-                  className={`gallery-main-image ${isTransitioning ? 'transitioning' : ''}`}
+                  className={`gallery-main-image ${isTransitioning ? 'transitioning' : ''} ${isImageLoading ? 'loading' : ''}`}
+                  onLoad={() => {
+                    setIsImageLoading(false);
+                    setLoadedImages(prev => new Set(prev).add(currentImageIndex));
+                  }}
+                  onError={() => {
+                    setIsImageLoading(false);
+                  }}
                 />
               </div>
               
