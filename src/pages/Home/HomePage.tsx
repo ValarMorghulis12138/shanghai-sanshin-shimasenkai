@@ -122,6 +122,7 @@ const HomePage: React.FC = () => {
                 src={keisukeSenseiPhoto} 
                 alt="KEISUKE Sensei" 
                 className="teacher-photo"
+                loading="lazy"
               />
             </div>
             
@@ -153,6 +154,7 @@ const HomePage: React.FC = () => {
                 src={teacherCertificate} 
                 alt="Teaching Certificate" 
                 className="certificate-photo"
+                loading="lazy"
               />
             </div>
           </div>
@@ -171,6 +173,7 @@ const HomePage: React.FC = () => {
                   src={ambassadorAward} 
                   alt="Okinawa Civilian Ambassador Award" 
                   className="award-photo"
+                  loading="lazy"
                 />
               </div>
               <div className="award-content">
@@ -188,6 +191,7 @@ const HomePage: React.FC = () => {
                   src={consulGeneralAward} 
                   alt="Consul General's Commendation Award" 
                   className="award-photo"
+                  loading="lazy"
                 />
               </div>
             </div>
