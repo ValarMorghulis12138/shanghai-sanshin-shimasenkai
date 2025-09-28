@@ -557,6 +557,8 @@
 
   .award-item.reverse {
     grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
   }
 
   .award-content {
@@ -565,6 +567,11 @@
 
   .award-item.reverse .award-content {
     text-align: center;
+    order: 2; /* 文字在下 */
+  }
+
+  .award-item.reverse .award-image {
+    order: 1; /* 照片在上 */
   }
 }
 
