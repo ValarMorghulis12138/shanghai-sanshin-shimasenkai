@@ -17,7 +17,7 @@ export const ja: Translations = {
     hero: {
       title: '三線島線会',
       subtitle: '',
-      description: '2008年より活動する上海三線島線会。沖縄出身の演奏者・認定講師・文化大使KEISUKEが、沖縄の魂を上海にお届けします。',
+      description: '2008年より活動する上海三線島線会。沖縄出身の演奏者・認定講師・沖縄民間大使KEISUKEが、沖縄の魂を上海を始め中国各地にお届けします。',
       cta: '講師について'
     },
     teacher: {
@@ -25,7 +25,7 @@ export const ja: Translations = {
       name: 'KEISUKE（西原圭佑）',
       subtitle: '唄三線(Sanshin)演奏者・琉球島うた音楽協会教師',
       introduction: [
-        'KEISUKE（西原圭佑）は沖縄出身。上海を拠点に唄三線(Sanshin)の演奏者として活躍中。琉球島うた音楽協会教師免許保持者。',
+        'KEISUKE（西原圭佑）は沖縄出身。上海を拠点に唄三線の演奏者として活躍中。琉球島うた音楽協会教師免許保持者。',
         '2008年より三線サークル「上海三線島線会」を立ち上げ。中国にてMongol800や喜納昌吉と同じ舞台で演者として華を添える。その他、中国各地の沖縄県関連イベントにてPRの協力をしている。',
         '2020年上海国際映画祭公式日本映画week司会＆オープニングアクト演奏を務めた。2021年より上海にて自己プロデュース沖縄料理店（海唄UMIBE）をオープン。'
       ]
@@ -35,7 +35,7 @@ export const ja: Translations = {
       subtitle: '文化交流における功績',
       description: [
         '2022年、沖縄県政府より「沖縄民間大使」表彰を受賞。これは沖縄文化の海外普及に貢献した個人に授与される名誉ある称号です。',
-        '2024年、在上海日本国総領事館より「在外公館長表彰」を受賞。これは日中文化交流の促進に対する長年の貢献が認められたものです。'
+        '2024年、在上海日本国総領事館より「在外公館長表彰」を受賞。これは中国において日中文化交流の促進に対する長年の貢献が認められたものです。'
       ]
     },
     features: {
@@ -50,7 +50,7 @@ export const ja: Translations = {
       },
       cultural: {
         title: '文化交流',
-        description: '他の愛好家とつながり、沖縄の豊かな文化遺産に浸ってください。'
+        description: '他の愛好家とつながり、沖縄の豊かな文化を共に体験しましょう。'
       }
     },
     awards: {
@@ -101,11 +101,11 @@ export const ja: Translations = {
     title: '練習会スケジュール',
     description: '月二回の三線練習会、隔週土曜日午後に開催。すべてのレベルの方を歓迎します！',
     scheduleTitle: '練習会情報',
-    scheduleDescription: '私たちの練習会は月に2回、通常土曜日に開催されます。先生が前月に翌月の日程を決定します。',
+    scheduleDescription: '私たちの練習会は月に2回、通常土曜日に開催されます。前月に翌月の日程を決定します。',
     whatToBring: {
       title: '持ち物',
       items: [
-        'ご自身の三線（レンタル可）',
+        'ご自身の三線（レンタル可・数に限りあり）',
         '楽譜用のノート',
         '学ぶ意欲！'
       ]
@@ -163,11 +163,11 @@ export const ja: Translations = {
       questions: {
         ownSanshin: {
           question: '自分の三線が必要ですか？',
-          answer: 'いいえ、初心者向けにレンタル楽器をご用意しています。継続することを決めたら、ご自身の三線の購入をお手伝いします。'
+          answer: 'いいえ、初心者向けにレンタル楽器をご用意しています。継続される方には、マイ三線の購入をオススメします。'
         },
         cost: {
           question: '費用はいくらですか？',
-          answer: '初回体験レッスンは無料、その後は1回50元です。'
+          answer: '初回体験レッスンは無料、その後は1回（1〜3コマ自由参加）50元です。'
         },
         experience: {
           question: '音楽経験は必要ですか？',
@@ -188,14 +188,14 @@ export const ja: Translations = {
         other: 'その他'
       },
       message: 'メッセージ',
-      messagePlaceholder: 'お知りになりたいことをお聞かせください...',
+      messagePlaceholder: 'ご意見・ご質問などお聞かせください...',
       sendMessage: 'メッセージを送信',
       sending: '送信中...'
     }
   },
   
   footer: {
-    description: '上海で沖縄三線音楽の美しさを保存し共有する',
+    description: '上海で沖縄三線音楽文化の美しさを継承し共有する',
     quickLinks: 'クイックリンク',
     connectWithUs: 'つながる',
     connectDescription: '隔週のセッションに参加して、沖縄の伝統的な音を体験してください',
