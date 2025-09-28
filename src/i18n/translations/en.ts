@@ -2,7 +2,7 @@ import type { Translations } from '../types';
 
 export const en: Translations = {
   common: {
-    siteName: 'Shanghai Sanshi Shimasenkai',
+    siteName: 'Shanghai Sanshin Shimasenkai',
     home: 'Home',
     sessions: 'Sessions',
     contact: 'Contact',
@@ -34,7 +34,7 @@ export const en: Translations = {
       title: 'Awards & Recognition',
       subtitle: 'Achievements in Cultural Exchange',
       description: [
-        'In 2022, KEISUKE received the "Okinawa Civilian Ambassador" award from the Okinawa Prefectural Government, a prestigious honor recognizing individuals who contribute to spreading Okinawan culture overseas.',
+        'In 2022, KEISUKE received the "Uchina(Okinawa) Goodwill Ambassador" award from the Okinawa Prefectural Government, a prestigious honor recognizing individuals who contribute to spreading Okinawan culture overseas.',
         'In 2024, he was awarded the "Consul General\'s Commendation" by the Consulate-General of Japan in Shanghai, acknowledging his long-standing contributions to promoting Japan-China cultural exchange.'
       ]
     },
@@ -56,7 +56,7 @@ export const en: Translations = {
     awards: {
       title: 'Awards & Recognition',
       ambassador: {
-        title: '2022 Okinawa Civilian Ambassador',
+        title: '2022 Uchina(Okinawa) Goodwill Ambassador',
         description: 'Awarded by the Okinawa Prefectural Government for significant contributions to promoting and spreading Okinawan culture internationally.'
       },
       consulGeneral: {
