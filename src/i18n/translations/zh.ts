@@ -17,7 +17,7 @@ export const zh: Translations = {
     hero: {
       title: '三线岛线会',
       subtitle: '',
-      description: '由冲绳演奏家、认证讲师、文化大使KEISUKE（琉球小哥）带领，自2008年起将冲绳之魂带到上海。',
+      description: '由冲绳演奏家、认证讲师、冲绳民间大使KEISUKE（琉球小哥）带领，自2008年起将冲绳之魂带到上海。',
       cta: '认识我们的老师'
     },
     teacher: {
@@ -34,8 +34,8 @@ export const zh: Translations = {
       title: '专业资质',
       subtitle: '三线教育领域的卓越认证',
       description: [
-        '圭介老师持有冲绳县三线协会颁发的权威大师教师认证，这是最高级别的教学资格。这个认证不仅代表了技术的精通，还代表了对冲绳音乐历史和文化传统的深刻了解。',
-        '此外，他还因在国际上推广冲绳文化的工作而获得了冲绳文化交流基金会的嘉奖。他的学生在地区比赛和文化展览中持续取得优异成绩。'
+        'KEISUKE老师持有冲绳县三线协会颁发的权威大师教师认证。这个认证不仅代表了技术的精通，还代表了对冲绳音乐历史和文化传统的深刻了解。',
+        
       ]
     },
     features: {
@@ -101,7 +101,7 @@ export const zh: Translations = {
     title: '课程安排',
     description: '每月两次三线课程，隔周周六下午进行。欢迎所有级别的学员参加！',
     scheduleTitle: '课程信息',
-    scheduleDescription: '我们的课程每月举行两次，通常在周六。老师会在前一个月确定下个月的课程日期。',
+    scheduleDescription: '我们的课程每月举行两次，通常在周六。在前一个月确定下个月的课程日期。',
     whatToBring: {
       title: '需要携带',
       items: [
