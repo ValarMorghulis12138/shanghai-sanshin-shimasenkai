@@ -8,6 +8,7 @@ import {
   deleteRegistration,
   initializeDemoData 
 } from '../services/jsonBinService';
+import { generateRegistrationId } from '../utils/idGenerator';
 import ColorPicker from './ColorPicker';
 import './SessionRegistration.css';
 
@@ -158,7 +159,7 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
     if (!selectedClass || !registrationName.trim() || !registrationEmail.trim()) return;
 
     const newRegistration: Registration = {
-      id: `reg-${Date.now()}`,
+      id: generateRegistrationId(),
       sessionId: selectedClass.id,
       name: registrationName.trim(),
       email: registrationEmail.trim(),

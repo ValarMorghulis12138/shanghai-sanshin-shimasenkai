@@ -9,6 +9,7 @@ import {
   checkAdminPassword,
   updateAdminPassword 
 } from '../services/jsonBinService';
+import { generateSessionId, generateClassId } from '../utils/idGenerator';
 import './AdminPanel.css';
 
 interface AdminPanelProps {
@@ -449,7 +450,7 @@ const SessionEditor: React.FC<{
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const sessionId = session?.id || `session-${date}`;
+    const sessionId = session?.id || generateSessionId(date);
     
     if (isSpecialEvent) {
       // 特殊活动不需要classes
@@ -469,7 +470,7 @@ const SessionEditor: React.FC<{
       // 常规组课
       const updatedClasses = classes.map((cls) => ({
         ...cls,
-        id: cls.id || `class-${date}-${cls.startTime}`,
+        id: cls.id || generateClassId(date, cls.startTime),
         date: date
       }));
 
