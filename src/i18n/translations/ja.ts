@@ -41,7 +41,7 @@ export const ja: Translations = {
       ]
     },
     certification: {
-      title: '受賞歴・表彰',
+      title: '専門資格',
       subtitle: '文化交流における功績',
       description: [
         '2022年、沖縄県政府より「沖縄民間大使」表彰を受賞。これは沖縄文化の海外普及に貢献した個人に授与される名誉ある称号です。',

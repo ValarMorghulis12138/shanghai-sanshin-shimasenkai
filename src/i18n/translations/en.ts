@@ -41,7 +41,7 @@ export const en: Translations = {
       ]
     },
     certification: {
-      title: 'Awards & Recognition',
+      title: 'Professional Qualifications',
       subtitle: 'Achievements in Cultural Exchange',
       description: [
         'In 2022, KEISUKE received the "Uchina(Okinawa) Goodwill Ambassador" award from the Okinawa Prefectural Government, a prestigious honor recognizing individuals who contribute to spreading Okinawan culture overseas.',
