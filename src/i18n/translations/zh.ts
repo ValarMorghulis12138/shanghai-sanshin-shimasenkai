@@ -267,6 +267,8 @@ export const zh: Translations = {
     classSchedule: '课程安排',
     addClass: '添加课程',
     confirmDelete: '确定要删除这个课程吗？',
+    deleteSuccess: '删除成功',
+    deleteFailed: '删除失败',
     saved: '保存成功',
     saveFailed: '保存失败',
     added: '添加成功',

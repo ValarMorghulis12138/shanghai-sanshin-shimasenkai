@@ -267,6 +267,8 @@ export const en: Translations = {
     classSchedule: 'Class Schedule',
     addClass: 'Add Class',
     confirmDelete: 'Are you sure you want to delete this session?',
+    deleteSuccess: 'Session deleted successfully',
+    deleteFailed: 'Failed to delete session',
     saved: 'Saved successfully',
     saveFailed: 'Failed to save',
     added: 'Added successfully',

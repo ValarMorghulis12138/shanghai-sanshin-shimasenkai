@@ -253,6 +253,8 @@ export interface Translations {
     classSchedule: string;
     addClass: string;
     confirmDelete: string;
+    deleteSuccess: string;
+    deleteFailed: string;
     saved: string;
     saveFailed: string;
     added: string;

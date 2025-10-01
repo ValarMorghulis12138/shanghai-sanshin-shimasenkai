@@ -267,6 +267,8 @@ export const ja: Translations = {
     classSchedule: 'クラススケジュール',
     addClass: 'クラスを追加',
     confirmDelete: 'このセッションを削除してもよろしいですか？',
+    deleteSuccess: '削除しました',
+    deleteFailed: '削除に失敗しました',
     saved: '保存しました',
     saveFailed: '保存に失敗しました',
     added: '追加しました',

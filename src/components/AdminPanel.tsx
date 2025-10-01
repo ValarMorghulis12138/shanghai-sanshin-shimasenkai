@@ -147,9 +147,14 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
         if (success) {
           await loadSessions();
           onSessionsUpdate();
+          alert(t.admin.deleteSuccess || 'Session deleted successfully');
+        } else {
+          alert(t.admin.deleteFailed || 'Failed to delete session. Please try again.');
         }
       } catch (error) {
         console.error('Error deleting session:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        alert(`${t.admin.deleteFailed || 'Delete failed'}: ${errorMessage}`);
       } finally {
         setLoading(false);
       }
@@ -370,10 +375,17 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
                   )}
                   <p>{session.location}</p>
                   <div className="session-actions">
-                    <button onClick={() => setEditingSession(session)}>
+                    <button 
+                      onClick={() => setEditingSession(session)}
+                      disabled={loading}
+                    >
                       {t.common.edit}
                     </button>
-                    <button onClick={() => handleDeleteSession(session.id)} className="delete-button">
+                    <button 
+                      onClick={() => handleDeleteSession(session.id)} 
+                      className="delete-button"
+                      disabled={loading}
+                    >
                       {t.common.delete}
                     </button>
                   </div>
