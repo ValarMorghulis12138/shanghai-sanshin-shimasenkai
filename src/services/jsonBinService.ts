@@ -130,20 +130,6 @@ async function updateBin(binId: string, data: any): Promise<boolean> {
 
 
 /**
- * Clean up old data (remove sessions older than 3 months)
- * This only runs when teachers update sessions, not on regular page loads
- */
-function cleanupOldData(sessions: SessionDay[]): SessionDay[] {
-  const threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-  
-  return sessions.filter(session => {
-    const sessionDate = new Date(session.date);
-    return sessionDate >= threeMonthsAgo;
-  });
-}
-
-/**
  * Clean up orphaned registrations (remove registrations for deleted sessions)
  */
 async function cleanupOrphanedRegistrations(validClassIds: Set<string>): Promise<void> {
@@ -238,19 +224,18 @@ export async function deleteRegistration(registrationId: string): Promise<boolea
 }
 
 export async function updateSessions(sessions: SessionDay[]): Promise<boolean> {
-  // Teacher is updating - good time to clean old data
-  const cleanedSessions = cleanupOldData(sessions);
+  // No automatic cleanup - admin has full control
   
   // Collect all valid class IDs
   const validClassIds = new Set<string>();
-  cleanedSessions.forEach(session => {
+  sessions.forEach(session => {
     session.classes.forEach(cls => validClassIds.add(cls.id));
   });
   
-  // Clean up orphaned registrations (for deleted sessions or old sessions)
+  // Clean up orphaned registrations (for deleted sessions)
   await cleanupOrphanedRegistrations(validClassIds);
   
-  return await updateBin(SESSIONS_BIN_ID, cleanedSessions);
+  return await updateBin(SESSIONS_BIN_ID, sessions);
 }
 
 export async function addSession(session: SessionDay): Promise<boolean> {
