@@ -187,13 +187,13 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
         setSelectedClass(null);
         
         // Show success message
-        alert(language === 'zh' ? '报名成功！' : language === 'ja' ? '登録完了！' : 'Registration successful!');
+        alert(t.sessions.registration.success);
       } else {
-        alert(language === 'zh' ? '报名失败，请重试' : language === 'ja' ? '登録に失敗しました' : 'Registration failed, please try again');
+        alert(t.sessions.registration.failed);
       }
     } catch (error) {
       console.error('Registration error:', error);
-      alert(language === 'zh' ? '报名出错' : language === 'ja' ? 'エラーが発生しました' : 'An error occurred');
+      alert(t.sessions.registration.error);
     } finally {
       setLoading(false);
     }
@@ -205,13 +205,7 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
   };
   
   const handleCancelRegistration = async (registration: Registration) => {
-    const confirmMessage = language === 'zh' 
-      ? '确定要取消报名吗？' 
-      : language === 'ja' 
-      ? '登録をキャンセルしてもよろしいですか？' 
-      : 'Are you sure you want to cancel your registration?';
-      
-    if (!confirm(confirmMessage)) return;
+    if (!confirm(t.sessions.registration.cancelConfirm)) return;
     
     setLoading(true);
     try {
@@ -221,13 +215,13 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
       if (success) {
         // Reload data to show the changes
         await loadData();
-        alert(language === 'zh' ? '已取消报名' : language === 'ja' ? '登録がキャンセルされました' : 'Registration cancelled');
+        alert(t.sessions.registration.cancelled);
       } else {
         throw new Error('Failed to cancel registration');
       }
     } catch (error) {
       console.error('Cancel registration error:', error);
-      alert(language === 'zh' ? '取消失败，请重试' : language === 'ja' ? 'キャンセルに失敗しました' : 'Cancellation failed');
+      alert(t.sessions.registration.cancelFailed);
     } finally {
       setLoading(false);
     }
@@ -260,7 +254,7 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
               {scheduleInfo.time.map((item, index) => (
                 <p key={`time-${index}`}>⏰ {item}</p>
               ))}
-              <p>📍 {language === 'zh' ? '地点：' : language === 'ja' ? '場所：' : 'Location:'} {scheduleInfo.location}</p>
+              <p>📍 {t.common.location}： {scheduleInfo.location}</p>
             </div>
           </div>
           
@@ -302,7 +296,7 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
         <div className="sessions-list">
           {monthSessions.length === 0 ? (
             <div className="no-sessions">
-              <p>{language === 'zh' ? '本月暂无课程安排' : language === 'ja' ? '今月の予定はありません' : 'No sessions scheduled this month'}</p>
+              <p>{t.sessions.noSessionsThisMonth}</p>
             </div>
           ) : (
             monthSessions.map(day => (
@@ -311,7 +305,7 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
                   {formatDate(day.date)}
                   {day.isSpecialEvent && (
                     <span className="event-badge">
-                      {language === 'zh' ? '特殊活动' : language === 'ja' ? '特別イベント' : 'Special Event'}
+                      {t.sessions.specialEvent}
                     </span>
                   )}
                 </h3>
@@ -339,7 +333,7 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
                         <div className="participants-count">
                           <span>{day.eventRegistrations?.length || 0} / {day.eventMaxParticipants || 50}</span>
                           <span className="participants-label">
-                            {language === 'zh' ? '已报名' : language === 'ja' ? '登録済み' : 'registered'}
+                            {t.sessions.registered}
                           </span>
                         </div>
                         <div className="participants-bar">
@@ -366,7 +360,7 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
                           ))}
                           {day.eventRegistrations.length > 3 && (
                             <span className="more-names">
-                              +{day.eventRegistrations.length - 3} {language === 'zh' ? '更多' : language === 'ja' ? 'その他' : 'more'}
+                              +{day.eventRegistrations.length - 3} {t.sessions.more}
                             </span>
                           )}
                         </div>
@@ -380,13 +374,13 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
                               className="cancel-button"
                               onClick={() => handleCancelRegistration(userEventRegistration)}
                             >
-                              {language === 'zh' ? '取消报名' : language === 'ja' ? '登録をキャンセル' : 'Cancel Registration'}
+                              {t.sessions.cancel}
                             </button>
                           );
                         } else if ((day.eventRegistrations?.length || 0) >= (day.eventMaxParticipants || 50)) {
                           return (
                             <button className="register-button full" disabled>
-                              {language === 'zh' ? '已满' : language === 'ja' ? '満員' : 'Full'}
+                              {t.sessions.full}
                             </button>
                           );
                         } else {
@@ -395,7 +389,7 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
                               className="register-button"
                               onClick={() => handleEventRegistration(day)}
                             >
-                              {language === 'zh' ? '立即报名' : language === 'ja' ? '今すぐ登録' : 'Register Now'}
+                              {t.sessions.registerNow}
                             </button>
                           );
                         }
@@ -460,7 +454,7 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
                                 onClick={() => handleCancelRegistration(userRegistration)}
                                 disabled={loading}
                               >
-                                {language === 'zh' ? '取消报名' : language === 'ja' ? '登録をキャンセル' : 'Cancel Registration'}
+                                {t.sessions.cancel}
                               </button>
                             );
                           }
@@ -471,8 +465,8 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
                               disabled={classSession.registrations.length >= classSession.maxParticipants}
                             >
                               {classSession.registrations.length >= classSession.maxParticipants
-                                ? (language === 'zh' ? '已满' : language === 'ja' ? '満員' : 'Full')
-                                : (language === 'zh' ? '报名' : language === 'ja' ? '登録' : 'Register')}
+                                ? t.sessions.full
+                                : t.common.register}
                             </button>
                           );
                         })()}
@@ -513,8 +507,8 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
             
             <h2>
               {selectedEvent 
-                ? (language === 'zh' ? '活动报名' : language === 'ja' ? 'イベント登録' : 'Event Registration')
-                : (language === 'zh' ? '课程报名' : language === 'ja' ? 'クラス登録' : 'Class Registration')
+                ? t.sessions.registration.eventRegistration
+                : t.sessions.registration.classRegistration
               }
             </h2>
             <p className="modal-class-info">
@@ -526,24 +520,24 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
             
             <div className="simple-form">
               <label>
-                {language === 'zh' ? '您的姓名' : language === 'ja' ? 'お名前' : 'Your Name'}
+                {t.sessions.registration.yourName}
               </label>
               <input
                 type="text"
                 value={registrationName}
                 onChange={(e) => setRegistrationName(e.target.value)}
-                placeholder={language === 'zh' ? '请输入姓名' : language === 'ja' ? '名前を入力' : 'Enter your name'}
+                placeholder={t.sessions.registration.enterName}
                 autoFocus
               />
               
               <label>
-                {language === 'zh' ? '您的邮箱' : language === 'ja' ? 'メールアドレス' : 'Your Email'}
+                {t.sessions.registration.yourEmail}
               </label>
               <input
                 type="email"
                 value={registrationEmail}
                 onChange={(e) => setRegistrationEmail(e.target.value)}
-                placeholder={language === 'zh' ? '请输入邮箱' : language === 'ja' ? 'メールアドレスを入力' : 'Enter your email'}
+                placeholder={t.sessions.registration.enterEmail}
                 required
               />
               
@@ -556,9 +550,7 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
               {(userName || userEmail) && (
                 <div className="saved-info-container">
                   <p className="saved-info-note">
-                    {language === 'zh' ? '✓ 您的信息已保存，方便下次使用' : 
-                     language === 'ja' ? '✓ 情報が保存されています' : 
-                     '✓ Your info is saved for convenience'}
+                    {t.sessions.registration.savedInfo}
                   </p>
                   <button 
                     type="button"
@@ -574,9 +566,7 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
                       setRegistrationEmail('');
                     }}
                   >
-                    {language === 'zh' ? '清除保存的信息' : 
-                     language === 'ja' ? '保存情報をクリア' : 
-                     'Clear saved info'}
+                    {t.sessions.registration.clearSavedInfo}
                   </button>
                 </div>
               )}
@@ -587,7 +577,7 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
                   onClick={submitRegistration}
                   disabled={!registrationName.trim() || !registrationEmail.trim()}
                 >
-                  {language === 'zh' ? '确认报名' : language === 'ja' ? '登録確認' : 'Confirm Registration'}
+                  {t.sessions.registration.confirmRegistration}
                 </button>
               </div>
             </div>
@@ -610,18 +600,10 @@ const SessionRegistration: React.FC<SessionRegistrationProps> = ({
               className="admin-access-button"
               onClick={onAdminAccess}
             >
-              🔐 {language === 'zh' 
-                ? '教师管理入口' 
-                : language === 'ja' 
-                ? '先生管理画面' 
-                : 'Teacher Admin Access'}
+              🔐 {t.admin.teacherAccess}
             </button>
             <p className="small-text">
-              {language === 'zh' 
-                ? '教师可以使用密码登录管理课程' 
-                : language === 'ja' 
-                ? '先生はパスワードでログインしてクラスを管理できます' 
-                : 'Teachers can login with password to manage sessions'}
+              {t.admin.teacherAccessHint}
             </p>
           </div>
         </section>

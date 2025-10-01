@@ -17,7 +17,7 @@ interface AdminPanelProps {
 }
 
 const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) => {
-  const { language } = useI18n();
+  const { t, language } = useI18n();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -84,11 +84,11 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
         }));
         setSessionExpiry(expiry);
       } else {
-        alert(language === 'zh' ? '密码错误' : language === 'ja' ? 'パスワードが間違っています' : 'Incorrect password');
+        alert(t.admin.incorrectPassword);
       }
     } catch (error) {
       console.error('Login error:', error);
-      alert(language === 'zh' ? '登录失败，请重试' : language === 'ja' ? 'ログインに失敗しました' : 'Login failed, please try again');
+      alert(t.admin.loginFailed);
     } finally {
       setLoading(false);
     }
@@ -104,12 +104,12 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
         setSessions(updatedSessions);
         setEditingSession(null);
         onSessionsUpdate();
-        alert(language === 'zh' ? '保存成功' : language === 'ja' ? '保存しました' : 'Saved successfully');
+        alert(t.admin.saved);
       }
     } catch (error) {
       console.error('Error saving session:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      alert(language === 'zh' ? `保存失败: ${errorMessage}` : language === 'ja' ? `保存に失敗しました: ${errorMessage}` : `Failed to save: ${errorMessage}`);
+      alert(`${t.admin.saveFailed}: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
@@ -124,21 +124,19 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
         await loadSessions();
         setShowNewSession(false);
         onSessionsUpdate();
-        alert(language === 'zh' ? '添加成功' : language === 'ja' ? '追加しました' : 'Added successfully');
+        alert(t.admin.added);
       }
     } catch (error) {
       console.error('Error adding session:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      alert(language === 'zh' ? `添加失败: ${errorMessage}` : language === 'ja' ? `追加に失敗しました: ${errorMessage}` : `Failed to add: ${errorMessage}`);
+      alert(`${t.admin.addFailed}: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
   };
 
   const handleDeleteSession = async (sessionId: string) => {
-    const confirmText = language === 'zh' ? '确定要删除这个课程吗？' : 
-                       language === 'ja' ? 'このセッションを削除してもよろしいですか？' : 
-                       'Are you sure you want to delete this session?';
+    const confirmText = t.admin.confirmDelete;
     
     if (confirm(confirmText)) {
       setLoading(true);
@@ -161,12 +159,12 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
     e.preventDefault();
     
     if (newPassword !== confirmPassword) {
-      alert(language === 'zh' ? '两次输入的密码不一致' : language === 'ja' ? 'パスワードが一致しません' : 'Passwords do not match');
+      alert(t.admin.passwordsDoNotMatch);
       return;
     }
     
     if (newPassword.length < 6) {
-      alert(language === 'zh' ? '密码至少需要6个字符' : language === 'ja' ? 'パスワードは6文字以上必要です' : 'Password must be at least 6 characters');
+      alert(t.admin.passwordTooShort);
       return;
     }
     
@@ -174,16 +172,16 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
     try {
       const success = await updateAdminPassword(newPassword);
       if (success) {
-        alert(language === 'zh' ? '密码修改成功' : language === 'ja' ? 'パスワードが更新されました' : 'Password updated successfully');
+        alert(t.admin.passwordUpdated);
         setShowPasswordChange(false);
         setNewPassword('');
         setConfirmPassword('');
       } else {
-        alert(language === 'zh' ? '密码修改失败' : language === 'ja' ? 'パスワードの更新に失敗しました' : 'Failed to update password');
+        alert(t.admin.passwordUpdateFailed);
       }
     } catch (error) {
       console.error('Error updating password:', error);
-      alert(language === 'zh' ? '密码修改失败' : language === 'ja' ? 'パスワードの更新に失敗しました' : 'Failed to update password');
+      alert(t.admin.passwordUpdateFailed);
     } finally {
       setLoading(false);
     }
@@ -201,7 +199,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
     return (
       <div className="admin-panel">
         <div className="admin-header">
-          <h2>{language === 'zh' ? '教师登录' : language === 'ja' ? '先生ログイン' : 'Teacher Login'}</h2>
+          <h2>{t.admin.teacherLogin}</h2>
           <button className="close-button" onClick={onClose}>×</button>
         </div>
         
@@ -211,7 +209,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder={language === 'zh' ? '请输入密码' : language === 'ja' ? 'パスワードを入力' : 'Enter password'}
+              placeholder={t.admin.enterPassword}
               autoFocus
             />
             <button
@@ -235,7 +233,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
             </button>
           </div>
           <button type="submit" disabled={!password}>
-            {language === 'zh' ? '登录' : language === 'ja' ? 'ログイン' : 'Login'}
+            {t.admin.login}
           </button>
         </form>
       </div>
@@ -245,10 +243,10 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
   return (
     <div className="admin-panel">
       <div className="admin-header">
-        <h2>{language === 'zh' ? '课程管理' : language === 'ja' ? 'セッション管理' : 'Session Management'}</h2>
+        <h2>{t.admin.sessionManagement}</h2>
         <div className="header-actions">
           <button className="logout-button" onClick={handleLogout}>
-            {language === 'zh' ? '退出登录' : language === 'ja' ? 'ログアウト' : 'Logout'}
+            {t.common.logout}
           </button>
           <button className="close-button" onClick={onClose}>×</button>
         </div>
@@ -275,14 +273,14 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
             onClick={() => setShowNewSession(true)}
             disabled={loading}
           >
-            {language === 'zh' ? '+ 添加新课程' : language === 'ja' ? '+ 新しいセッションを追加' : '+ Add New Session'}
+            {t.admin.addNewSession}
           </button>
           <button 
             className="change-password-button"
             onClick={() => setShowPasswordChange(true)}
             disabled={loading}
           >
-            {language === 'zh' ? '修改密码' : language === 'ja' ? 'パスワード変更' : 'Change Password'}
+            {t.admin.changePassword}
           </button>
         </div>
 
@@ -298,10 +296,10 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
         {showPasswordChange && (
           <div className="password-change-modal">
             <div className="modal-content">
-              <h3>{language === 'zh' ? '修改密码' : language === 'ja' ? 'パスワード変更' : 'Change Password'}</h3>
+              <h3>{t.admin.changePassword}</h3>
               <form onSubmit={handlePasswordChange}>
                 <div className="form-group">
-                  <label>{language === 'zh' ? '新密码' : language === 'ja' ? '新しいパスワード' : 'New Password'}</label>
+                  <label>{t.admin.newPassword}</label>
                   <input
                     type="password"
                     value={newPassword}
@@ -311,7 +309,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
                   />
                 </div>
                 <div className="form-group">
-                  <label>{language === 'zh' ? '确认密码' : language === 'ja' ? 'パスワード確認' : 'Confirm Password'}</label>
+                  <label>{t.admin.confirmPassword}</label>
                   <input
                     type="password"
                     value={confirmPassword}
@@ -322,14 +320,14 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
                 </div>
                 <div className="modal-actions">
                   <button type="submit" disabled={loading}>
-                    {language === 'zh' ? '确定' : language === 'ja' ? '確定' : 'Confirm'}
+                    {t.common.confirm}
                   </button>
                   <button type="button" onClick={() => {
                     setShowPasswordChange(false);
                     setNewPassword('');
                     setConfirmPassword('');
                   }}>
-                    {language === 'zh' ? '取消' : language === 'ja' ? 'キャンセル' : 'Cancel'}
+                    {t.common.cancel}
                   </button>
                 </div>
               </form>
@@ -353,7 +351,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
                     {new Date(session.date).toLocaleDateString()}
                     {session.isSpecialEvent && (
                       <span className="event-badge">
-                        {language === 'zh' ? '特殊活动' : language === 'ja' ? '特別イベント' : 'Special Event'}
+                        {t.sessions.specialEvent}
                       </span>
                     )}
                   </h3>
@@ -362,20 +360,20 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
                       <h4>{session.eventTitle}</h4>
                       <p>{session.eventDescription}</p>
                       <p>
-                        {language === 'zh' ? '时间：' : language === 'ja' ? '時間：' : 'Time: '}
+                        {t.common.time}： 
                         {session.eventStartTime} - {session.eventEndTime}
                       </p>
                     </>
                   ) : (
-                    <p>{session.classes.length} {language === 'zh' ? '节课' : language === 'ja' ? 'クラス' : 'classes'}</p>
+                    <p>{session.classes.length} {t.admin.classes}</p>
                   )}
                   <p>{session.location}</p>
                   <div className="session-actions">
                     <button onClick={() => setEditingSession(session)}>
-                      {language === 'zh' ? '编辑' : language === 'ja' ? '編集' : 'Edit'}
+                      {t.common.edit}
                     </button>
                     <button onClick={() => handleDeleteSession(session.id)} className="delete-button">
-                      {language === 'zh' ? '删除' : language === 'ja' ? '削除' : 'Delete'}
+                      {t.common.delete}
                     </button>
                   </div>
                 </div>
@@ -395,6 +393,7 @@ const SessionEditor: React.FC<{
   onCancel: () => void;
   language: string;
 }> = ({ session, onSave, onCancel, language }) => {
+  const { t } = useI18n();
   const [date, setDate] = useState(session?.date || '');
   const [location, setLocation] = useState(session?.location || '酒友(sakatomo): 水城南路71号1F');
   const [isSpecialEvent, setIsSpecialEvent] = useState(session?.isSpecialEvent || false);
@@ -493,7 +492,7 @@ const SessionEditor: React.FC<{
   return (
     <form onSubmit={handleSubmit} className="session-editor">
       <div className="form-group">
-        <label>{language === 'zh' ? '类型' : language === 'ja' ? 'タイプ' : 'Type'}</label>
+        <label>{t.common.type}</label>
         <div className="session-type-selector">
           <label className="radio-label">
             <input
@@ -502,7 +501,7 @@ const SessionEditor: React.FC<{
               checked={!isSpecialEvent}
               onChange={() => setIsSpecialEvent(false)}
             />
-            <span>{language === 'zh' ? '常规组课' : language === 'ja' ? '通常クラス' : 'Regular Classes'}</span>
+            <span>{t.admin.regularClasses}</span>
           </label>
           <label className="radio-label">
             <input
@@ -511,13 +510,13 @@ const SessionEditor: React.FC<{
               checked={isSpecialEvent}
               onChange={() => setIsSpecialEvent(true)}
             />
-            <span>{language === 'zh' ? '特殊活动' : language === 'ja' ? '特別イベント' : 'Special Event'}</span>
+            <span>{t.admin.specialEvent}</span>
           </label>
         </div>
       </div>
 
       <div className="form-group">
-        <label>{language === 'zh' ? '日期' : language === 'ja' ? '日付' : 'Date'}</label>
+        <label>{t.common.date}</label>
         <input
           type="date"
           value={date}
@@ -527,7 +526,7 @@ const SessionEditor: React.FC<{
       </div>
 
       <div className="form-group">
-        <label>{language === 'zh' ? '地点' : language === 'ja' ? '場所' : 'Location'}</label>
+        <label>{t.common.location}</label>
         <input
           type="text"
           value={location}
@@ -538,31 +537,31 @@ const SessionEditor: React.FC<{
 
       {isSpecialEvent ? (
         <>
-          <h4>{language === 'zh' ? '活动信息' : language === 'ja' ? 'イベント情報' : 'Event Information'}</h4>
+          <h4>{t.admin.eventInfo}</h4>
           
           <div className="form-group">
-            <label>{language === 'zh' ? '活动名称' : language === 'ja' ? 'イベント名' : 'Event Name'}</label>
+            <label>{t.admin.eventName}</label>
             <input
               type="text"
               value={eventTitle}
               onChange={(e) => setEventTitle(e.target.value)}
               required
-              placeholder={language === 'zh' ? '例如：沖縄県人会' : language === 'ja' ? '例：沖縄県人会' : 'e.g. Okinawa Kenjinkai'}
+              placeholder={t.admin.eventNamePlaceholder}
             />
           </div>
 
           <div className="form-group">
-            <label>{language === 'zh' ? '活动描述' : language === 'ja' ? 'イベント説明' : 'Event Description'}</label>
+            <label>{t.admin.eventDescription}</label>
             <textarea
               value={eventDescription}
               onChange={(e) => setEventDescription(e.target.value)}
               rows={3}
-              placeholder={language === 'zh' ? '活动详情...' : language === 'ja' ? 'イベントの詳細...' : 'Event details...'}
+              placeholder={t.admin.eventDescriptionPlaceholder}
             />
           </div>
 
           <div className="form-group">
-            <label>{language === 'zh' ? '开始时间' : language === 'ja' ? '開始時間' : 'Start Time'}</label>
+            <label>{t.admin.startTime}</label>
             <input
               type="time"
               value={eventStartTime}
@@ -572,7 +571,7 @@ const SessionEditor: React.FC<{
           </div>
 
           <div className="form-group">
-            <label>{language === 'zh' ? '结束时间' : language === 'ja' ? '終了時間' : 'End Time'}</label>
+            <label>{t.admin.endTime}</label>
             <input
               type="time"
               value={eventEndTime}
@@ -582,7 +581,7 @@ const SessionEditor: React.FC<{
           </div>
 
           <div className="form-group">
-            <label>{language === 'zh' ? '最大参与人数' : language === 'ja' ? '最大参加人数' : 'Max Participants'}</label>
+            <label>{t.admin.maxParticipants}</label>
             <input
               type="number"
               value={eventMaxParticipants}
@@ -595,7 +594,7 @@ const SessionEditor: React.FC<{
         </>
       ) : (
         <>
-          <h4>{language === 'zh' ? '课程安排' : language === 'ja' ? 'クラススケジュール' : 'Class Schedule'}</h4>
+          <h4>{t.admin.classSchedule}</h4>
           
           {classes.map((cls, index) => (
             <div key={index} className="class-editor">
@@ -604,13 +603,13 @@ const SessionEditor: React.FC<{
                 onChange={(e) => updateClass(index, 'type', e.target.value)}
               >
                 <option value="intermediate">
-                  {language === 'zh' ? '中高级' : language === 'ja' ? '民謡/早弾き' : 'Intermediate'}
+                  {t.sessions.sessionCard.level.intermediate}
                 </option>
                 <option value="experience">
-                  {language === 'zh' ? '体验' : language === 'ja' ? '体験' : 'Experience'}
+                  {t.sessions.sessionCard.level.experience}
                 </option>
                 <option value="beginner">
-                  {language === 'zh' ? '初级' : language === 'ja' ? 'ゆるり' : 'Beginner'}
+                  {t.sessions.sessionCard.level.beginner}
                 </option>
               </select>
               

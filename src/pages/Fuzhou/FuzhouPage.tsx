@@ -13,20 +13,20 @@ const FuzhouPage: React.FC = () => {
   const isDataReady = false;
   
   const cityName = {
-    zh: '三线岛线会福州分会',
-    ja: '三線島線会福州分会',
-    en: 'Sanshin Shimasenkai Fuzhou Branch'
+    zh: t.cities.fuzhou.branch,
+    ja: t.cities.fuzhou.branch,
+    en: t.cities.fuzhou.branch
   };
 
   // Fuzhou-specific schedule info (to be used when data is ready)
   const scheduleInfo = {
     schedule: [
-      language === 'zh' ? '每月课程安排' : language === 'ja' ? '月次クラススケジュール' : 'Monthly class schedule'
+      t.sessions.schedule.biweekly
     ],
     time: [
-      language === 'zh' ? '具体时间待定' : language === 'ja' ? '詳細時間は未定' : 'Specific times TBD'
+      'TBD'
     ],
-    location: language === 'zh' ? '地点待定' : language === 'ja' ? '場所未定' : 'Location TBD'
+    location: 'TBD'
   };
 
   if (!isDataReady) {
@@ -43,14 +43,10 @@ const FuzhouPage: React.FC = () => {
               <div className="under-construction-overlay"></div>
               <div className="under-construction-content">
                 <h2 className="under-construction-title">
-                  {language === 'zh' ? '网站建设中' : language === 'ja' ? 'ウェブサイト構築中' : 'Website Under Construction'}
+                  {t.cities.fuzhou.underConstruction}
                 </h2>
                 <p className="under-construction-description">
-                  {language === 'zh' 
-                    ? '福州分会即将推出！请继续关注我们的更新。'
-                    : language === 'ja' 
-                    ? '福州分会は近日公開予定！更新情報をお待ちください。'
-                    : 'Fuzhou branch coming soon! Please stay tuned for updates.'}
+                  {t.cities.fuzhou.comingSoon}
                 </p>
               </div>
             </div>
@@ -70,11 +66,7 @@ const FuzhouPage: React.FC = () => {
           </h1>
           <p className="page-description">{t.sessions.description}</p>
           <p className="data-notice">
-            📅 {language === 'zh' 
-              ? '显示最近3个月的课程安排' 
-              : language === 'ja' 
-              ? '過去3ヶ月のクラススケジュールを表示' 
-              : 'Showing sessions from the last 3 months'}
+            📅 {t.sessions.recentMonths}
           </p>
         </section>
 

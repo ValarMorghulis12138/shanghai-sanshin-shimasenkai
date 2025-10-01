@@ -1,0 +1,109 @@
+# Project Rules
+
+## 1. Internationalization (i18n)
+
+### Rule Description
+**All multilingual text content must be centrally managed through the i18n system. Hardcoding multilingual text in components is strictly prohibited.**
+
+### Specific Requirements
+
+1. **No Hardcoded Multilingual Text**
+   ```typescript
+   // ❌ Wrong example - Don't do this
+   const text = language === 'zh' ? '你好' : language === 'ja' ? 'こんにちは' : 'Hello';
+   
+   // ✅ Correct example - Do this instead
+   const text = t.common.hello;
+   ```
+
+2. **Translation File Locations**
+   - All translation text must be defined in the corresponding language files under `src/i18n/translations/`:
+     - `zh.ts` - Chinese translations
+     - `en.ts` - English translations
+     - `ja.ts` - Japanese translations
+
+3. **Type Definitions**
+   - New translation keys must first be defined in `src/i18n/types.ts`
+   - Ensure all language files contain the same keys
+
+4. **Usage**
+   ```typescript
+   // Using in components
+   import { useI18n } from '../i18n/useI18n';
+   
+   const MyComponent = () => {
+     const { t, language } = useI18n();
+     return <div>{t.common.welcome}</div>;
+   };
+   ```
+
+5. **Naming Conventions**
+   - Use semantic key names, e.g., `sessions.registration.success` instead of `msg1`
+   - Organize translation keys by functional modules:
+     - `common.*` - Common text
+     - `sessions.*` - Session-related
+     - `admin.*` - Admin panel related
+     - `cities.*` - City branch related
+
+### Advantages
+- Centralized management of all translations for easy maintenance and updates
+- Type safety to prevent spelling errors
+- Easy to add new language support
+- Improved code readability and maintainability
+
+## 2. Code Style Guidelines
+
+### TypeScript/React
+- Use functional components and Hooks
+- Prefer TypeScript type definitions
+- Use PascalCase for component file names
+- Use ESLint and Prettier to maintain consistent code formatting
+
+### CSS
+- Use CSS variables for theme color management
+- Follow BEM naming convention or use CSS Modules
+- Mobile First responsive design
+
+## 3. File Organization Structure
+
+```
+src/
+├── components/      # Reusable components
+├── pages/          # Page components
+│   ├── Home/       # Each page has its own folder
+│   ├── Shanghai/
+│   ├── Beijing/
+│   └── Fuzhou/
+├── i18n/           # Internationalization
+├── services/       # API services
+├── types/          # TypeScript type definitions
+└── styles/         # Global styles
+```
+
+## 4. Git Commit Guidelines
+
+Use semantic commit messages:
+- `feat:` New features
+- `fix:` Bug fixes
+- `docs:` Documentation updates
+- `style:` Code formatting changes
+- `refactor:` Code refactoring
+- `test:` Test-related changes
+- `chore:` Build tools or auxiliary tool changes
+
+## 5. Performance Optimization
+
+- Images must be properly compressed
+- Use lazy loading for images
+- Avoid unnecessary re-renders
+- Use React.memo and useMemo appropriately
+
+## 6. Security Guidelines
+
+- Do not hardcode sensitive information (API Keys, passwords, etc.) in code
+- Use environment variables for configuration management
+- Properly validate and sanitize user input
+
+---
+
+Last updated: 2024

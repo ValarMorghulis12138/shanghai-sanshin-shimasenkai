@@ -11,6 +11,16 @@ export interface Translations {
     cancel: string;
     close: string;
     loading: string;
+    location: string;
+    time: string;
+    date: string;
+    type: string;
+    edit: string;
+    delete: string;
+    save: string;
+    add: string;
+    confirm: string;
+    logout: string;
   };
   
   home: {
@@ -126,6 +136,33 @@ export interface Translations {
       };
       message: string;
       completeRegistration: string;
+      success: string;
+      failed: string;
+      error: string;
+      cancelConfirm: string;
+      cancelled: string;
+      cancelFailed: string;
+      yourName: string;
+      yourEmail: string;
+      enterName: string;
+      enterEmail: string;
+      savedInfo: string;
+      clearSavedInfo: string;
+      confirmRegistration: string;
+      eventRegistration: string;
+      classRegistration: string;
+    };
+    noSessionsThisMonth: string;
+    specialEvent: string;
+    registered: string;
+    full: string;
+    registerNow: string;
+    cancel: string;
+    more: string;
+    recentMonths: string;
+    schedule: {
+      biweekly: string;
+      classTime: string;
     };
   };
   
@@ -186,6 +223,62 @@ export interface Translations {
     connectWithUs: string;
     connectDescription: string;
     rights: string;
+  };
+  
+  admin: {
+    teacherLogin: string;
+    enterPassword: string;
+    login: string;
+    incorrectPassword: string;
+    loginFailed: string;
+    sessionManagement: string;
+    addNewSession: string;
+    changePassword: string;
+    newPassword: string;
+    confirmPassword: string;
+    passwordsDoNotMatch: string;
+    passwordTooShort: string;
+    passwordUpdated: string;
+    passwordUpdateFailed: string;
+    regularClasses: string;
+    specialEvent: string;
+    eventInfo: string;
+    eventName: string;
+    eventNamePlaceholder: string;
+    eventDescription: string;
+    eventDescriptionPlaceholder: string;
+    startTime: string;
+    endTime: string;
+    maxParticipants: string;
+    classSchedule: string;
+    addClass: string;
+    confirmDelete: string;
+    saved: string;
+    saveFailed: string;
+    added: string;
+    addFailed: string;
+    classes: string;
+    teacherAccess: string;
+    teacherAccessHint: string;
+  };
+  
+  cities: {
+    shanghai: {
+      name: string;
+      branch: string;
+    };
+    beijing: {
+      name: string;
+      branch: string;
+      underConstruction: string;
+      comingSoon: string;
+    };
+    fuzhou: {
+      name: string;
+      branch: string;
+      underConstruction: string;
+      comingSoon: string;
+    };
   };
 }
 

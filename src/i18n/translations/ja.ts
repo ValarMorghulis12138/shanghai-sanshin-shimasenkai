@@ -10,7 +10,17 @@ export const ja: Translations = {
     submit: '送信',
     cancel: 'キャンセル',
     close: '閉じる',
-    loading: '読み込み中...'
+    loading: '読み込み中...',
+    location: '場所',
+    time: '時間',
+    date: '日付',
+    type: 'タイプ',
+    edit: '編集',
+    delete: '削除',
+    save: '保存',
+    add: '追加',
+    confirm: '確定',
+    logout: 'ログアウト'
   },
   
   home: {
@@ -136,7 +146,34 @@ export const ja: Translations = {
         advanced: '上級者（3年以上）'
       },
       message: '追加メッセージ（任意）',
-      completeRegistration: '登録を完了'
+      completeRegistration: '登録を完了',
+      success: '登録完了！',
+      failed: '登録に失敗しました',
+      error: 'エラーが発生しました',
+      cancelConfirm: '登録をキャンセルしてもよろしいですか？',
+      cancelled: '登録がキャンセルされました',
+      cancelFailed: 'キャンセルに失敗しました',
+      yourName: 'お名前',
+      yourEmail: 'メールアドレス',
+      enterName: '名前を入力',
+      enterEmail: 'メールアドレスを入力',
+      savedInfo: '✓ 情報が保存されています',
+      clearSavedInfo: '保存情報をクリア',
+      confirmRegistration: '登録確認',
+      eventRegistration: 'イベント登録',
+      classRegistration: 'クラス登録'
+    },
+    noSessionsThisMonth: '今月の予定はありません',
+    specialEvent: '特別イベント',
+    registered: '登録済み',
+    full: '満員',
+    registerNow: '今すぐ登録',
+    cancel: '登録をキャンセル',
+    more: 'その他',
+    recentMonths: '過去3ヶ月のクラススケジュールを表示',
+    schedule: {
+      biweekly: '月2回、隔週土曜日',
+      classTime: '各クラス50分、休憩10分'
     }
   },
   
@@ -200,5 +237,61 @@ export const ja: Translations = {
     connectWithUs: 'つながる',
     connectDescription: '隔週のセッションに参加して、沖縄の伝統的な音を体験してください',
     rights: 'All rights reserved.'
+  },
+  
+  admin: {
+    teacherLogin: '先生ログイン',
+    enterPassword: 'パスワードを入力',
+    login: 'ログイン',
+    incorrectPassword: 'パスワードが間違っています',
+    loginFailed: 'ログインに失敗しました',
+    sessionManagement: 'セッション管理',
+    addNewSession: '+ 新しいセッションを追加',
+    changePassword: 'パスワード変更',
+    newPassword: '新しいパスワード',
+    confirmPassword: 'パスワード確認',
+    passwordsDoNotMatch: 'パスワードが一致しません',
+    passwordTooShort: 'パスワードは6文字以上必要です',
+    passwordUpdated: 'パスワードが更新されました',
+    passwordUpdateFailed: 'パスワードの更新に失敗しました',
+    regularClasses: '通常クラス',
+    specialEvent: '特別イベント',
+    eventInfo: 'イベント情報',
+    eventName: 'イベント名',
+    eventNamePlaceholder: '例：沖縄県人会',
+    eventDescription: 'イベント説明',
+    eventDescriptionPlaceholder: 'イベントの詳細...',
+    startTime: '開始時間',
+    endTime: '終了時間',
+    maxParticipants: '最大参加人数',
+    classSchedule: 'クラススケジュール',
+    addClass: 'クラスを追加',
+    confirmDelete: 'このセッションを削除してもよろしいですか？',
+    saved: '保存しました',
+    saveFailed: '保存に失敗しました',
+    added: '追加しました',
+    addFailed: '追加に失敗しました',
+    classes: 'クラス',
+    teacherAccess: '先生管理画面',
+    teacherAccessHint: '先生はパスワードでログインしてクラスを管理できます'
+  },
+  
+  cities: {
+    shanghai: {
+      name: '上海',
+      branch: '三線島線会上海分会'
+    },
+    beijing: {
+      name: '北京',
+      branch: '三線島線会北京分会',
+      underConstruction: 'ウェブサイト構築中',
+      comingSoon: '北京分会は近日公開予定！更新情報をお待ちください。'
+    },
+    fuzhou: {
+      name: '福州',
+      branch: '三線島線会福州分会',
+      underConstruction: 'ウェブサイト構築中',
+      comingSoon: '福州分会は近日公開予定！更新情報をお待ちください。'
+    }
   }
 };

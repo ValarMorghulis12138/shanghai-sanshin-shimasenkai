@@ -10,7 +10,17 @@ export const en: Translations = {
     submit: 'Submit',
     cancel: 'Cancel',
     close: 'Close',
-    loading: 'Loading...'
+    loading: 'Loading...',
+    location: 'Location',
+    time: 'Time',
+    date: 'Date',
+    type: 'Type',
+    edit: 'Edit',
+    delete: 'Delete',
+    save: 'Save',
+    add: 'Add',
+    confirm: 'Confirm',
+    logout: 'Logout'
   },
   
   home: {
@@ -136,7 +146,34 @@ export const en: Translations = {
         advanced: 'Advanced (3+ years)'
       },
       message: 'Additional Message (Optional)',
-      completeRegistration: 'Complete Registration'
+      completeRegistration: 'Complete Registration',
+      success: 'Registration successful!',
+      failed: 'Registration failed, please try again',
+      error: 'An error occurred',
+      cancelConfirm: 'Are you sure you want to cancel your registration?',
+      cancelled: 'Registration cancelled',
+      cancelFailed: 'Cancellation failed',
+      yourName: 'Your Name',
+      yourEmail: 'Your Email',
+      enterName: 'Enter your name',
+      enterEmail: 'Enter your email',
+      savedInfo: '✓ Your info is saved for convenience',
+      clearSavedInfo: 'Clear saved info',
+      confirmRegistration: 'Confirm Registration',
+      eventRegistration: 'Event Registration',
+      classRegistration: 'Class Registration'
+    },
+    noSessionsThisMonth: 'No sessions scheduled this month',
+    specialEvent: 'Special Event',
+    registered: 'registered',
+    full: 'Full',
+    registerNow: 'Register Now',
+    cancel: 'Cancel Registration',
+    more: 'more',
+    recentMonths: 'Showing sessions from the last 3 months',
+    schedule: {
+      biweekly: 'Twice monthly, every other Saturday',
+      classTime: '50min classes, 10min breaks'
     }
   },
   
@@ -200,5 +237,61 @@ export const en: Translations = {
     connectWithUs: 'Connect With Us',
     connectDescription: 'Join our biweekly sessions and experience the traditional sounds of Okinawa',
     rights: 'All rights reserved.'
+  },
+  
+  admin: {
+    teacherLogin: 'Teacher Login',
+    enterPassword: 'Enter password',
+    login: 'Login',
+    incorrectPassword: 'Incorrect password',
+    loginFailed: 'Login failed, please try again',
+    sessionManagement: 'Session Management',
+    addNewSession: '+ Add New Session',
+    changePassword: 'Change Password',
+    newPassword: 'New Password',
+    confirmPassword: 'Confirm Password',
+    passwordsDoNotMatch: 'Passwords do not match',
+    passwordTooShort: 'Password must be at least 6 characters',
+    passwordUpdated: 'Password updated successfully',
+    passwordUpdateFailed: 'Failed to update password',
+    regularClasses: 'Regular Classes',
+    specialEvent: 'Special Event',
+    eventInfo: 'Event Information',
+    eventName: 'Event Name',
+    eventNamePlaceholder: 'e.g. Okinawa Kenjinkai',
+    eventDescription: 'Event Description',
+    eventDescriptionPlaceholder: 'Event details...',
+    startTime: 'Start Time',
+    endTime: 'End Time',
+    maxParticipants: 'Max Participants',
+    classSchedule: 'Class Schedule',
+    addClass: 'Add Class',
+    confirmDelete: 'Are you sure you want to delete this session?',
+    saved: 'Saved successfully',
+    saveFailed: 'Failed to save',
+    added: 'Added successfully',
+    addFailed: 'Failed to add',
+    classes: 'classes',
+    teacherAccess: 'Teacher Admin Access',
+    teacherAccessHint: 'Teachers can login with password to manage sessions'
+  },
+  
+  cities: {
+    shanghai: {
+      name: 'Shanghai',
+      branch: 'Sanshin Shimasenkai Shanghai Branch'
+    },
+    beijing: {
+      name: 'Beijing',
+      branch: 'Sanshin Shimasenkai Beijing Branch',
+      underConstruction: 'Website Under Construction',
+      comingSoon: 'Beijing branch coming soon! Please stay tuned for updates.'
+    },
+    fuzhou: {
+      name: 'Fuzhou',
+      branch: 'Sanshin Shimasenkai Fuzhou Branch',
+      underConstruction: 'Website Under Construction',
+      comingSoon: 'Fuzhou branch coming soon! Please stay tuned for updates.'
+    }
   }
 };

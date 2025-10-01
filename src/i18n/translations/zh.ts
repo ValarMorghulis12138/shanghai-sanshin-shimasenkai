@@ -10,7 +10,17 @@ export const zh: Translations = {
     submit: '提交',
     cancel: '取消',
     close: '关闭',
-    loading: '加载中...'
+    loading: '加载中...',
+    location: '地点',
+    time: '时间',
+    date: '日期',
+    type: '类型',
+    edit: '编辑',
+    delete: '删除',
+    save: '保存',
+    add: '添加',
+    confirm: '确认',
+    logout: '退出登录'
   },
   
   home: {
@@ -136,7 +146,34 @@ export const zh: Translations = {
         advanced: '高级（3年以上）'
       },
       message: '附加留言（选填）',
-      completeRegistration: '完成报名'
+      completeRegistration: '完成报名',
+      success: '报名成功！',
+      failed: '报名失败，请重试',
+      error: '报名出错',
+      cancelConfirm: '确定要取消报名吗？',
+      cancelled: '已取消报名',
+      cancelFailed: '取消失败，请重试',
+      yourName: '您的姓名',
+      yourEmail: '您的邮箱',
+      enterName: '请输入姓名',
+      enterEmail: '请输入邮箱',
+      savedInfo: '✓ 您的信息已保存，方便下次使用',
+      clearSavedInfo: '清除保存的信息',
+      confirmRegistration: '确认报名',
+      eventRegistration: '活动报名',
+      classRegistration: '课程报名'
+    },
+    noSessionsThisMonth: '本月暂无课程安排',
+    specialEvent: '特殊活动',
+    registered: '已报名',
+    full: '已满',
+    registerNow: '立即报名',
+    cancel: '取消报名',
+    more: '更多',
+    recentMonths: '显示最近3个月的课程安排',
+    schedule: {
+      biweekly: '每月两次，隔周周六',
+      classTime: '每节课50分钟，休息10分钟'
     }
   },
   
@@ -200,5 +237,61 @@ export const zh: Translations = {
     connectWithUs: '与我们联系',
     connectDescription: '参加我们的双周课程，体验冲绳的传统音乐',
     rights: '版权所有。'
+  },
+  
+  admin: {
+    teacherLogin: '教师登录',
+    enterPassword: '请输入密码',
+    login: '登录',
+    incorrectPassword: '密码错误',
+    loginFailed: '登录失败，请重试',
+    sessionManagement: '课程管理',
+    addNewSession: '+ 添加新课程',
+    changePassword: '修改密码',
+    newPassword: '新密码',
+    confirmPassword: '确认密码',
+    passwordsDoNotMatch: '两次输入的密码不一致',
+    passwordTooShort: '密码至少需要6个字符',
+    passwordUpdated: '密码修改成功',
+    passwordUpdateFailed: '密码修改失败',
+    regularClasses: '常规组课',
+    specialEvent: '特殊活动',
+    eventInfo: '活动信息',
+    eventName: '活动名称',
+    eventNamePlaceholder: '例如：沖縄県人会',
+    eventDescription: '活动描述',
+    eventDescriptionPlaceholder: '活动详情...',
+    startTime: '开始时间',
+    endTime: '结束时间',
+    maxParticipants: '最大参与人数',
+    classSchedule: '课程安排',
+    addClass: '添加课程',
+    confirmDelete: '确定要删除这个课程吗？',
+    saved: '保存成功',
+    saveFailed: '保存失败',
+    added: '添加成功',
+    addFailed: '添加失败',
+    classes: '节课',
+    teacherAccess: '教师管理入口',
+    teacherAccessHint: '教师可以使用密码登录管理课程'
+  },
+  
+  cities: {
+    shanghai: {
+      name: '上海',
+      branch: '三线岛线会上海分会'
+    },
+    beijing: {
+      name: '北京',
+      branch: '三线岛线会北京分会',
+      underConstruction: '网站建设中',
+      comingSoon: '北京分会即将推出！请继续关注我们的更新。'
+    },
+    fuzhou: {
+      name: '福州',
+      branch: '三线岛线会福州分会',
+      underConstruction: '网站建设中',
+      comingSoon: '福州分会即将推出！请继续关注我们的更新。'
+    }
   }
 };
