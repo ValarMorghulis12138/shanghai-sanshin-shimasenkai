@@ -4,29 +4,53 @@
  */
 
 import type { SessionDay, Registration } from '../types/calendar';
-import { JSONBIN_CONFIG } from '../config/jsonbin.config';
 
 // JSONBin.io configuration
 const JSONBIN_BASE_URL = 'https://api.jsonbin.io/v3';
 
-// Get credentials from environment variables with fallback to config values
+// Get credentials from environment variables ONLY
 // Vite automatically loads .env.development in dev mode and .env.production in build mode
-const SESSIONS_BIN_ID = import.meta.env.VITE_SESSIONS_BIN_ID || JSONBIN_CONFIG.SESSIONS_BIN_ID;
-const REGISTRATIONS_BIN_ID = import.meta.env.VITE_REGISTRATIONS_BIN_ID || JSONBIN_CONFIG.REGISTRATIONS_BIN_ID;
-// Temporary fix for development environment
-const API_KEY = import.meta.env.DEV 
-  ? "$2a$10$BdDC5VXTHvvwh4UU74hBAuA04DHMsFrKjyC2BthFWYga6tq3lmUn." 
-  : (import.meta.env.VITE_JSONBIN_API_KEY || JSONBIN_CONFIG.API_KEY);
-const ADMIN_CONFIG_BIN_ID = import.meta.env.VITE_ADMIN_CONFIG_BIN_ID || JSONBIN_CONFIG.ADMIN_CONFIG_BIN_ID;
+const SESSIONS_BIN_ID = import.meta.env.VITE_SESSIONS_BIN_ID;
+const REGISTRATIONS_BIN_ID = import.meta.env.VITE_REGISTRATIONS_BIN_ID;
+const API_KEY = import.meta.env.VITE_JSONBIN_API_KEY;
+const ADMIN_CONFIG_BIN_ID = import.meta.env.VITE_ADMIN_CONFIG_BIN_ID;
+
+// Validate configuration on startup
+function validateConfiguration() {
+  const missing: string[] = [];
+  
+  if (!SESSIONS_BIN_ID) missing.push('VITE_SESSIONS_BIN_ID');
+  if (!REGISTRATIONS_BIN_ID) missing.push('VITE_REGISTRATIONS_BIN_ID');
+  if (!API_KEY) missing.push('VITE_JSONBIN_API_KEY');
+  if (!ADMIN_CONFIG_BIN_ID) missing.push('VITE_ADMIN_CONFIG_BIN_ID');
+  
+  if (missing.length > 0) {
+    const mode = import.meta.env.MODE || 'production';
+    const envFile = mode === 'development' ? '.env.development' : '.env.production';
+    const exampleFile = `${envFile}.example`;
+    
+    console.error('❌ Missing environment variables:', missing.join(', '));
+    console.error(`\n📝 Configuration required:`);
+    console.error(`   1. Copy ${exampleFile} to ${envFile}`);
+    console.error(`   2. Fill in your JSONBin.io credentials`);
+    console.error(`   3. Restart the dev server (npm run dev)`);
+    console.error(`\n🔗 Get credentials: https://jsonbin.io/app/profile`);
+    
+    throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
+  }
+}
+
+// Run validation
+validateConfiguration();
 
 // Log environment info (only in development)
 if (import.meta.env.DEV) {
-  console.log('🔧 Development mode - JSONBin configuration loaded from .env.development');
-  console.log('Mode:', import.meta.env.MODE);
-  console.log('Sessions Bin:', SESSIONS_BIN_ID);
-  console.log('Raw API Key from env:', import.meta.env.VITE_JSONBIN_API_KEY);
-  console.log('API_KEY variable:', API_KEY);
-  console.log('All VITE env vars:', Object.keys(import.meta.env).filter(k => k.startsWith('VITE_')));
+  console.log('✅ JSONBin configuration loaded successfully');
+  console.log('📦 Mode:', import.meta.env.MODE);
+  console.log('🗂️  Sessions Bin:', SESSIONS_BIN_ID);
+  console.log('🗂️  Registrations Bin:', REGISTRATIONS_BIN_ID);
+  console.log('🗂️  Admin Config Bin:', ADMIN_CONFIG_BIN_ID);
+  console.log('🔑 API Key:', API_KEY ? `${API_KEY.substring(0, 10)}...` : 'NOT SET');
 }
 
 
