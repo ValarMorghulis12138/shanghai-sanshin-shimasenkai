@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useI18n } from '../../i18n/useI18n';
-import SessionRegistration from '../../components/SessionRegistration';
+import SessionRegistration, { type SessionRegistrationRef } from '../../components/SessionRegistration';
 import AdminPanel from '../../components/AdminPanel';
 import './ShanghaiPage.css';
 
 const ShanghaiPage: React.FC = () => {
   const { t, language } = useI18n();
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const sessionRegistrationRef = useRef<SessionRegistrationRef>(null);
 
   const cityName = {
     zh: t.cities.shanghai.branch,
@@ -38,7 +39,7 @@ const ShanghaiPage: React.FC = () => {
         </section>
 
         <SessionRegistration 
-          cityName={cityName}
+          ref={sessionRegistrationRef}
           scheduleInfo={scheduleInfo}
           onAdminAccess={() => setShowAdminPanel(true)}
         />
@@ -47,9 +48,10 @@ const ShanghaiPage: React.FC = () => {
         {showAdminPanel && (
           <AdminPanel 
             onClose={() => setShowAdminPanel(false)}
-            onSessionsUpdate={() => {
-              // The SessionRegistration component will handle its own data reload
-              // This is just to maintain the interface
+            onSessionsUpdate={async () => {
+              // Sync from localStorage (AdminPanel already updated it)
+              // No API calls needed!
+              await sessionRegistrationRef.current?.syncFromLocalStorage();
             }}
           />
         )}

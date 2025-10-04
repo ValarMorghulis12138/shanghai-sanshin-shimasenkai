@@ -134,7 +134,7 @@
 
 /* Special Event Content */
 .special-event-content {
-  background-color: var(--accent-light);
+  /* No special background - same as regular sessions */
   padding: var(--spacing-lg);
   border-radius: var(--radius-md);
 }

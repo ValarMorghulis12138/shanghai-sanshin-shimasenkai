@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useI18n } from '../../i18n/useI18n';
-import SessionRegistration from '../../components/SessionRegistration';
+import SessionRegistration, { type SessionRegistrationRef } from '../../components/SessionRegistration';
 import AdminPanel from '../../components/AdminPanel';
 import fuzhouPhoto from '../../assets/photos/sanshin_member/shimasenkai_fuzhou.jpg';
 import './FuzhouPage.css';
@@ -8,6 +8,7 @@ import './FuzhouPage.css';
 const FuzhouPage: React.FC = () => {
   const { t, language } = useI18n();
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const sessionRegistrationRef = useRef<SessionRegistrationRef>(null);
   
   // TODO: Enable this when Fuzhou data is ready
   const isDataReady = false;
@@ -71,7 +72,7 @@ const FuzhouPage: React.FC = () => {
         </section>
 
         <SessionRegistration 
-          cityName={cityName}
+          ref={sessionRegistrationRef}
           scheduleInfo={scheduleInfo}
           onAdminAccess={() => setShowAdminPanel(true)}
         />
@@ -80,8 +81,9 @@ const FuzhouPage: React.FC = () => {
         {showAdminPanel && (
           <AdminPanel 
             onClose={() => setShowAdminPanel(false)}
-            onSessionsUpdate={() => {
-              // The SessionRegistration component will handle its own data reload
+            onSessionsUpdate={async () => {
+              // Sync from localStorage (no API calls)
+              await sessionRegistrationRef.current?.syncFromLocalStorage();
             }}
           />
         )}

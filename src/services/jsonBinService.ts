@@ -153,59 +153,28 @@ async function cleanupOrphanedRegistrations(validClassIds: Set<string>): Promise
  */
 
 export async function fetchSessions(): Promise<SessionDay[]> {
+  // Debug log
+  if (import.meta.env.DEV) {
+    console.log('📡 [API] fetchSessions called at:', new Date().toLocaleTimeString());
+  }
+  
   // Note: No cleanup here - cleanup only happens when teachers update sessions
   let data = await fetchFromBin(SESSIONS_BIN_ID);
   
   // Filter out any placeholder sessions
   data = data.filter((session: SessionDay) => session.id !== 'placeholder');
   
-  // If empty, initialize with demo data
-  if (!data || data.length === 0) {
-    const demoSessions: SessionDay[] = [
-      {
-        id: "session-2025-01-18",
-        date: "2025-01-18",
-        location: "酒友(sakatomo): 水城南路71号1F",
-        classes: [
-          {
-            id: "class-2025-01-18-14:00",
-            date: "2025-01-18",
-            type: "intermediate",
-            startTime: "14:00",
-            duration: 50,
-            maxParticipants: 20,
-            instructor: "Keisuke老师"
-          },
-          {
-            id: "class-2025-01-18-15:00",
-            date: "2025-01-18",
-            type: "experience",
-            startTime: "15:00",
-            duration: 50,
-            maxParticipants: 20,
-            instructor: "Keisuke老师"
-          },
-          {
-            id: "class-2025-01-18-16:00",
-            date: "2025-01-18",
-            type: "beginner",
-            startTime: "16:00",
-            duration: 50,
-            maxParticipants: 20,
-            instructor: "Keisuke老师"
-          }
-        ]
-      }
-    ];
-    
-    await updateBin(SESSIONS_BIN_ID, demoSessions);
-    return demoSessions;
-  }
-  
-  return data;
+  // Return empty array if no sessions (don't auto-initialize demo data)
+  // This allows admins to start with an empty list
+  return data || [];
 }
 
 export async function fetchRegistrations(): Promise<Registration[]> {
+  // Debug log
+  if (import.meta.env.DEV) {
+    console.log('📡 [API] fetchRegistrations called at:', new Date().toLocaleTimeString());
+  }
+  
   const data = await fetchFromBin(REGISTRATIONS_BIN_ID);
   // Filter out any placeholder registrations
   return data.filter((reg: Registration) => reg.id !== 'placeholder');
@@ -223,28 +192,60 @@ export async function deleteRegistration(registrationId: string): Promise<boolea
   return await updateBin(REGISTRATIONS_BIN_ID, filtered);
 }
 
-export async function updateSessions(sessions: SessionDay[]): Promise<boolean> {
+export async function updateSessions(sessions: SessionDay[], skipCleanup: boolean = false): Promise<boolean> {
   // No automatic cleanup - admin has full control
   
-  // Collect all valid class IDs
-  const validClassIds = new Set<string>();
-  sessions.forEach(session => {
-    session.classes.forEach(cls => validClassIds.add(cls.id));
-  });
-  
-  // Clean up orphaned registrations (for deleted sessions)
-  await cleanupOrphanedRegistrations(validClassIds);
+  // Only cleanup if explicitly requested (for edits that might have removed classes)
+  if (!skipCleanup) {
+    // Collect all valid class IDs
+    const validClassIds = new Set<string>();
+    sessions.forEach(session => {
+      session.classes.forEach(cls => validClassIds.add(cls.id));
+    });
+    
+    // Clean up orphaned registrations (for deleted sessions)
+    await cleanupOrphanedRegistrations(validClassIds);
+  }
   
   return await updateBin(SESSIONS_BIN_ID, sessions);
 }
 
+// Direct API functions that don't fetch (for AdminPanel which already has data)
+/**
+ * Save sessions directly without fetching first
+ * Use this when you already have the complete sessions array
+ */
+export async function saveSessions(sessions: SessionDay[]): Promise<boolean> {
+  return await updateBin(SESSIONS_BIN_ID, sessions);
+}
+
+/**
+ * Delete registrations for specific class/session IDs
+ * Use this when deleting a session to clean up its registrations
+ */
+export async function deleteRegistrationsBySessionId(sessionId: string, classIds: string[]): Promise<boolean> {
+  const registrations = await fetchRegistrations();
+  const filteredRegistrations = registrations.filter(reg => 
+    reg.sessionId !== sessionId && !classIds.includes(reg.sessionId)
+  );
+  
+  if (filteredRegistrations.length < registrations.length) {
+    if (import.meta.env.DEV) {
+      console.log(`Deleting ${registrations.length - filteredRegistrations.length} registrations for deleted session`);
+    }
+    return await updateBin(REGISTRATIONS_BIN_ID, filteredRegistrations);
+  }
+  return true;
+}
+
+// Legacy functions (kept for backward compatibility, but inefficient)
 export async function addSession(session: SessionDay): Promise<boolean> {
   const sessions = await fetchSessions();
   sessions.push(session);
   sessions.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   
-  // Use updateSessions which includes cleanup
-  return await updateSessions(sessions);
+  // Skip cleanup - adding a session won't create orphaned registrations
+  return await updateSessions(sessions, true);
 }
 
 export async function deleteSession(sessionId: string): Promise<boolean> {
@@ -254,14 +255,19 @@ export async function deleteSession(sessionId: string): Promise<boolean> {
   const sessionToDelete = sessions.find(s => s.id === sessionId);
   const classIdsToDelete = sessionToDelete ? sessionToDelete.classes.map(cls => cls.id) : [];
   
+  // Also check for special event registrations
+  if (sessionToDelete?.isSpecialEvent) {
+    classIdsToDelete.push(sessionToDelete.id);
+  }
+  
   // Remove the session
   const filtered = sessions.filter(s => s.id !== sessionId);
   
-  // If we found classes to delete, immediately clean their registrations
+  // Clean related registrations in one go
   if (classIdsToDelete.length > 0) {
     const registrations = await fetchRegistrations();
     const filteredRegistrations = registrations.filter(reg => 
-      !classIdsToDelete.includes(reg.sessionId)
+      !classIdsToDelete.includes(reg.sessionId) && reg.sessionId !== sessionId
     );
     
     if (filteredRegistrations.length < registrations.length) {
@@ -272,8 +278,8 @@ export async function deleteSession(sessionId: string): Promise<boolean> {
     }
   }
   
-  // Update sessions (this will also run general cleanup)
-  return await updateSessions(filtered);
+  // Skip cleanup - we already cleaned registrations above
+  return await updateSessions(filtered, true);
 }
 
 /**

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useI18n } from '../i18n/useI18n';
 import type { SessionDay, ClassSession } from '../types/calendar';
-import { 
-  fetchSessions, 
-  updateSessions, 
-  addSession, 
-  deleteSession,
+import {
+  fetchSessions,
+  saveSessions,
+  deleteRegistrationsBySessionId,
   checkAdminPassword,
   updateAdminPassword 
 } from '../services/jsonBinService';
@@ -14,7 +13,7 @@ import './AdminPanel.css';
 
 interface AdminPanelProps {
   onClose: () => void;
-  onSessionsUpdate: () => void;
+  onSessionsUpdate: () => void | Promise<void>;
 }
 
 const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) => {
@@ -99,12 +98,14 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
     setLoading(true);
     try {
       const updatedSessions = sessions.map(s => s.id === session.id ? session : s);
-      const success = await updateSessions(updatedSessions);
+      // Direct save - no fetch needed, AdminPanel already has the data
+      const success = await saveSessions(updatedSessions);
       
       if (success) {
         setSessions(updatedSessions);
         setEditingSession(null);
-        onSessionsUpdate();
+        // Notify parent with updated data (no need to refetch)
+        await onSessionsUpdate();
         alert(t.admin.saved);
       }
     } catch (error) {
@@ -119,12 +120,17 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
   const handleAddSession = async (session: SessionDay) => {
     setLoading(true);
     try {
-      const success = await addSession(session);
+      // Add to local state first
+      const updatedSessions = [...sessions, session].sort((a, b) => a.date.localeCompare(b.date));
+      
+      // Direct save - no fetch needed, we already have all sessions
+      const success = await saveSessions(updatedSessions);
       
       if (success) {
-        await loadSessions();
+        setSessions(updatedSessions);
         setShowNewSession(false);
-        onSessionsUpdate();
+        // Notify parent with updated data (no need to refetch)
+        await onSessionsUpdate();
         alert(t.admin.added);
       }
     } catch (error) {
@@ -142,11 +148,25 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
     if (confirm(confirmText)) {
       setLoading(true);
       try {
-        const success = await deleteSession(sessionId);
+        // Find session to delete and get its class IDs
+        const sessionToDelete = sessions.find(s => s.id === sessionId);
+        const classIds = sessionToDelete?.classes.map(cls => cls.id) || [];
+        
+        // Update local state first
+        const updatedSessions = sessions.filter(s => s.id !== sessionId);
+        
+        // Delete related registrations first (only 1 GET, 1 PUT for registrations)
+        if (sessionToDelete) {
+          await deleteRegistrationsBySessionId(sessionId, classIds);
+        }
+        
+        // Then save updated sessions (1 PUT for sessions)
+        const success = await saveSessions(updatedSessions);
         
         if (success) {
-          await loadSessions();
-          onSessionsUpdate();
+          setSessions(updatedSessions);
+          // Notify parent with updated data (no need to refetch)
+          await onSessionsUpdate();
           alert(t.admin.deleteSuccess || 'Session deleted successfully');
         } else {
           alert(t.admin.deleteFailed || 'Failed to delete session. Please try again.');
@@ -258,7 +278,20 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
         </div>
       </div>
 
-      {loading && <div className="loading">Loading...</div>}
+      {/* Loading Overlay - prevents user interaction during API calls */}
+      {loading && (
+        <div className="admin-loading-overlay">
+          <div className="admin-loading-spinner"></div>
+          <div className="admin-loading-text">
+            {t.common.loading || 'Processing...'}
+          </div>
+          <div className="admin-loading-hint">
+            {language === 'zh' ? '请稍候，正在处理...' : 
+             language === 'ja' ? 'お待ちください...' : 
+             'Please wait...'}
+          </div>
+        </div>
+      )}
 
       {sessionExpiry && (
         <div className="session-info">
@@ -354,7 +387,11 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
               ) : (
                 <div className="session-display">
                   <h3>
-                    {new Date(session.date).toLocaleDateString()}
+                    {(() => {
+                      // Parse date string to avoid timezone issues
+                      const [year, month, day] = session.date.split('-').map(Number);
+                      return new Date(year, month - 1, day).toLocaleDateString();
+                    })()}
                     {session.isSpecialEvent && (
                       <span className="event-badge">
                         {t.sessions.specialEvent}
@@ -415,6 +452,19 @@ const SessionEditor: React.FC<{
   const [eventStartTime, setEventStartTime] = useState(session?.eventStartTime || '14:00');
   const [eventEndTime, setEventEndTime] = useState(session?.eventEndTime || '17:00');
   const [eventMaxParticipants, setEventMaxParticipants] = useState(session?.eventMaxParticipants || 50);
+  
+  // Get today's date in YYYY-MM-DD format for min date restriction
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+  
+  // For new sessions, restrict to today or future dates
+  // For editing existing sessions, allow any date
+  const minDate = session === null ? getTodayDate() : undefined;
   
   // Get default instructor name based on language
   const getDefaultInstructor = () => {
@@ -529,11 +579,21 @@ const SessionEditor: React.FC<{
       </div>
 
       <div className="form-group">
-        <label>{t.common.date}</label>
+        <label>
+          {t.common.date}
+          {session === null && (
+            <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginLeft: '0.5rem' }}>
+              ({language === 'zh' ? '只能选择今天或未来的日期' : 
+                language === 'ja' ? '今日以降の日付のみ選択可能' : 
+                'Only today or future dates'})
+            </span>
+          )}
+        </label>
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
+          min={minDate}
           required
         />
       </div>

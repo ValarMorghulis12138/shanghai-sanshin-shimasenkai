@@ -6,7 +6,6 @@ export interface ClassSession {
   duration: number; // minutes
   maxParticipants: number;
   instructor?: string;
-  // registrations 现在通过动态查询获取，不再存储在这里
 }
 
 export interface SessionDay {

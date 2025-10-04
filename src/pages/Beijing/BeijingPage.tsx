@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useI18n } from '../../i18n/useI18n';
-import SessionRegistration from '../../components/SessionRegistration';
+import SessionRegistration, { type SessionRegistrationRef } from '../../components/SessionRegistration';
 import AdminPanel from '../../components/AdminPanel';
 import beijingPhoto1 from '../../assets/photos/sanshin_member/shimasenkai_beijing_1.jpg';
 import beijingPhoto2 from '../../assets/photos/sanshin_member/shimasenkai_beijing_2.jpg';
@@ -9,6 +9,7 @@ import './BeijingPage.css';
 const BeijingPage: React.FC = () => {
   const { t, language } = useI18n();
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const sessionRegistrationRef = useRef<SessionRegistrationRef>(null);
   
   // TODO: Enable this when Beijing data is ready
   const isDataReady = false;
@@ -75,7 +76,7 @@ const BeijingPage: React.FC = () => {
         </section>
 
         <SessionRegistration 
-          cityName={cityName}
+          ref={sessionRegistrationRef}
           scheduleInfo={scheduleInfo}
           onAdminAccess={() => setShowAdminPanel(true)}
         />
@@ -84,8 +85,9 @@ const BeijingPage: React.FC = () => {
         {showAdminPanel && (
           <AdminPanel 
             onClose={() => setShowAdminPanel(false)}
-            onSessionsUpdate={() => {
-              // The SessionRegistration component will handle its own data reload
+            onSessionsUpdate={async () => {
+              // Sync from localStorage (no API calls)
+              await sessionRegistrationRef.current?.syncFromLocalStorage();
             }}
           />
         )}
