@@ -48,7 +48,7 @@ const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrati
     submitRegistration,
     cancelRegistration,
     clearUserInfo
-  } = useRegistration(reloadData);
+  } = useRegistration(reloadData, syncFromLocalStorage); // Pass syncFromLocalStorage for optimization
 
   const loading = dataLoading || registrationLoading;
 

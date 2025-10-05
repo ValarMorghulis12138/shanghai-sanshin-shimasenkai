@@ -12,8 +12,22 @@ const JSONBIN_BASE_URL = 'https://api.jsonbin.io/v3';
 // Vite automatically loads .env.development in dev mode and .env.production in build mode
 const SESSIONS_BIN_ID = import.meta.env.VITE_SESSIONS_BIN_ID;
 const REGISTRATIONS_BIN_ID = import.meta.env.VITE_REGISTRATIONS_BIN_ID;
-const API_KEY = import.meta.env.VITE_JSONBIN_API_KEY;
 const ADMIN_CONFIG_BIN_ID = import.meta.env.VITE_ADMIN_CONFIG_BIN_ID;
+
+// 🎯 Support both Base64 (for local dev with $ in key) and plain text (for production)
+const API_KEY = (() => {
+  // Try Base64 first (for local development)
+  const base64Key = import.meta.env.VITE_JSONBIN_API_KEY_BASE64;
+  if (base64Key) {
+    try {
+      return atob(base64Key);
+    } catch (e) {
+      console.error('Failed to decode Base64 API key:', e);
+    }
+  }
+  // Fall back to plain text (for production)
+  return import.meta.env.VITE_JSONBIN_API_KEY;
+})();
 
 // Validate configuration on startup
 function validateConfiguration() {
@@ -43,15 +57,7 @@ function validateConfiguration() {
 // Run validation
 validateConfiguration();
 
-// Log environment info (only in development)
-if (import.meta.env.DEV) {
-  console.log('✅ JSONBin configuration loaded successfully');
-  console.log('📦 Mode:', import.meta.env.MODE);
-  console.log('🗂️  Sessions Bin:', SESSIONS_BIN_ID);
-  console.log('🗂️  Registrations Bin:', REGISTRATIONS_BIN_ID);
-  console.log('🗂️  Admin Config Bin:', ADMIN_CONFIG_BIN_ID);
-  console.log('🔑 API Key:', API_KEY ? `${API_KEY.substring(0, 10)}...` : 'NOT SET');
-}
+// Configuration loaded successfully (no logging to avoid exposing sensitive info)
 
 
 /**
@@ -76,7 +82,13 @@ async function fetchFromBin(binId: string): Promise<any> {
     }
     
     const data = await response.json();
-    return data.record || [];
+    const record = data.record || [];
+    
+    // Save to localStorage as cache (also helps with sync later)
+    const localKey = binId === SESSIONS_BIN_ID ? 'sanshi_sessions' : 'sanshi_registrations';
+    localStorage.setItem(localKey, JSON.stringify(record));
+    
+    return record;
   } catch (error) {
     console.error('JSONBin fetch error:', error);
     // Fallback to localStorage if JSONBin fails
@@ -115,13 +127,6 @@ async function updateBin(binId: string, data: any): Promise<boolean> {
           timestamp: 946684800000 // Year 2000
         }];
       }
-    }
-    
-    if (import.meta.env.DEV) {
-      console.log('🔍 Update Debug Info:');
-      console.log('Bin ID:', binId);
-      console.log('API Key (first 20 chars):', cleanApiKey?.substring(0, 20) + '...');
-      console.log('Data to send:', dataToSend);
     }
     
     const response = await fetch(`${JSONBIN_BASE_URL}/b/${binId}`, {
@@ -177,11 +182,6 @@ async function cleanupOrphanedRegistrations(validClassIds: Set<string>): Promise
  */
 
 export async function fetchSessions(): Promise<SessionDay[]> {
-  // Debug log
-  if (import.meta.env.DEV) {
-    console.log('📡 [API] fetchSessions called at:', new Date().toLocaleTimeString());
-  }
-  
   // Note: No cleanup here - cleanup only happens when teachers update sessions
   let data = await fetchFromBin(SESSIONS_BIN_ID);
   
@@ -194,25 +194,22 @@ export async function fetchSessions(): Promise<SessionDay[]> {
 }
 
 export async function fetchRegistrations(): Promise<Registration[]> {
-  // Debug log
-  if (import.meta.env.DEV) {
-    console.log('📡 [API] fetchRegistrations called at:', new Date().toLocaleTimeString());
-  }
-  
   const data = await fetchFromBin(REGISTRATIONS_BIN_ID);
   // Filter out any placeholder registrations
   return data.filter((reg: Registration) => reg.id !== 'placeholder');
 }
 
 export async function addRegistration(registration: Registration): Promise<boolean> {
+  // Always fetch latest data to ensure real-time accuracy (handles concurrent registrations)
   const registrations = await fetchRegistrations();
   registrations.push(registration);
   return await updateBin(REGISTRATIONS_BIN_ID, registrations);
 }
 
 export async function deleteRegistration(registrationId: string): Promise<boolean> {
+  // Always fetch latest data to ensure real-time accuracy
   const registrations = await fetchRegistrations();
-  const filtered = registrations.filter(reg => reg.id !== registrationId);
+  const filtered = registrations.filter((reg: Registration) => reg.id !== registrationId);
   return await updateBin(REGISTRATIONS_BIN_ID, filtered);
 }
 

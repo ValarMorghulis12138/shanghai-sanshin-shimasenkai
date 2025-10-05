@@ -22,12 +22,6 @@ export const useSessionData = () => {
   const loadData = useCallback(async () => {
     setLoading(true);
     
-    // Debug log: Track when loadData is called
-    if (import.meta.env.DEV) {
-      console.log('🔄 [useSessionData] loadData called at:', new Date().toLocaleTimeString());
-      console.trace('Call stack:'); // Show where this was called from
-    }
-    
     try {
       // Fetch both in parallel (only 2 API calls instead of 3)
       const [sessionsData, registrationsData] = await Promise.all([
@@ -61,14 +55,7 @@ export const useSessionData = () => {
   useEffect(() => {
     // Prevent double initialization in React.StrictMode (dev mode)
     if (isInitialized.current) {
-      if (import.meta.env.DEV) {
-        console.log('⏭️  [useSessionData] useEffect skipped - already initialized');
-      }
       return;
-    }
-    
-    if (import.meta.env.DEV) {
-      console.log('🎬 [useSessionData] useEffect triggered - first mount');
     }
     
     isInitialized.current = true;
@@ -89,11 +76,14 @@ export const useSessionData = () => {
       const localSessions = localStorage.getItem('sanshi_sessions');
       const localRegistrations = localStorage.getItem('sanshi_registrations');
       
-      if (localSessions && localRegistrations) {
+      // Even if registrations is missing, we should still update sessions
+      if (localSessions) {
         const sessionsData = JSON.parse(localSessions).filter((s: any) => s.id !== 'placeholder');
-        const registrationsData = JSON.parse(localRegistrations).filter((r: any) => r.id !== 'placeholder');
+        const registrationsData = localRegistrations 
+          ? JSON.parse(localRegistrations).filter((r: any) => r.id !== 'placeholder')
+          : [];
         
-        // Merge registrations into sessions
+        // Merge registrations into sessions (registrations might be empty array)
         const mergedData: SessionDayWithRegistrations[] = sessionsData.map((session: any) => ({
           ...session,
           classes: session.classes.map((classItem: any) => ({
@@ -108,13 +98,16 @@ export const useSessionData = () => {
         // Sort sessions by date before setting state
         const sortedData = sortSessionsByDate(mergedData);
         setSessions(sortedData);
+      } else {
+        // localStorage sessions data missing, fallback to API fetch
+        await loadData();
       }
     } catch (error) {
       console.error('Error syncing from localStorage:', error);
       // Fallback to full reload
       await loadData();
     }
-  }, [loadData]);
+  }, [loadData, sessions.length]);
 
   return { 
     sessions, 

@@ -155,12 +155,12 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
         // Update local state first
         const updatedSessions = sessions.filter(s => s.id !== sessionId);
         
-        // Delete related registrations first (only 1 GET, 1 PUT for registrations)
+        // Delete related registrations first
         if (sessionToDelete) {
           await deleteRegistrationsBySessionId(sessionId, classIds);
         }
         
-        // Then save updated sessions (1 PUT for sessions)
+        // Then save updated sessions
         const success = await saveSessions(updatedSessions);
         
         if (success) {

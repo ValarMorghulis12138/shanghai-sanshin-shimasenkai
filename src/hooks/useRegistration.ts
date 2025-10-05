@@ -3,7 +3,10 @@ import type { Registration, ClassSessionWithRegistrations } from '../types/calen
 import { addRegistration, deleteRegistration } from '../services/jsonBinService';
 import { generateRegistrationId } from '../utils/idGenerator';
 
-export const useRegistration = (reloadData: () => Promise<void>) => {
+export const useRegistration = (
+  reloadData: () => Promise<void>,
+  syncFromLocalStorage?: () => Promise<void>
+) => {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
   const [userColor, setUserColor] = useState<string>('#E53E3E');
@@ -52,7 +55,13 @@ export const useRegistration = (reloadData: () => Promise<void>) => {
       const success = await addRegistration(newRegistration);
       
       if (success) {
-        await reloadData();
+        // Use syncFromLocalStorage if available (avoids GET calls)
+        // Otherwise fallback to reloadData
+        if (syncFromLocalStorage) {
+          await syncFromLocalStorage();
+        } else {
+          await reloadData();
+        }
         onSuccess();
       } else {
         onError('Failed to register');
@@ -75,7 +84,13 @@ export const useRegistration = (reloadData: () => Promise<void>) => {
       const success = await deleteRegistration(registrationId);
       
       if (success) {
-        await reloadData();
+        // Use syncFromLocalStorage if available (avoids GET calls)
+        // Otherwise fallback to reloadData
+        if (syncFromLocalStorage) {
+          await syncFromLocalStorage();
+        } else {
+          await reloadData();
+        }
         onSuccess();
       } else {
         onError('Failed to cancel registration');
