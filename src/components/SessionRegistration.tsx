@@ -32,7 +32,11 @@ const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrati
   onAdminAccess 
 }, ref) => {
   const { t } = useI18n();
-  const [selectedMonth, setSelectedMonth] = useState(new Date());
+  // Initialize with first day of current month to avoid comparison issues
+  const [selectedMonth, setSelectedMonth] = useState(() => {
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth(), 1);
+  });
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
   const [modalSessionTitle, setModalSessionTitle] = useState('');
