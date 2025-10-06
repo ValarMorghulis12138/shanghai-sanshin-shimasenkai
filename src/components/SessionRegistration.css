@@ -614,20 +614,25 @@
   
   /* Reduce title font size on mobile to prevent overflow */
   .class-header {
-    overflow: hidden;
+    flex-direction: column; /* Stack vertically on mobile */
+    align-items: flex-start;
+    gap: 6px;
   }
   
   .class-header h4 {
     font-size: 0.85rem;
-    min-width: 0;
-    flex: 1 1 auto;
-    max-width: calc(100% - 120px); /* Reserve space for time and button */
+    width: 100%; /* Take full width */
+    white-space: normal; /* Allow wrapping */
+    word-break: break-word;
+    line-height: 1.4;
+    overflow: visible;
+    text-overflow: clip;
   }
   
   .class-time {
-    font-size: 0.7rem;
-    min-width: 50px;
-    flex-shrink: 0;
+    font-size: 0.75rem;
+    align-self: flex-end; /* Align time to the right */
+    white-space: nowrap;
   }
   
   /* Adjust class card layout for mobile */
@@ -638,19 +643,26 @@
 
 /* Extra small screens (iPhone SE, etc.) */
 @media (max-width: 375px) {
+  .class-header {
+    gap: 4px;
+  }
+  
   .class-header h4 {
     font-size: 0.75rem;
-    max-width: calc(100% - 100px); /* Less space on very small screens */
+    line-height: 1.3;
   }
   
   .class-time {
-    font-size: 0.65rem;
-    min-width: 45px;
+    font-size: 0.7rem;
   }
   
   .register-btn {
-    font-size: 0.8rem;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    min-width: 50px;
+    font-size: 0.75rem;
+    padding: 6px 10px;
+    min-width: 48px;
+  }
+  
+  .class-card {
+    padding: 10px;
   }
 }
