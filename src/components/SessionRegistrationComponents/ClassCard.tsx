@@ -17,7 +17,7 @@ export const ClassCard: React.FC<ClassCardProps> = ({
   onCancel,
   loading
 }) => {
-  const { t, language } = useI18n();
+  const { t } = useI18n();
 
   const getClassTypeName = (type: string) => {
     const typeMap = {
