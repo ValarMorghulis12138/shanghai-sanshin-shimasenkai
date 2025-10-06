@@ -676,13 +676,13 @@ const SessionEditor: React.FC<{
                 onChange={(e) => updateClass(index, 'type', e.target.value)}
               >
                 <option value="intermediate">
-                  {t.sessions.sessionCard.level.intermediate}
+                  {t.sessions.sessionCard.levelShort.intermediate}
                 </option>
                 <option value="experience">
-                  {t.sessions.sessionCard.level.experience}
+                  {t.sessions.sessionCard.levelShort.experience}
                 </option>
                 <option value="beginner">
-                  {t.sessions.sessionCard.level.beginner}
+                  {t.sessions.sessionCard.levelShort.beginner}
                 </option>
               </select>
               

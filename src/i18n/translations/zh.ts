@@ -126,11 +126,17 @@ export const zh: Translations = {
       participants: '已报名',
       sessionFull: '课程已满',
       level: {
-        beginner: '初级',
-        intermediate: '中级',
+        beginner: '初级课程（冲绳现代曲）',
+        intermediate: '中高级课程（琉球民谣&快速曲）',
         advanced: '高级',
-        experience: '体验课',
+        experience: '体验课/复习乐谱/自由时间',
         all: '所有级别'
+      },
+      levelShort: {
+        beginner: '初级',
+        intermediate: '中高级',
+        advanced: '高级',
+        experience: '体验'
       }
     },
     registration: {
@@ -173,7 +179,10 @@ export const zh: Translations = {
     recentMonths: '显示最近3个月的课程安排',
     schedule: {
       biweekly: '每月两次，隔周周六',
-      classTime: '每节课50分钟，休息10分钟'
+      classTime: '每节课45分钟，休息15分钟',
+      class1: '第一节课：14:00-14:45',
+      class2: '第二节课：15:00-15:45',
+      class3: '第三节课：16:00-16:45'
     }
   },
   

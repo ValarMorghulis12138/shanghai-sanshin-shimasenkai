@@ -126,11 +126,17 @@ export const en: Translations = {
       participants: 'registered',
       sessionFull: 'Session Full',
       level: {
-        beginner: 'Beginner',
-        intermediate: 'Intermediate',
+        beginner: 'Beginner Course (Okinawan Modern Songs)',
+        intermediate: 'Intermediate/Advanced (Ryukyu Folk Songs & Fast Tempo)',
         advanced: 'Advanced',
-        experience: 'Trial Class',
+        experience: 'Trial Class/Sheet Music Review/Free Practice',
         all: 'All Levels'
+      },
+      levelShort: {
+        beginner: 'Beginner',
+        intermediate: 'Inter/Adv',
+        advanced: 'Advanced',
+        experience: 'Trial'
       }
     },
     registration: {
@@ -173,7 +179,10 @@ export const en: Translations = {
     recentMonths: 'Showing sessions from the last 3 months',
     schedule: {
       biweekly: 'Twice monthly, every other Saturday',
-      classTime: '50min classes, 10min breaks'
+      classTime: '45min classes, 15min breaks',
+      class1: 'Class 1: 14:00-14:45',
+      class2: 'Class 2: 15:00-15:45',
+      class3: 'Class 3: 16:00-16:45'
     }
   },
   

@@ -20,12 +20,12 @@ export const ClassCard: React.FC<ClassCardProps> = ({
   const { t, language } = useI18n();
 
   const getClassTypeName = (type: string) => {
-    const classNames = {
-      experience: { en: 'Experience Class', zh: '素人体验', ja: '体験クラス' },
-      beginner: { en: 'Beginner Class', zh: '初级课程', ja: 'ゆるりクラス' },
-      intermediate: { en: 'Intermediate/Advanced', zh: '中高级课程', ja: '民謡/早弾きクラス' }
+    const typeMap = {
+      experience: t.sessions.sessionCard.level.experience,
+      beginner: t.sessions.sessionCard.level.beginner,
+      intermediate: t.sessions.sessionCard.level.intermediate
     };
-    return classNames[type as keyof typeof classNames]?.[language] || type;
+    return typeMap[type as keyof typeof typeMap] || type;
   };
 
   const isFull = classSession.registrations.length >= classSession.maxParticipants;

@@ -121,6 +121,12 @@ export interface Translations {
         experience: string;
         all: string;
       };
+      levelShort: {
+        beginner: string;
+        intermediate: string;
+        advanced: string;
+        experience: string;
+      };
     };
     registration: {
       title: string;
@@ -163,6 +169,9 @@ export interface Translations {
     schedule: {
       biweekly: string;
       classTime: string;
+      class1: string;
+      class2: string;
+      class3: string;
     };
   };
   

@@ -126,11 +126,17 @@ export const ja: Translations = {
       participants: '名登録済み',
       sessionFull: 'セッション満員',
       level: {
-        beginner: '初級',
-        intermediate: '中級',
+        beginner: '初級コース（沖縄現代曲）',
+        intermediate: '中上級コース（琉球民謡&速いテンポ曲）',
         advanced: '上級',
-        experience: '体験クラス',
+        experience: '体験クラス/楽譜復習/自由時間',
         all: '全レベル'
+      },
+      levelShort: {
+        beginner: '初級',
+        intermediate: '中上級',
+        advanced: '上級',
+        experience: '体験'
       }
     },
     registration: {
@@ -173,7 +179,10 @@ export const ja: Translations = {
     recentMonths: '過去3ヶ月のクラススケジュールを表示',
     schedule: {
       biweekly: '月2回、隔週土曜日',
-      classTime: '各クラス50分、休憩10分'
+      classTime: '各クラス45分、休憩15分',
+      class1: '第1クラス：14:00-14:45',
+      class2: '第2クラス：15:00-15:45',
+      class3: '第3クラス：16:00-16:45'
     }
   },
   

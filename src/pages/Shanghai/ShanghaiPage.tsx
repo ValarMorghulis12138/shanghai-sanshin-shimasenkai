@@ -20,7 +20,9 @@ const ShanghaiPage: React.FC = () => {
       t.sessions.schedule.biweekly
     ],
     time: [
-      '14:00-17:00 (' + t.sessions.schedule.classTime + ')'
+      t.sessions.schedule.class1,
+      t.sessions.schedule.class2,
+      t.sessions.schedule.class3
     ],
     location: '酒友(sakatomo)'
   };

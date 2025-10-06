@@ -89,15 +89,16 @@ const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrati
       .find(c => c.id === classId);
     
     if (classSession) {
-      const classTypeName = {
-        experience: { en: 'Experience Class', zh: '素人体验', ja: '体験クラス' },
-        beginner: { en: 'Beginner Class', zh: '初级课程', ja: 'ゆるりクラス' },
-        intermediate: { en: 'Intermediate/Advanced', zh: '中高级课程', ja: '民謡/早弾きクラス' }
-      }[classSession.type as 'experience' | 'beginner' | 'intermediate'];
+      const typeMap = {
+        experience: t.sessions.sessionCard.level.experience,
+        beginner: t.sessions.sessionCard.level.beginner,
+        intermediate: t.sessions.sessionCard.level.intermediate
+      };
+      const classTypeName = typeMap[classSession.type as keyof typeof typeMap] || classSession.type;
       
       handleOpenRegistrationModal(
         classId,
-        classTypeName?.en || classSession.type,
+        classTypeName,
         classSession.startTime
       );
     }
