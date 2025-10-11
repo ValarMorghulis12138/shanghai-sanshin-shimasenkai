@@ -14,7 +14,6 @@ export const ScheduleInfo: React.FC<ScheduleInfoProps> = ({ schedule, time, loca
     <section className="schedule-info">
       <div className="info-card">
         <h3>{t.sessions.scheduleTitle}</h3>
-        <p>{t.sessions.scheduleDescription}</p>
         <div className="schedule-details">
           {schedule.map((item, index) => (
             <p key={`schedule-${index}`}>📅 {item}</p>

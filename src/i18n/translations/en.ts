@@ -111,7 +111,7 @@ export const en: Translations = {
     title: 'Class Schedule',
     description: 'Biweekly sanshin classes every other Saturday afternoon. All levels welcome!',
     scheduleTitle: 'Session Information',
-    scheduleDescription: 'Our sessions are held twice a month, usually on Saturdays. Teachers announce next month\'s schedule in advance.',
+    scheduleDescription: '',
     whatToBring: {
       title: 'What to Bring',
       items: [

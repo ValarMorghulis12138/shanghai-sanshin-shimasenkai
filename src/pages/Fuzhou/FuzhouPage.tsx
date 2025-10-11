@@ -66,9 +66,6 @@ const FuzhouPage: React.FC = () => {
             {cityName[language]} - {t.sessions.title}
           </h1>
           <p className="page-description">{t.sessions.description}</p>
-          <p className="data-notice">
-            📅 {t.sessions.recentMonths}
-          </p>
         </section>
 
         <SessionRegistration 

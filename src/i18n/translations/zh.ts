@@ -111,7 +111,7 @@ export const zh: Translations = {
     title: '课程安排',
     description: '每月两次三线课程，隔周周六下午进行。欢迎所有级别的学员参加！',
     scheduleTitle: '课程信息',
-    scheduleDescription: '我们的课程每月举行两次，通常在周六。在前一个月确定下个月的课程日期。',
+    scheduleDescription: '',
     whatToBring: {
       title: '需要携带',
       items: [

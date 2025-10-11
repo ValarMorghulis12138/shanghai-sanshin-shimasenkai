@@ -111,7 +111,7 @@ export const ja: Translations = {
     title: '練習会スケジュール',
     description: '月二回の三線練習会、隔週土曜日午後に開催。すべてのレベルの方を歓迎します！',
     scheduleTitle: '練習会情報',
-    scheduleDescription: '私たちの練習会は月に2回、通常土曜日に開催されます。前月に翌月の日程を決定します。',
+    scheduleDescription: '',
     whatToBring: {
       title: '持ち物',
       items: [
