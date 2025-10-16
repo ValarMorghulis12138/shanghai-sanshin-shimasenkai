@@ -60,7 +60,7 @@ export const ClassCard: React.FC<ClassCardProps> = ({
         {/* Show registered names */}
         {classSession.registrations.length > 0 && (
           <div className="registered-names">
-            {classSession.registrations.slice(0, 3).map((reg, idx) => (
+            {classSession.registrations.map((reg, idx) => (
               <span 
                 key={idx} 
                 className={`name-tag ${userRegistration && reg.email === userRegistration.email ? 'user-registration' : ''}`}
@@ -69,11 +69,6 @@ export const ClassCard: React.FC<ClassCardProps> = ({
                 {reg.name}
               </span>
             ))}
-            {classSession.registrations.length > 3 && (
-              <span className="more-names">
-                +{classSession.registrations.length - 3} {t.sessions.more}
-              </span>
-            )}
           </div>
         )}
         

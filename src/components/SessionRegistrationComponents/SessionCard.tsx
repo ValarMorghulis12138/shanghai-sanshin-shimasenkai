@@ -89,7 +89,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
           
           {eventRegistrations.length > 0 && (
             <div className="registered-names">
-              {eventRegistrations.slice(0, 3).map((reg, idx) => (
+              {eventRegistrations.map((reg, idx) => (
                 <span 
                   key={idx} 
                   className={`name-tag ${userEmail && reg.email === userEmail ? 'user-registration' : ''}`}
@@ -98,11 +98,6 @@ export const SessionCard: React.FC<SessionCardProps> = ({
                   {reg.name}
                 </span>
               ))}
-              {eventRegistrations.length > 3 && (
-                <span className="more-names">
-                  +{eventRegistrations.length - 3} {t.sessions.more}
-                </span>
-              )}
             </div>
           )}
           

@@ -265,6 +265,8 @@
   flex-wrap: wrap;
   gap: var(--spacing-xs);
   margin: var(--spacing-sm) 0;
+  max-height: none;
+  overflow: visible;
 }
 
 .name-tag {
@@ -286,13 +288,6 @@
   0% { opacity: 1; }
   50% { opacity: 0.8; }
   100% { opacity: 1; }
-}
-
-.more-names {
-  display: inline-block;
-  color: var(--text-secondary);
-  font-size: 0.75rem;
-  font-style: italic;
 }
 
 /* Buttons */
