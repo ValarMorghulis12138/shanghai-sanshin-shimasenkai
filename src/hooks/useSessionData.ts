@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import type { SessionDayWithRegistrations } from '../types/calendar';
 import {
   fetchSessions,
-  fetchRegistrations
+  fetchRegistrations,
+  type City
 } from '../services/jsonBinService';
 
 // Helper function to sort sessions by date (oldest first)
@@ -14,7 +15,16 @@ const sortSessionsByDate = (sessions: SessionDayWithRegistrations[]) => {
   });
 };
 
-export const useSessionData = () => {
+// Get localStorage key with city prefix
+function getLocalStorageKey(baseKey: string, city: City): string {
+  if (city === 'shanghai') {
+    // Backward compatibility: shanghai uses original keys
+    return baseKey;
+  }
+  return `${baseKey}_${city}`;
+}
+
+export const useSessionData = (city: City = 'shanghai') => {
   const [sessions, setSessions] = useState<SessionDayWithRegistrations[]>([]);
   const [loading, setLoading] = useState(true);
   const isInitialized = useRef(false); // Prevent double initialization in StrictMode
@@ -25,8 +35,8 @@ export const useSessionData = () => {
     try {
       // Fetch both in parallel (only 2 API calls instead of 3)
       const [sessionsData, registrationsData] = await Promise.all([
-        fetchSessions(), // This also handles initialization if needed
-        fetchRegistrations()
+        fetchSessions(city), // This also handles initialization if needed
+        fetchRegistrations(city)
       ]);
       
       // Merge registrations into sessions for display
@@ -50,7 +60,7 @@ export const useSessionData = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [city]);
 
   useEffect(() => {
     // Prevent double initialization in React.StrictMode (dev mode)
@@ -71,10 +81,13 @@ export const useSessionData = () => {
 
   // Function to sync from localStorage (after AdminPanel updates)
   const syncFromLocalStorage = useCallback(async () => {
+    const sessionsKey = getLocalStorageKey('sanshi_sessions', city);
+    const registrationsKey = getLocalStorageKey('sanshi_registrations', city);
+    
     try {
       // Read updated sessions from localStorage (already updated by AdminPanel)
-      const localSessions = localStorage.getItem('sanshi_sessions');
-      const localRegistrations = localStorage.getItem('sanshi_registrations');
+      const localSessions = localStorage.getItem(sessionsKey);
+      const localRegistrations = localStorage.getItem(registrationsKey);
       
       // Even if registrations is missing, we should still update sessions
       if (localSessions) {
@@ -107,7 +120,7 @@ export const useSessionData = () => {
       // Fallback to full reload
       await loadData();
     }
-  }, [loadData, sessions.length]);
+  }, [city, loadData]);
 
   return { 
     sessions, 

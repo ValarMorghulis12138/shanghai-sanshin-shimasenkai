@@ -6,7 +6,8 @@ import {
   saveSessions,
   deleteRegistrationsBySessionId,
   checkAdminPassword,
-  updateAdminPassword 
+  updateAdminPassword,
+  type City
 } from '../services/jsonBinService';
 import { generateSessionId, generateClassId } from '../utils/idGenerator';
 import './AdminPanel.css';
@@ -14,9 +15,10 @@ import './AdminPanel.css';
 interface AdminPanelProps {
   onClose: () => void;
   onSessionsUpdate: () => void | Promise<void>;
+  city?: City;
 }
 
-const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) => {
+const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate, city = 'shanghai' }) => {
   const { t, language } = useI18n();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
@@ -30,9 +32,18 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
   const [confirmPassword, setConfirmPassword] = useState('');
   const [sessionExpiry, setSessionExpiry] = useState<Date | null>(null);
 
+  // Get city-specific localStorage key for admin session
+  const getAdminSessionKey = () => {
+    if (city === 'shanghai') {
+      return 'sanshi_admin_session'; // Backward compatibility
+    }
+    return `sanshi_admin_session_${city}`;
+  };
+
   // Check for existing admin session on component mount
   useEffect(() => {
-    const adminSession = localStorage.getItem('sanshi_admin_session');
+    const sessionKey = getAdminSessionKey();
+    const adminSession = localStorage.getItem(sessionKey);
     if (adminSession) {
       const sessionData = JSON.parse(adminSession);
       const sessionExpiry = new Date(sessionData.expiry);
@@ -44,10 +55,10 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
         setSessionExpiry(sessionExpiry);
       } else {
         // Session expired, clear it
-        localStorage.removeItem('sanshi_admin_session');
+        localStorage.removeItem(sessionKey);
       }
     }
-  }, []);
+  }, [city]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -58,7 +69,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
   const loadSessions = async () => {
     setLoading(true);
     try {
-      const data = await fetchSessions();
+      const data = await fetchSessions(city);
       setSessions(data);
     } catch (error) {
       console.error('Error loading sessions:', error);
@@ -71,14 +82,15 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
     e.preventDefault();
     setLoading(true);
     try {
-      const isValid = await checkAdminPassword(password);
+      const isValid = await checkAdminPassword(password, city);
       if (isValid) {
         setIsAuthenticated(true);
         
-        // Save admin session to localStorage with 24-hour expiry
+        // Save admin session to localStorage with 24-hour expiry (city-specific)
         const expiry = new Date();
         expiry.setHours(expiry.getHours() + 24);
-        localStorage.setItem('sanshi_admin_session', JSON.stringify({
+        const sessionKey = getAdminSessionKey();
+        localStorage.setItem(sessionKey, JSON.stringify({
           authenticated: true,
           expiry: expiry.toISOString()
         }));
@@ -99,7 +111,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
     try {
       const updatedSessions = sessions.map(s => s.id === session.id ? session : s);
       // Direct save - no fetch needed, AdminPanel already has the data
-      const success = await saveSessions(updatedSessions);
+      const success = await saveSessions(updatedSessions, city);
       
       if (success) {
         setSessions(updatedSessions);
@@ -124,7 +136,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
       const updatedSessions = [...sessions, session].sort((a, b) => a.date.localeCompare(b.date));
       
       // Direct save - no fetch needed, we already have all sessions
-      const success = await saveSessions(updatedSessions);
+      const success = await saveSessions(updatedSessions, city);
       
       if (success) {
         setSessions(updatedSessions);
@@ -157,11 +169,11 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
         
         // Delete related registrations first
         if (sessionToDelete) {
-          await deleteRegistrationsBySessionId(sessionId, classIds);
+          await deleteRegistrationsBySessionId(sessionId, classIds, city);
         }
         
         // Then save updated sessions
-        const success = await saveSessions(updatedSessions);
+        const success = await saveSessions(updatedSessions, city);
         
         if (success) {
           setSessions(updatedSessions);
@@ -196,7 +208,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
     
     setLoading(true);
     try {
-      const success = await updateAdminPassword(newPassword);
+      const success = await updateAdminPassword(newPassword, city);
       if (success) {
         alert(t.admin.passwordUpdated);
         setShowPasswordChange(false);
@@ -214,8 +226,9 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
   };
 
   const handleLogout = () => {
-    // Clear admin session from localStorage
-    localStorage.removeItem('sanshi_admin_session');
+    // Clear admin session from localStorage (city-specific)
+    const sessionKey = getAdminSessionKey();
+    localStorage.removeItem(sessionKey);
     setIsAuthenticated(false);
     setPassword('');
     setSessionExpiry(null);
@@ -329,6 +342,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
             onSave={handleAddSession}
             onCancel={() => setShowNewSession(false)}
             language={language}
+            city={city}
           />
         )}
 
@@ -383,6 +397,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
                   onSave={handleSaveSession}
                   onCancel={() => setEditingSession(null)}
                   language={language}
+                  city={city}
                 />
               ) : (
                 <div className="session-display">
@@ -436,16 +451,24 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate }) =>
   );
 };
 
+// City-specific default locations
+const DEFAULT_LOCATIONS: Record<City, string> = {
+  shanghai: '酒友(sakatomo): 水城南路71号1F',
+  beijing: '北京市朝阳区东三环北路3号 幸福大厦B座1701室',
+  fuzhou: 'TBD'
+};
+
 // Session Editor Component
 const SessionEditor: React.FC<{
   session: SessionDay | null;
   onSave: (session: SessionDay) => void;
   onCancel: () => void;
   language: string;
-}> = ({ session, onSave, onCancel, language }) => {
+  city?: City;
+}> = ({ session, onSave, onCancel, language, city = 'shanghai' }) => {
   const { t } = useI18n();
   const [date, setDate] = useState(session?.date || '');
-  const [location, setLocation] = useState(session?.location || '酒友(sakatomo): 水城南路71号1F');
+  const [location, setLocation] = useState(session?.location || DEFAULT_LOCATIONS[city]);
   const [isSpecialEvent, setIsSpecialEvent] = useState(session?.isSpecialEvent || false);
   const [eventTitle, setEventTitle] = useState(session?.eventTitle || '');
   const [eventDescription, setEventDescription] = useState(session?.eventDescription || '');

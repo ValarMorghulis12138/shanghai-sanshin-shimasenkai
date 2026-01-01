@@ -38,9 +38,6 @@ const BeijingPage: React.FC = () => {
     };
   }, [isPaused]);
   
-  // TODO: Enable this when Beijing data is ready
-  const isDataReady = false;
-  
   // Gallery images array
   const galleryImages = useMemo(() => [
     { src: beijingPhoto1, alt: "Beijing Sanshin Class 1" },
@@ -105,88 +102,6 @@ const BeijingPage: React.FC = () => {
     location: 'TBD'
   };
 
-  if (!isDataReady) {
-    // Show under construction page
-    return (
-      <div className="sessions-page">
-        <div className="container">
-          <section className="page-header">
-            <h1>{cityName[language]}</h1>
-            {/* Beijing Banner Gallery */}
-            <div className="beijing-banner"
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-            >
-              <div className="beijing-banner-slider">
-                <div className="beijing-banner-main">
-                  <button 
-                    className="beijing-banner-nav prev" 
-                    onClick={prevImage} 
-                    aria-label="Previous image"
-                  >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M15 18l-6-6 6-6" />
-                    </svg>
-                  </button>
-                  
-                  <div 
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={handleTouchEnd}
-                  >
-                    <img
-                      key={currentImageIndex}
-                      src={galleryImages[currentImageIndex].src}
-                      alt={galleryImages[currentImageIndex].alt}
-                      className={`beijing-banner-image ${isTransitioning ? 'transitioning' : ''}`}
-                    />
-                  </div>
-                  
-                  <button 
-                    className="beijing-banner-nav next" 
-                    onClick={nextImage} 
-                    aria-label="Next image"
-                  >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M9 18l6-6-6-6" />
-                    </svg>
-                  </button>
-                </div>
-                
-                <div className="beijing-banner-progress">
-                  {galleryImages.map((_, index) => (
-                    <button
-                      key={index}
-                      className={`beijing-banner-dot ${index === currentImageIndex ? 'active' : ''}`}
-                      onClick={() => {
-                        if (isTransitioning) return;
-                        setIsTransitioning(true);
-                        setCurrentImageIndex(index);
-                        setTimeout(() => setIsTransitioning(false), 500);
-                      }}
-                      aria-label={`Go to image ${index + 1}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Under Construction Notice */}
-            <div className="under-construction-content" style={{ marginTop: '2rem', textAlign: 'center' }}>
-              <h2 className="under-construction-title">
-                {t.cities.beijing.underConstruction}
-              </h2>
-              <p className="under-construction-description">
-                {t.cities.beijing.comingSoon}
-              </p>
-            </div>
-          </section>
-        </div>
-      </div>
-    );
-  }
-
-  // When data is ready, show the session registration
   return (
     <div className="sessions-page">
       <div className="container">
@@ -194,6 +109,66 @@ const BeijingPage: React.FC = () => {
           <h1>
             {cityName[language]} - {t.sessions.title}
           </h1>
+          
+          {/* Beijing Banner Gallery */}
+          <div className="beijing-banner"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            <div className="beijing-banner-slider">
+              <div className="beijing-banner-main">
+                <button 
+                  className="beijing-banner-nav prev" 
+                  onClick={prevImage} 
+                  aria-label="Previous image"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M15 18l-6-6 6-6" />
+                  </svg>
+                </button>
+                
+                <div 
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
+                >
+                  <img
+                    key={currentImageIndex}
+                    src={galleryImages[currentImageIndex].src}
+                    alt={galleryImages[currentImageIndex].alt}
+                    className={`beijing-banner-image ${isTransitioning ? 'transitioning' : ''}`}
+                  />
+                </div>
+                
+                <button 
+                  className="beijing-banner-nav next" 
+                  onClick={nextImage} 
+                  aria-label="Next image"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M9 18l6-6-6-6" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="beijing-banner-progress">
+                {galleryImages.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`beijing-banner-dot ${index === currentImageIndex ? 'active' : ''}`}
+                    onClick={() => {
+                      if (isTransitioning) return;
+                      setIsTransitioning(true);
+                      setCurrentImageIndex(index);
+                      setTimeout(() => setIsTransitioning(false), 500);
+                    }}
+                    aria-label={`Go to image ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+          
           <p className="page-description">{t.sessions.description}</p>
         </section>
 
@@ -201,6 +176,7 @@ const BeijingPage: React.FC = () => {
           ref={sessionRegistrationRef}
           scheduleInfo={scheduleInfo}
           onAdminAccess={() => setShowAdminPanel(true)}
+          city="beijing"
         />
 
         {/* Admin Panel */}
@@ -211,6 +187,7 @@ const BeijingPage: React.FC = () => {
               // Sync from localStorage (no API calls)
               await sessionRegistrationRef.current?.syncFromLocalStorage();
             }}
+            city="beijing"
           />
         )}
       </div>

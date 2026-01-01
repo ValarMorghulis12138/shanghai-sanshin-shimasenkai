@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import type { Registration, ClassSessionWithRegistrations } from '../types/calendar';
-import { addRegistration, deleteRegistration } from '../services/jsonBinService';
+import { addRegistration, deleteRegistration, type City } from '../services/jsonBinService';
 import { generateRegistrationId } from '../utils/idGenerator';
 
 export const useRegistration = (
   reloadData: () => Promise<void>,
-  syncFromLocalStorage?: () => Promise<void>
+  syncFromLocalStorage?: () => Promise<void>,
+  city: City = 'shanghai'
 ) => {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
@@ -52,7 +53,7 @@ export const useRegistration = (
 
     setLoading(true);
     try {
-      const success = await addRegistration(newRegistration);
+      const success = await addRegistration(newRegistration, city);
       
       if (success) {
         // Use syncFromLocalStorage if available (avoids GET calls)
@@ -81,7 +82,7 @@ export const useRegistration = (
   ) => {
     setLoading(true);
     try {
-      const success = await deleteRegistration(registrationId);
+      const success = await deleteRegistration(registrationId, city);
       
       if (success) {
         // Use syncFromLocalStorage if available (avoids GET calls)

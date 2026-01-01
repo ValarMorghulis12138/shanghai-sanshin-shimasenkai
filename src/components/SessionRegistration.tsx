@@ -3,6 +3,7 @@ import { useI18n } from '../i18n/useI18n';
 import type { Registration } from '../types/calendar';
 import { useSessionData } from '../hooks/useSessionData';
 import { useRegistration } from '../hooks/useRegistration';
+import type { City } from '../services/jsonBinService';
 import {
   ScheduleInfo,
   MonthNavigation,
@@ -19,6 +20,7 @@ interface SessionRegistrationProps {
     location: string;
   };
   onAdminAccess?: () => void;
+  city?: City;
 }
 
 export interface SessionRegistrationRef {
@@ -29,7 +31,8 @@ export interface SessionRegistrationRef {
 
 const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrationProps>(({ 
   scheduleInfo,
-  onAdminAccess 
+  onAdminAccess,
+  city = 'shanghai'
 }, ref) => {
   const { t } = useI18n();
   // Initialize with first day of current month to avoid comparison issues
@@ -42,8 +45,8 @@ const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrati
   const [modalSessionTitle, setModalSessionTitle] = useState('');
   const [modalSessionTime, setModalSessionTime] = useState('');
 
-  // Custom hooks
-  const { sessions, loading: dataLoading, reloadData, updateSessionsDirectly, syncFromLocalStorage } = useSessionData();
+  // Custom hooks - pass city parameter
+  const { sessions, loading: dataLoading, reloadData, updateSessionsDirectly, syncFromLocalStorage } = useSessionData(city);
   const {
     userEmail,
     userName,
@@ -52,7 +55,7 @@ const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrati
     submitRegistration,
     cancelRegistration,
     clearUserInfo
-  } = useRegistration(reloadData, syncFromLocalStorage); // Pass syncFromLocalStorage for optimization
+  } = useRegistration(reloadData, syncFromLocalStorage, city); // Pass city for data isolation
 
   const loading = dataLoading || registrationLoading;
 

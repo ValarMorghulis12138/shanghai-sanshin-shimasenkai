@@ -1,18 +1,16 @@
 /**
  * JSONBin.io Service - FREE cloud storage that works in China
  * This allows ALL users to share the same data!
+ * Supports multiple cities with separate data storage.
  */
 
 import type { SessionDay, Registration } from '../types/calendar';
 
+// Supported cities
+export type City = 'shanghai' | 'beijing' | 'fuzhou';
+
 // JSONBin.io configuration
 const JSONBIN_BASE_URL = 'https://api.jsonbin.io/v3';
-
-// Get credentials from environment variables ONLY
-// Vite automatically loads .env.development in dev mode and .env.production in build mode
-const SESSIONS_BIN_ID = import.meta.env.VITE_SESSIONS_BIN_ID;
-const REGISTRATIONS_BIN_ID = import.meta.env.VITE_REGISTRATIONS_BIN_ID;
-const ADMIN_CONFIG_BIN_ID = import.meta.env.VITE_ADMIN_CONFIG_BIN_ID;
 
 // 🎯 Support both Base64 (for local dev with $ in key) and plain text (for production)
 const API_KEY = (() => {
@@ -29,14 +27,70 @@ const API_KEY = (() => {
   return import.meta.env.VITE_JSONBIN_API_KEY;
 })();
 
-// Validate configuration on startup
-function validateConfiguration() {
+// City-specific bin configurations
+interface CityBinConfig {
+  sessionsBinId: string;
+  registrationsBinId: string;
+  adminConfigBinId: string;
+}
+
+const cityConfigs: Record<City, CityBinConfig> = {
+  shanghai: {
+    sessionsBinId: import.meta.env.VITE_SESSIONS_BIN_ID || '',
+    registrationsBinId: import.meta.env.VITE_REGISTRATIONS_BIN_ID || '',
+    adminConfigBinId: import.meta.env.VITE_ADMIN_CONFIG_BIN_ID || ''
+  },
+  beijing: {
+    sessionsBinId: import.meta.env.VITE_BEIJING_SESSIONS_BIN_ID || '',
+    registrationsBinId: import.meta.env.VITE_BEIJING_REGISTRATIONS_BIN_ID || '',
+    adminConfigBinId: import.meta.env.VITE_BEIJING_ADMIN_CONFIG_BIN_ID || import.meta.env.VITE_ADMIN_CONFIG_BIN_ID || ''
+  },
+  fuzhou: {
+    sessionsBinId: import.meta.env.VITE_FUZHOU_SESSIONS_BIN_ID || '',
+    registrationsBinId: import.meta.env.VITE_FUZHOU_REGISTRATIONS_BIN_ID || '',
+    adminConfigBinId: import.meta.env.VITE_FUZHOU_ADMIN_CONFIG_BIN_ID || import.meta.env.VITE_ADMIN_CONFIG_BIN_ID || ''
+  }
+};
+
+// Get bin config for a city (defaults to shanghai for backward compatibility)
+function getBinConfig(city: City = 'shanghai'): CityBinConfig {
+  return cityConfigs[city];
+}
+
+// Get localStorage key with city prefix
+function getLocalStorageKey(baseKey: string, city: City): string {
+  if (city === 'shanghai') {
+    // Backward compatibility: shanghai uses original keys
+    return baseKey;
+  }
+  return `${baseKey}_${city}`;
+}
+
+// Validate configuration for a specific city
+function validateCityConfiguration(city: City): boolean {
+  const config = getBinConfig(city);
   const missing: string[] = [];
   
-  if (!SESSIONS_BIN_ID) missing.push('VITE_SESSIONS_BIN_ID');
-  if (!REGISTRATIONS_BIN_ID) missing.push('VITE_REGISTRATIONS_BIN_ID');
+  if (!config.sessionsBinId) missing.push(`VITE_${city.toUpperCase()}_SESSIONS_BIN_ID`);
+  if (!config.registrationsBinId) missing.push(`VITE_${city.toUpperCase()}_REGISTRATIONS_BIN_ID`);
   if (!API_KEY) missing.push('VITE_JSONBIN_API_KEY');
-  if (!ADMIN_CONFIG_BIN_ID) missing.push('VITE_ADMIN_CONFIG_BIN_ID');
+  
+  if (missing.length > 0) {
+    console.warn(`⚠️ Missing environment variables for ${city}:`, missing.join(', '));
+    return false;
+  }
+  return true;
+}
+
+// Validate Shanghai configuration on startup (required)
+function validateConfiguration() {
+  const config = getBinConfig('shanghai');
+  const missing: string[] = [];
+  
+  if (!config.sessionsBinId) missing.push('VITE_SESSIONS_BIN_ID');
+  if (!config.registrationsBinId) missing.push('VITE_REGISTRATIONS_BIN_ID');
+  if (!API_KEY) missing.push('VITE_JSONBIN_API_KEY');
+  if (!config.adminConfigBinId) missing.push('VITE_ADMIN_CONFIG_BIN_ID');
   
   if (missing.length > 0) {
     const mode = import.meta.env.MODE || 'production';
@@ -57,13 +111,18 @@ function validateConfiguration() {
 // Run validation
 validateConfiguration();
 
+// Check if a city is configured
+export function isCityConfigured(city: City): boolean {
+  return validateCityConfiguration(city);
+}
+
 // Configuration loaded successfully (no logging to avoid exposing sensitive info)
 
 
 /**
  * Fetch data from JSONBin
  */
-async function fetchFromBin(binId: string): Promise<any> {
+async function fetchFromBin(binId: string, localStorageKey: string): Promise<any> {
   try {
     // Remove quotes if they're included in the API key (from .env file)
     const cleanApiKey = API_KEY?.replace(/^["']|["']$/g, '');
@@ -85,15 +144,13 @@ async function fetchFromBin(binId: string): Promise<any> {
     const record = data.record || [];
     
     // Save to localStorage as cache (also helps with sync later)
-    const localKey = binId === SESSIONS_BIN_ID ? 'sanshi_sessions' : 'sanshi_registrations';
-    localStorage.setItem(localKey, JSON.stringify(record));
+    localStorage.setItem(localStorageKey, JSON.stringify(record));
     
     return record;
   } catch (error) {
     console.error('JSONBin fetch error:', error);
     // Fallback to localStorage if JSONBin fails
-    const localKey = binId === SESSIONS_BIN_ID ? 'sanshi_sessions' : 'sanshi_registrations';
-    const localData = localStorage.getItem(localKey);
+    const localData = localStorage.getItem(localStorageKey);
     return localData ? JSON.parse(localData) : [];
   }
 }
@@ -101,7 +158,7 @@ async function fetchFromBin(binId: string): Promise<any> {
 /**
  * Update data in JSONBin
  */
-async function updateBin(binId: string, data: any): Promise<boolean> {
+async function updateBin(binId: string, data: any, localStorageKey: string, isSessionsBin: boolean): Promise<boolean> {
   try {
     // Remove quotes if they're included in the API key
     const cleanApiKey = API_KEY?.replace(/^["']|["']$/g, '');
@@ -110,7 +167,7 @@ async function updateBin(binId: string, data: any): Promise<boolean> {
     let dataToSend = data;
     if (Array.isArray(data) && data.length === 0) {
       // For sessions, add a placeholder that's far in the past (will be cleaned up)
-      if (binId === SESSIONS_BIN_ID) {
+      if (isSessionsBin) {
         dataToSend = [{
           id: 'placeholder',
           date: '2020-01-01',
@@ -147,8 +204,7 @@ async function updateBin(binId: string, data: any): Promise<boolean> {
     }
 
     // Also save to localStorage as backup (use the same data we sent to JSONBin)
-    const localKey = binId === SESSIONS_BIN_ID ? 'sanshi_sessions' : 'sanshi_registrations';
-    localStorage.setItem(localKey, JSON.stringify(dataToSend));
+    localStorage.setItem(localStorageKey, JSON.stringify(dataToSend));
     
     return true;
   } catch (error) {
@@ -161,8 +217,8 @@ async function updateBin(binId: string, data: any): Promise<boolean> {
 /**
  * Clean up orphaned registrations (remove registrations for deleted sessions)
  */
-async function cleanupOrphanedRegistrations(validClassIds: Set<string>): Promise<void> {
-  const registrations = await fetchRegistrations();
+async function cleanupOrphanedRegistrations(validClassIds: Set<string>, city: City = 'shanghai'): Promise<void> {
+  const registrations = await fetchRegistrations(city);
   const validRegistrations = registrations.filter(reg => {
     // Keep registration only if its class still exists
     return validClassIds.has(reg.sessionId);
@@ -171,9 +227,11 @@ async function cleanupOrphanedRegistrations(validClassIds: Set<string>): Promise
   // Only update if we removed some registrations
   if (validRegistrations.length < registrations.length) {
     if (import.meta.env.DEV) {
-      console.log(`Cleaning up ${registrations.length - validRegistrations.length} orphaned registrations`);
+      console.log(`Cleaning up ${registrations.length - validRegistrations.length} orphaned registrations for ${city}`);
     }
-    await updateBin(REGISTRATIONS_BIN_ID, validRegistrations);
+    const config = getBinConfig(city);
+    const localKey = getLocalStorageKey('sanshi_registrations', city);
+    await updateBin(config.registrationsBinId, validRegistrations, localKey, false);
   }
 }
 
@@ -181,9 +239,12 @@ async function cleanupOrphanedRegistrations(validClassIds: Set<string>): Promise
  * Public API Functions
  */
 
-export async function fetchSessions(): Promise<SessionDay[]> {
+export async function fetchSessions(city: City = 'shanghai'): Promise<SessionDay[]> {
+  const config = getBinConfig(city);
+  const localKey = getLocalStorageKey('sanshi_sessions', city);
+  
   // Note: No cleanup here - cleanup only happens when teachers update sessions
-  let data = await fetchFromBin(SESSIONS_BIN_ID);
+  let data = await fetchFromBin(config.sessionsBinId, localKey);
   
   // Filter out any placeholder sessions
   data = data.filter((session: SessionDay) => session.id !== 'placeholder');
@@ -193,27 +254,39 @@ export async function fetchSessions(): Promise<SessionDay[]> {
   return data || [];
 }
 
-export async function fetchRegistrations(): Promise<Registration[]> {
-  const data = await fetchFromBin(REGISTRATIONS_BIN_ID);
+export async function fetchRegistrations(city: City = 'shanghai'): Promise<Registration[]> {
+  const config = getBinConfig(city);
+  const localKey = getLocalStorageKey('sanshi_registrations', city);
+  
+  const data = await fetchFromBin(config.registrationsBinId, localKey);
   // Filter out any placeholder registrations
   return data.filter((reg: Registration) => reg.id !== 'placeholder');
 }
 
-export async function addRegistration(registration: Registration): Promise<boolean> {
+export async function addRegistration(registration: Registration, city: City = 'shanghai'): Promise<boolean> {
+  const config = getBinConfig(city);
+  const localKey = getLocalStorageKey('sanshi_registrations', city);
+  
   // Always fetch latest data to ensure real-time accuracy (handles concurrent registrations)
-  const registrations = await fetchRegistrations();
+  const registrations = await fetchRegistrations(city);
   registrations.push(registration);
-  return await updateBin(REGISTRATIONS_BIN_ID, registrations);
+  return await updateBin(config.registrationsBinId, registrations, localKey, false);
 }
 
-export async function deleteRegistration(registrationId: string): Promise<boolean> {
+export async function deleteRegistration(registrationId: string, city: City = 'shanghai'): Promise<boolean> {
+  const config = getBinConfig(city);
+  const localKey = getLocalStorageKey('sanshi_registrations', city);
+  
   // Always fetch latest data to ensure real-time accuracy
-  const registrations = await fetchRegistrations();
+  const registrations = await fetchRegistrations(city);
   const filtered = registrations.filter((reg: Registration) => reg.id !== registrationId);
-  return await updateBin(REGISTRATIONS_BIN_ID, filtered);
+  return await updateBin(config.registrationsBinId, filtered, localKey, false);
 }
 
-export async function updateSessions(sessions: SessionDay[], skipCleanup: boolean = false): Promise<boolean> {
+export async function updateSessions(sessions: SessionDay[], skipCleanup: boolean = false, city: City = 'shanghai'): Promise<boolean> {
+  const config = getBinConfig(city);
+  const localKey = getLocalStorageKey('sanshi_sessions', city);
+  
   // No automatic cleanup - admin has full control
   
   // Only cleanup if explicitly requested (for edits that might have removed classes)
@@ -225,10 +298,10 @@ export async function updateSessions(sessions: SessionDay[], skipCleanup: boolea
     });
     
     // Clean up orphaned registrations (for deleted sessions)
-    await cleanupOrphanedRegistrations(validClassIds);
+    await cleanupOrphanedRegistrations(validClassIds, city);
   }
   
-  return await updateBin(SESSIONS_BIN_ID, sessions);
+  return await updateBin(config.sessionsBinId, sessions, localKey, true);
 }
 
 // Direct API functions that don't fetch (for AdminPanel which already has data)
@@ -236,41 +309,49 @@ export async function updateSessions(sessions: SessionDay[], skipCleanup: boolea
  * Save sessions directly without fetching first
  * Use this when you already have the complete sessions array
  */
-export async function saveSessions(sessions: SessionDay[]): Promise<boolean> {
-  return await updateBin(SESSIONS_BIN_ID, sessions);
+export async function saveSessions(sessions: SessionDay[], city: City = 'shanghai'): Promise<boolean> {
+  const config = getBinConfig(city);
+  const localKey = getLocalStorageKey('sanshi_sessions', city);
+  return await updateBin(config.sessionsBinId, sessions, localKey, true);
 }
 
 /**
  * Delete registrations for specific class/session IDs
  * Use this when deleting a session to clean up its registrations
  */
-export async function deleteRegistrationsBySessionId(sessionId: string, classIds: string[]): Promise<boolean> {
-  const registrations = await fetchRegistrations();
+export async function deleteRegistrationsBySessionId(sessionId: string, classIds: string[], city: City = 'shanghai'): Promise<boolean> {
+  const config = getBinConfig(city);
+  const localKey = getLocalStorageKey('sanshi_registrations', city);
+  
+  const registrations = await fetchRegistrations(city);
   const filteredRegistrations = registrations.filter(reg => 
     reg.sessionId !== sessionId && !classIds.includes(reg.sessionId)
   );
   
   if (filteredRegistrations.length < registrations.length) {
     if (import.meta.env.DEV) {
-      console.log(`Deleting ${registrations.length - filteredRegistrations.length} registrations for deleted session`);
+      console.log(`Deleting ${registrations.length - filteredRegistrations.length} registrations for deleted session in ${city}`);
     }
-    return await updateBin(REGISTRATIONS_BIN_ID, filteredRegistrations);
+    return await updateBin(config.registrationsBinId, filteredRegistrations, localKey, false);
   }
   return true;
 }
 
 // Legacy functions (kept for backward compatibility, but inefficient)
-export async function addSession(session: SessionDay): Promise<boolean> {
-  const sessions = await fetchSessions();
+export async function addSession(session: SessionDay, city: City = 'shanghai'): Promise<boolean> {
+  const sessions = await fetchSessions(city);
   sessions.push(session);
   sessions.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   
   // Skip cleanup - adding a session won't create orphaned registrations
-  return await updateSessions(sessions, true);
+  return await updateSessions(sessions, true, city);
 }
 
-export async function deleteSession(sessionId: string): Promise<boolean> {
-  const sessions = await fetchSessions();
+export async function deleteSession(sessionId: string, city: City = 'shanghai'): Promise<boolean> {
+  const config = getBinConfig(city);
+  const localKey = getLocalStorageKey('sanshi_registrations', city);
+  
+  const sessions = await fetchSessions(city);
   
   // Find the session to be deleted and collect its class IDs
   const sessionToDelete = sessions.find(s => s.id === sessionId);
@@ -286,53 +367,60 @@ export async function deleteSession(sessionId: string): Promise<boolean> {
   
   // Clean related registrations in one go
   if (classIdsToDelete.length > 0) {
-    const registrations = await fetchRegistrations();
+    const registrations = await fetchRegistrations(city);
     const filteredRegistrations = registrations.filter(reg => 
       !classIdsToDelete.includes(reg.sessionId) && reg.sessionId !== sessionId
     );
     
     if (filteredRegistrations.length < registrations.length) {
       if (import.meta.env.DEV) {
-        console.log(`Deleting ${registrations.length - filteredRegistrations.length} registrations for deleted session`);
+        console.log(`Deleting ${registrations.length - filteredRegistrations.length} registrations for deleted session in ${city}`);
       }
-      await updateBin(REGISTRATIONS_BIN_ID, filteredRegistrations);
+      await updateBin(config.registrationsBinId, filteredRegistrations, localKey, false);
     }
   }
   
   // Skip cleanup - we already cleaned registrations above
-  return await updateSessions(filtered, true);
+  return await updateSessions(filtered, true, city);
 }
 
 /**
  * Admin password management (cloud-based - all devices share same password)
  */
-let adminConfigCache: { passwordHash: string; lastUpdated: string } | null = null;
+const adminConfigCache: Record<City, { passwordHash: string; lastUpdated: string } | null> = {
+  shanghai: null,
+  beijing: null,
+  fuzhou: null
+};
 
-export async function checkAdminPassword(password: string): Promise<boolean> {
+export async function checkAdminPassword(password: string, city: City = 'shanghai'): Promise<boolean> {
+  const config = getBinConfig(city);
+  const localKey = getLocalStorageKey('sanshi_admin_hash', city);
+  
   try {
     // Fetch admin config from cloud if not cached
-    if (!adminConfigCache && ADMIN_CONFIG_BIN_ID) {
-      const config = await fetchFromBin(ADMIN_CONFIG_BIN_ID);
-      adminConfigCache = config;
+    if (!adminConfigCache[city] && config.adminConfigBinId) {
+      const adminConfig = await fetchFromBin(config.adminConfigBinId, `sanshi_admin_config_${city}`);
+      adminConfigCache[city] = adminConfig;
     }
     
     // If still no config (bin not set), fall back to local storage
-    if (!adminConfigCache) {
-      const storedHash = localStorage.getItem('sanshi_admin_hash');
+    if (!adminConfigCache[city]) {
+      const storedHash = localStorage.getItem(localKey);
       if (!storedHash && password) {
         const hash = btoa(password);
-        localStorage.setItem('sanshi_admin_hash', hash);
+        localStorage.setItem(localKey, hash);
         return true;
       }
       return storedHash === btoa(password);
     }
     
     // Check password against cloud config
-    return adminConfigCache.passwordHash === btoa(password);
+    return adminConfigCache[city]!.passwordHash === btoa(password);
   } catch (error) {
     console.error('Error checking admin password:', error);
     // Fall back to local check on error
-    const storedHash = localStorage.getItem('sanshi_admin_hash');
+    const storedHash = localStorage.getItem(localKey);
     return storedHash === btoa(password);
   }
 }
@@ -340,9 +428,11 @@ export async function checkAdminPassword(password: string): Promise<boolean> {
 /**
  * Update admin password in cloud
  */
-export async function updateAdminPassword(newPassword: string): Promise<boolean> {
-  if (!ADMIN_CONFIG_BIN_ID) {
-    console.error('Admin config bin ID not set');
+export async function updateAdminPassword(newPassword: string, city: City = 'shanghai'): Promise<boolean> {
+  const config = getBinConfig(city);
+  
+  if (!config.adminConfigBinId) {
+    console.error(`Admin config bin ID not set for ${city}`);
     return false;
   }
   
@@ -352,9 +442,9 @@ export async function updateAdminPassword(newPassword: string): Promise<boolean>
       lastUpdated: new Date().toISOString()
     };
     
-    const success = await updateBin(ADMIN_CONFIG_BIN_ID, newConfig);
+    const success = await updateBin(config.adminConfigBinId, newConfig, `sanshi_admin_config_${city}`, false);
     if (success) {
-      adminConfigCache = newConfig;
+      adminConfigCache[city] = newConfig;
     }
     return success;
   } catch (error) {
@@ -363,7 +453,7 @@ export async function updateAdminPassword(newPassword: string): Promise<boolean>
   }
 }
 
-export async function initializeDemoData(): Promise<void> {
+export async function initializeDemoData(city: City = 'shanghai'): Promise<void> {
   // This will initialize demo data if bins are empty
-  await fetchSessions();
+  await fetchSessions(city);
 }
