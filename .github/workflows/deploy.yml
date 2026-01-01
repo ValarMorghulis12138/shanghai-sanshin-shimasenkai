@@ -38,10 +38,16 @@ jobs:
     - name: Build project
       # Pass environment variables directly - GitHub Actions handles $ symbols correctly
       env:
+        # Shared API key
         VITE_JSONBIN_API_KEY: ${{ secrets.JSONBIN_API_KEY }}
+        # Shanghai branch
         VITE_SESSIONS_BIN_ID: ${{ secrets.SESSIONS_BIN_ID }}
         VITE_REGISTRATIONS_BIN_ID: ${{ secrets.REGISTRATIONS_BIN_ID }}
         VITE_ADMIN_CONFIG_BIN_ID: ${{ secrets.ADMIN_CONFIG_BIN_ID }}
+        # Beijing branch
+        VITE_BEIJING_SESSIONS_BIN_ID: ${{ secrets.BEIJING_SESSIONS_BIN_ID }}
+        VITE_BEIJING_REGISTRATIONS_BIN_ID: ${{ secrets.BEIJING_REGISTRATIONS_BIN_ID }}
+        VITE_BEIJING_ADMIN_CONFIG_BIN_ID: ${{ secrets.BEIJING_ADMIN_CONFIG_BIN_ID }}
       run: npm run build
 
     - name: Deploy to GitHub Pages
