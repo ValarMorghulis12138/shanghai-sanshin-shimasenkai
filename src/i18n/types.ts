@@ -101,7 +101,6 @@ export interface Translations {
   };
   
   sessions: {
-    title: string;
     description: string;
     scheduleTitle: string;
     scheduleDescription: string;

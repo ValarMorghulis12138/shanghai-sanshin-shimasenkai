@@ -108,7 +108,6 @@ export const en: Translations = {
   },
   
   sessions: {
-    title: 'Class Schedule',
     description: 'Biweekly sanshin classes every other Saturday afternoon. All levels welcome!',
     scheduleTitle: 'Session Information',
     scheduleDescription: '',

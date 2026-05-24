@@ -95,9 +95,7 @@ const BeijingPage: React.FC = () => {
     <div className="sessions-page">
       <div className="container">
         <section className="page-header">
-          <h1>
-            {cityName[language]} - {t.sessions.title}
-          </h1>
+          <h1>{cityName[language]}</h1>
           
           {/* Beijing Banner Gallery */}
           <div className="beijing-banner"
