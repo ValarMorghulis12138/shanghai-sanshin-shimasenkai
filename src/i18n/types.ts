@@ -284,12 +284,19 @@ export interface Translations {
       underConstruction: string;
       comingSoon: string;
     };
-    fuzhou: {
+    tokyo: {
       name: string;
       branch: string;
       underConstruction: string;
       comingSoon: string;
     };
+  };
+
+  /** Short labels for Header / Footer city links */
+  citiesNav: {
+    shanghai: string;
+    beijing: string;
+    tokyo: string;
   };
 }
 

@@ -455,7 +455,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate, city
 const DEFAULT_LOCATIONS: Record<City, string> = {
   shanghai: '酒友(sakatomo): 水城南路71号1F',
   beijing: '北京市朝阳区东三环北路3号 幸福大厦B座1701室',
-  fuzhou: 'TBD'
+  tokyo: 'TBD'
 };
 
 // Session Editor Component

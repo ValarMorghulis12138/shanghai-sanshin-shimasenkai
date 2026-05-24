@@ -14,9 +14,9 @@ const Header: React.FC = () => {
 
   const navItems = [
     { path: '/', label: t.common.home },
-    { path: '/shanghai', label: language === 'zh' ? '上海分会' : language === 'ja' ? '上海分会' : 'Shanghai Branch' },
-    { path: '/beijing', label: language === 'zh' ? '北京分会' : language === 'ja' ? '北京分会' : 'Beijing Branch' },
-    { path: '/fuzhou', label: language === 'zh' ? '福州分会' : language === 'ja' ? '福州分会' : 'Fuzhou Branch' },
+    { path: '/tokyo', label: t.citiesNav.tokyo },
+    { path: '/shanghai', label: t.citiesNav.shanghai },
+    { path: '/beijing', label: t.citiesNav.beijing },
     { path: '/contact', label: t.common.contact }
   ];
 

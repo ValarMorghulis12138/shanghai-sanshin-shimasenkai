@@ -8,6 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "create-tokyo-bins": "node scripts/create-tokyo-jsonbins.mjs",
+    "create-tokyo-bins-prod": "node scripts/create-tokyo-jsonbins.mjs --use-env-file .env.production",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },

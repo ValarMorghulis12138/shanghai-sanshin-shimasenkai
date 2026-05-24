@@ -73,7 +73,7 @@ src/
 │   ├── Home/       # Each page has its own folder
 │   ├── Shanghai/
 │   ├── Beijing/
-│   └── Fuzhou/
+│   └── Tokyo/
 ├── i18n/           # Internationalization
 ├── services/       # API services
 ├── types/          # TypeScript type definitions

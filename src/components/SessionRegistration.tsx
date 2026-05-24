@@ -5,7 +5,6 @@ import { useSessionData } from '../hooks/useSessionData';
 import { useRegistration } from '../hooks/useRegistration';
 import type { City } from '../services/jsonBinService';
 import {
-  ScheduleInfo,
   MonthNavigation,
   SessionCard,
   RegistrationModal,
@@ -14,11 +13,6 @@ import {
 import './SessionRegistration.css';
 
 interface SessionRegistrationProps {
-  scheduleInfo?: {
-    schedule: string[];
-    time: string[];
-    location: string;
-  };
   onAdminAccess?: () => void;
   city?: City;
 }
@@ -30,7 +24,6 @@ export interface SessionRegistrationRef {
 }
 
 const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrationProps>(({ 
-  scheduleInfo,
   onAdminAccess,
   city = 'shanghai'
 }, ref) => {
@@ -160,15 +153,6 @@ const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrati
 
   return (
     <div className="session-registration">
-      {/* Schedule Information */}
-      {scheduleInfo && (
-        <ScheduleInfo
-          schedule={scheduleInfo.schedule}
-          time={scheduleInfo.time}
-          location={scheduleInfo.location}
-        />
-      )}
-
       {/* Month Navigation and Sessions */}
       <section className="calendar-section">
         <MonthNavigation

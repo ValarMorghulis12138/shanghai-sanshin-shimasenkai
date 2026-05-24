@@ -11,7 +11,6 @@ declare -a large_images=(
   "src/assets/photos/keisuke_sensei/三線・教師免許（教师证.jpg"
   "src/assets/photos/keisuke_sensei/沖縄民間大使表彰.jpg"
   "src/assets/photos/sanshin_member/三线会_古武道.jpg"
-  "src/assets/photos/sanshin_member/shimasenkai_fuzhou.jpg"
   "src/assets/photos/keisuke_sensei/2024年在外公馆长表彰.jpg"
   "src/assets/photos/sanshin_member/shanghai_sanshin_shimasenkai.jpg"
   "src/assets/photos/sanshin_member/shimasenkai_event.jpg"

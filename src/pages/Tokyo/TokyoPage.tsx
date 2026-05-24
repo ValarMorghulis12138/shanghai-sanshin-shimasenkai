@@ -2,17 +2,17 @@ import React, { useState, useRef } from 'react';
 import { useI18n } from '../../i18n/useI18n';
 import SessionRegistration, { type SessionRegistrationRef } from '../../components/SessionRegistration';
 import AdminPanel from '../../components/AdminPanel';
-import './ShanghaiPage.css';
+import './TokyoPage.css';
 
-const ShanghaiPage: React.FC = () => {
+const TokyoPage: React.FC = () => {
   const { t, language } = useI18n();
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const sessionRegistrationRef = useRef<SessionRegistrationRef>(null);
 
   const cityName = {
-    zh: t.cities.shanghai.branch,
-    ja: t.cities.shanghai.branch,
-    en: t.cities.shanghai.branch,
+    zh: t.cities.tokyo.branch,
+    ja: t.cities.tokyo.branch,
+    en: t.cities.tokyo.branch,
   };
 
   return (
@@ -27,6 +27,7 @@ const ShanghaiPage: React.FC = () => {
         <SessionRegistration
           ref={sessionRegistrationRef}
           onAdminAccess={() => setShowAdminPanel(true)}
+          city="tokyo"
         />
 
         {showAdminPanel && (
@@ -35,6 +36,7 @@ const ShanghaiPage: React.FC = () => {
             onSessionsUpdate={async () => {
               await sessionRegistrationRef.current?.syncFromLocalStorage();
             }}
+            city="tokyo"
           />
         )}
       </div>
@@ -42,4 +44,4 @@ const ShanghaiPage: React.FC = () => {
   );
 };
 
-export default ShanghaiPage;
+export default TokyoPage;

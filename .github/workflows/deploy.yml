@@ -48,6 +48,13 @@ jobs:
         VITE_BEIJING_SESSIONS_BIN_ID: ${{ secrets.BEIJING_SESSIONS_BIN_ID }}
         VITE_BEIJING_REGISTRATIONS_BIN_ID: ${{ secrets.BEIJING_REGISTRATIONS_BIN_ID }}
         VITE_BEIJING_ADMIN_CONFIG_BIN_ID: ${{ secrets.BEIJING_ADMIN_CONFIG_BIN_ID }}
+        # Tokyo branch — use TOKYO_* secrets; if unset, Tokyo falls back to FUZHOU_* runtime env (same bin IDs)
+        VITE_TOKYO_SESSIONS_BIN_ID: ${{ secrets.TOKYO_SESSIONS_BIN_ID }}
+        VITE_TOKYO_REGISTRATIONS_BIN_ID: ${{ secrets.TOKYO_REGISTRATIONS_BIN_ID }}
+        VITE_TOKYO_ADMIN_CONFIG_BIN_ID: ${{ secrets.TOKYO_ADMIN_CONFIG_BIN_ID }}
+        VITE_FUZHOU_SESSIONS_BIN_ID: ${{ secrets.FUZHOU_SESSIONS_BIN_ID }}
+        VITE_FUZHOU_REGISTRATIONS_BIN_ID: ${{ secrets.FUZHOU_REGISTRATIONS_BIN_ID }}
+        VITE_FUZHOU_ADMIN_CONFIG_BIN_ID: ${{ secrets.FUZHOU_ADMIN_CONFIG_BIN_ID }}
       run: npm run build
 
     - name: Deploy to GitHub Pages

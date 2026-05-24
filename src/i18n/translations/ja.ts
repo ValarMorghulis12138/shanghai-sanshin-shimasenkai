@@ -298,11 +298,17 @@ export const ja: Translations = {
       underConstruction: 'ウェブサイト構築中',
       comingSoon: '北京分会は近日公開予定！更新情報をお待ちください。'
     },
-    fuzhou: {
-      name: '福州',
-      branch: '三線島線会福州分会',
+    tokyo: {
+      name: '東京',
+      branch: '三線島線会東京分会',
       underConstruction: 'ウェブサイト構築中',
-      comingSoon: '福州分会は近日公開予定！更新情報をお待ちください。'
+      comingSoon: '東京分会は近日公開予定！更新情報をお待ちください。'
     }
+  },
+
+  citiesNav: {
+    tokyo: '東京分会',
+    shanghai: '上海分会',
+    beijing: '北京分会'
   }
 };

@@ -91,17 +91,6 @@ const BeijingPage: React.FC = () => {
     en: t.cities.beijing.branch
   };
 
-  // Beijing-specific schedule info (to be used when data is ready)
-  const scheduleInfo = {
-    schedule: [
-      t.sessions.schedule.biweekly
-    ],
-    time: [
-      'TBD'
-    ],
-    location: 'TBD'
-  };
-
   return (
     <div className="sessions-page">
       <div className="container">
@@ -168,13 +157,10 @@ const BeijingPage: React.FC = () => {
               </div>
             </div>
           </div>
-          
-          <p className="page-description">{t.sessions.description}</p>
         </section>
 
-        <SessionRegistration 
+        <SessionRegistration
           ref={sessionRegistrationRef}
-          scheduleInfo={scheduleInfo}
           onAdminAccess={() => setShowAdminPanel(true)}
           city="beijing"
         />

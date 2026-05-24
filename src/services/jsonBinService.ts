@@ -7,7 +7,7 @@
 import type { SessionDay, Registration } from '../types/calendar';
 
 // Supported cities
-export type City = 'shanghai' | 'beijing' | 'fuzhou';
+export type City = 'shanghai' | 'beijing' | 'tokyo';
 
 // JSONBin.io configuration
 const JSONBIN_BASE_URL = 'https://api.jsonbin.io/v3';
@@ -45,10 +45,18 @@ const cityConfigs: Record<City, CityBinConfig> = {
     registrationsBinId: import.meta.env.VITE_BEIJING_REGISTRATIONS_BIN_ID || '',
     adminConfigBinId: import.meta.env.VITE_BEIJING_ADMIN_CONFIG_BIN_ID || import.meta.env.VITE_ADMIN_CONFIG_BIN_ID || ''
   },
-  fuzhou: {
-    sessionsBinId: import.meta.env.VITE_FUZHOU_SESSIONS_BIN_ID || '',
-    registrationsBinId: import.meta.env.VITE_FUZHOU_REGISTRATIONS_BIN_ID || '',
-    adminConfigBinId: import.meta.env.VITE_FUZHOU_ADMIN_CONFIG_BIN_ID || import.meta.env.VITE_ADMIN_CONFIG_BIN_ID || ''
+  tokyo: {
+    // Prefer VITE_TOKYO_* (current naming); fall back to VITE_FUZHOU_* to reuse legacy Fuzhou bin IDs unchanged in .env
+    sessionsBinId:
+      import.meta.env.VITE_TOKYO_SESSIONS_BIN_ID || import.meta.env.VITE_FUZHOU_SESSIONS_BIN_ID || '',
+    registrationsBinId:
+      import.meta.env.VITE_TOKYO_REGISTRATIONS_BIN_ID ||
+      import.meta.env.VITE_FUZHOU_REGISTRATIONS_BIN_ID ||
+      '',
+    adminConfigBinId:
+      import.meta.env.VITE_TOKYO_ADMIN_CONFIG_BIN_ID ||
+      import.meta.env.VITE_FUZHOU_ADMIN_CONFIG_BIN_ID ||
+      ''
   }
 };
 
@@ -390,7 +398,7 @@ export async function deleteSession(sessionId: string, city: City = 'shanghai'):
 const adminConfigCache: Record<City, { passwordHash: string; lastUpdated: string } | null> = {
   shanghai: null,
   beijing: null,
-  fuzhou: null
+  tokyo: null
 };
 
 export async function checkAdminPassword(password: string, city: City = 'shanghai'): Promise<boolean> {

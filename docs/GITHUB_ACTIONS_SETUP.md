@@ -27,6 +27,12 @@ Add the following secrets (copy the values from your `.env.production` file):
 - `VITE_BEIJING_REGISTRATIONS_BIN_ID` - Beijing registrations bin ID
 - `VITE_BEIJING_ADMIN_CONFIG_BIN_ID` - Beijing admin config bin ID
 
+**Optional (Tokyo branch — uses Tokyo–only calendars in-app; bins may match former Fuzhou setup):**
+
+- Prefer GitHub Secrets: `TOKYO_SESSIONS_BIN_ID`, `TOKYO_REGISTRATIONS_BIN_ID`, `TOKYO_ADMIN_CONFIG_BIN_ID` (passed through the workflow as `VITE_TOKYO_*`).
+- Fallback: secrets named `FUZHOU_*` are still forwarded as `VITE_FUZHOU_*`; if `VITE_TOKYO_*` is unset, Tokyo reuses those values (same JSONBin bins, Tokyo city key in storage).
+- Detailed workflow and `npm run create-tokyo-bins`: `docs/TOKYO_JSONBIN_SETUP.md`.
+
 **Important**: Enter the values WITHOUT quotes, even if they have special characters.
 
 ### 2. Configure GitHub Pages Source

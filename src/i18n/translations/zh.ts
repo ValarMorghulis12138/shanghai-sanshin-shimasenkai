@@ -298,11 +298,17 @@ export const zh: Translations = {
       underConstruction: '网站建设中',
       comingSoon: '北京分会即将推出！请继续关注我们的更新。'
     },
-    fuzhou: {
-      name: '福州',
-      branch: '三线岛线会福州分会',
+    tokyo: {
+      name: '东京',
+      branch: '三线岛线会东京分会',
       underConstruction: '网站建设中',
-      comingSoon: '福州分会即将推出！请继续关注我们的更新。'
+      comingSoon: '东京分会即将推出！请继续关注我们的更新。'
     }
+  },
+
+  citiesNav: {
+    tokyo: '东京分会',
+    shanghai: '上海分会',
+    beijing: '北京分会'
   }
 };

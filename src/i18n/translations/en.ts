@@ -298,11 +298,17 @@ export const en: Translations = {
       underConstruction: 'Website Under Construction',
       comingSoon: 'Beijing branch coming soon! Please stay tuned for updates.'
     },
-    fuzhou: {
-      name: 'Fuzhou',
-      branch: 'Sanshin Shimasenkai Fuzhou Branch',
+    tokyo: {
+      name: 'Tokyo',
+      branch: 'Sanshin Shimasenkai Tokyo Branch',
       underConstruction: 'Website Under Construction',
-      comingSoon: 'Fuzhou branch coming soon! Please stay tuned for updates.'
+      comingSoon: 'Tokyo branch coming soon! Please stay tuned for updates.'
     }
+  },
+
+  citiesNav: {
+    tokyo: 'Tokyo Branch',
+    shanghai: 'Shanghai Branch',
+    beijing: 'Beijing Branch'
   }
 };

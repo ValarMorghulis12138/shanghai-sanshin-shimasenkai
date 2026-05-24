@@ -3,55 +3,6 @@
   width: 100%;
 }
 
-/* Schedule Info Section */
-.schedule-info {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xxl);
-}
-
-.info-card {
-  background-color: var(--surface-color);
-  padding: var(--spacing-xl);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 2px 8px var(--shadow-color);
-}
-
-.info-card h3 {
-  color: var(--primary-color);
-  margin-bottom: var(--spacing-md);
-}
-
-.schedule-details {
-  margin-top: var(--spacing-md);
-}
-
-.schedule-details p {
-  margin-bottom: var(--spacing-sm);
-  color: var(--text-secondary);
-}
-
-.info-card ul {
-  list-style: none;
-  padding: 0;
-}
-
-.info-card li {
-  padding: var(--spacing-sm) 0;
-  padding-left: var(--spacing-lg);
-  position: relative;
-  color: var(--text-secondary);
-}
-
-.info-card li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  color: var(--accent-color);
-  font-weight: bold;
-}
-
 /* Calendar Section */
 .calendar-section {
   margin-bottom: var(--spacing-xxl);
@@ -590,10 +541,6 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .schedule-info {
-    grid-template-columns: 1fr;
-  }
-  
   .month-navigation h2 {
     font-size: 1.5rem;
     min-width: 150px;
