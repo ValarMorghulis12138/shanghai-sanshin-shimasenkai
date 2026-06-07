@@ -5,7 +5,7 @@ import { ClassCard } from './ClassCard';
 
 interface SessionCardProps {
   session: SessionDayWithRegistrations;
-  userEmail: string | null;
+  userName: string | null;
   onRegisterClass: (classId: string) => void;
   onRegisterEvent: (sessionId: string) => void;
   onCancelRegistration: (registration: Registration) => void;
@@ -15,7 +15,7 @@ interface SessionCardProps {
 
 export const SessionCard: React.FC<SessionCardProps> = ({
   session,
-  userEmail,
+  userName,
   onRegisterClass,
   onRegisterEvent,
   onCancelRegistration,
@@ -49,7 +49,9 @@ export const SessionCard: React.FC<SessionCardProps> = ({
   const renderSpecialEvent = () => {
     const eventRegistrations = session.eventRegistrations || [];
     const maxParticipants = session.eventMaxParticipants || 50;
-    const userEventRegistration = eventRegistrations.find(reg => reg.email === userEmail);
+    const userEventRegistration = userName
+      ? eventRegistrations.find(reg => reg.name === userName)
+      : undefined;
     const isFull = eventRegistrations.length >= maxParticipants;
 
     return (
@@ -92,7 +94,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
               {eventRegistrations.map((reg, idx) => (
                 <span 
                   key={idx} 
-                  className={`name-tag ${userEmail && reg.email === userEmail ? 'user-registration' : ''}`}
+                  className={`name-tag ${userName && reg.name === userName ? 'user-registration' : ''}`}
                   style={{ backgroundColor: reg.color || '#E53E3E' }}
                 >
                   {reg.name}

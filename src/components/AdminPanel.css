@@ -46,7 +46,7 @@
 }
 
 .logout-button {
-  background: var(--error-color);
+  background: #d32f2f;
   color: white;
   border: none;
   padding: var(--spacing-xs) var(--spacing-md);
@@ -57,7 +57,7 @@
 }
 
 .logout-button:hover {
-  background: #d32f2f;
+  background: #b71c1c;
 }
 
 .session-info {
@@ -319,7 +319,7 @@
 
 .class-editor {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 2fr;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr auto;
   gap: var(--spacing-sm);
   padding: var(--spacing-sm);
   background: var(--background-color);
@@ -333,6 +333,53 @@
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   font-size: 0.875rem;
+}
+
+.class-delete-button {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--error-color);
+  background: transparent;
+  color: var(--error-color);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.class-delete-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.class-delete-button:hover:not(:disabled) {
+  background: rgba(211, 47, 47, 0.1);
+  color: #d32f2f;
+  border-color: #d32f2f;
+}
+
+.class-delete-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.class-add-button {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px dashed var(--accent-color);
+  background: transparent;
+  color: var(--accent-color);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.class-add-button:hover {
+  background: rgba(0, 128, 0, 0.06);
 }
 
 .form-actions {

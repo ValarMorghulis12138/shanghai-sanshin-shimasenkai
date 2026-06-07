@@ -260,6 +260,8 @@ export interface Translations {
     maxParticipants: string;
     classSchedule: string;
     addClass: string;
+    removeClass: string;
+    classContent: string;
     confirmDelete: string;
     deleteSuccess: string;
     deleteFailed: string;

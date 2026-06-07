@@ -192,8 +192,9 @@ export const ja: Translations = {
     location: {
       title: '所在地',
       address: [
-        '沖縄県北京事務所',
-        '北京市朝陽区東三環北路3号 幸福大厦B座1701室'
+        '上海：酒友·燒酎&琉球泡盛bar 上海市长宁区水城南路71号',
+        '北京：沖縄県北京事務所、北京市朝陽区東三環北路3号 幸福大厦B座1701室',
+        '東京：沖縄料理と泡盛の店【美ら海（ちゅらうみ）】東京都港区新橋2-15-13 エレガンス新橋ビル　４Ｆ'
       ]
     },
     email: 'メール',
@@ -274,6 +275,8 @@ export const ja: Translations = {
     maxParticipants: '最大参加人数',
     classSchedule: 'クラススケジュール',
     addClass: 'クラスを追加',
+    removeClass: 'このコマを削除',
+    classContent: 'クラス内容',
     confirmDelete: 'このセッションを削除してもよろしいですか？',
     deleteSuccess: '削除しました',
     deleteFailed: '削除に失敗しました',

@@ -31,8 +31,8 @@ const Footer: React.FC = () => {
             <h4 className="footer-title">{t.footer.quickLinks}</h4>
             <ul className="footer-links">
               <li><Link to="/">{t.common.home}</Link></li>
-              <li><Link to="/tokyo">{t.citiesNav.tokyo}</Link></li>
               <li><Link to="/shanghai">{t.citiesNav.shanghai}</Link></li>
+              <li><Link to="/tokyo">{t.citiesNav.tokyo}</Link></li>
               <li><Link to="/beijing">{t.citiesNav.beijing}</Link></li>
               <li><Link to="/contact">{t.common.contact}</Link></li>
             </ul>

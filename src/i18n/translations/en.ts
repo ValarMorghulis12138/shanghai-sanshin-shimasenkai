@@ -192,8 +192,9 @@ export const en: Translations = {
     location: {
       title: 'Location',
       address: [
-        'Okinawa Prefecture Beijing Office',
-        'Block B, Room 1701, Xingfu Building, No.3 North Road, East 3rd Ring, Chaoyang District, Beijing'
+        'Shanghai: 酒友·燒酎&琉球泡盛bar 上海市长宁区水城南路71号',
+        'Beijing: Okinawa Prefecture Beijing Office, Block B Room 1701, Xingfu Building, No.3 North Road, East 3rd Ring, Chaoyang District, Beijing',
+        'Tokyo: 沖縄料理と泡盛の店【美ら海（ちゅらうみ）】東京都港区新橋2-15-13 エレガンス新橋ビル　４Ｆ'
       ]
     },
     email: 'Email',
@@ -274,6 +275,8 @@ export const en: Translations = {
     maxParticipants: 'Max Participants',
     classSchedule: 'Class Schedule',
     addClass: 'Add Class',
+    removeClass: 'Remove Class',
+    classContent: 'Class Content',
     confirmDelete: 'Are you sure you want to delete this session?',
     deleteSuccess: 'Session deleted successfully',
     deleteFailed: 'Failed to delete session',

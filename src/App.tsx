@@ -21,9 +21,9 @@ function App() {
           <main className="main-content">
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/shanghai" element={<ShanghaiPage />} />
               <Route path="/tokyo" element={<TokyoPage />} />
               <Route path="/fuzhou" element={<Navigate to="/tokyo" replace />} />
-              <Route path="/shanghai" element={<ShanghaiPage />} />
               <Route path="/beijing" element={<BeijingPage />} />
               <Route path="/contact" element={<ContactPage />} />
             </Routes>

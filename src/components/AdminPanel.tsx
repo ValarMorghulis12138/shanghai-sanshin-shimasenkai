@@ -451,11 +451,10 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate, city
   );
 };
 
-// City-specific default locations
-const DEFAULT_LOCATIONS: Record<City, string> = {
-  shanghai: '酒友(sakatomo): 水城南路71号1F',
-  beijing: '北京市朝阳区东三环北路3号 幸福大厦B座1701室',
-  tokyo: 'TBD'
+const CITY_ADDRESS_INDEX: Record<City, number> = {
+  shanghai: 0,
+  beijing: 1,
+  tokyo: 2
 };
 
 // Session Editor Component
@@ -468,7 +467,10 @@ const SessionEditor: React.FC<{
 }> = ({ session, onSave, onCancel, language, city = 'shanghai' }) => {
   const { t } = useI18n();
   const [date, setDate] = useState(session?.date || '');
-  const [location, setLocation] = useState(session?.location || DEFAULT_LOCATIONS[city]);
+  const getDefaultLocation = () => {
+    return t.contact.location.address[CITY_ADDRESS_INDEX[city]] || '';
+  };
+  const [location, setLocation] = useState(session?.location || getDefaultLocation());
   const [isSpecialEvent, setIsSpecialEvent] = useState(session?.isSpecialEvent || false);
   const [eventTitle, setEventTitle] = useState(session?.eventTitle || '');
   const [eventDescription, setEventDescription] = useState(session?.eventDescription || '');
@@ -501,36 +503,49 @@ const SessionEditor: React.FC<{
         return 'Keisuke';
     }
   };
-  
-  const [classes, setClasses] = useState<ClassSession[]>(session?.classes || [
-    {
-      id: '',
-      date: '',
-      type: 'intermediate',
-      startTime: '14:00',
-      duration: 50,
-      maxParticipants: 20,
-      instructor: getDefaultInstructor()
-    },
-    {
-      id: '',
-      date: '',
-      type: 'experience',
-      startTime: '15:00',
-      duration: 50,
-      maxParticipants: 20,
-      instructor: getDefaultInstructor()
-    },
-    {
-      id: '',
-      date: '',
-      type: 'beginner',
-      startTime: '16:00',
-      duration: 50,
-      maxParticipants: 20,
-      instructor: getDefaultInstructor()
+
+  const getDefaultClassTitle = (classIndex: number) => {
+    switch (language) {
+      case 'zh':
+        return `第${classIndex}节课`;
+      case 'ja':
+        return `${classIndex}コマ目`;
+      case 'en':
+      default:
+        return `Class ${classIndex}`;
     }
-  ]);
+  };
+
+  const getNextClassStartTime = (time: string) => {
+    const [hours, minutes] = time.split(':').map(Number);
+    if (Number.isNaN(hours) || Number.isNaN(minutes)) {
+      return '14:00';
+    }
+    const totalMinutes = (hours * 60 + minutes + 60) % (24 * 60);
+    const nextHours = String(Math.floor(totalMinutes / 60)).padStart(2, '0');
+    const nextMinutes = String(totalMinutes % 60).padStart(2, '0');
+    return `${nextHours}:${nextMinutes}`;
+  };
+
+  const createDefaultClass = (classIndex: number, startTime: string): ClassSession => ({
+    id: '',
+    date: '',
+    title: getDefaultClassTitle(classIndex),
+    type: 'intermediate',
+    startTime,
+    duration: 50,
+    maxParticipants: 20,
+    instructor: getDefaultInstructor()
+  });
+  
+  const [classes, setClasses] = useState<ClassSession[]>(
+    session?.classes?.length
+      ? session.classes.map((cls, index) => ({
+          ...cls,
+          title: cls.title || getDefaultClassTitle(index + 1)
+        }))
+      : [createDefaultClass(1, '14:00'), createDefaultClass(2, '15:00'), createDefaultClass(3, '16:00')]
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -573,6 +588,20 @@ const SessionEditor: React.FC<{
     const updated = [...classes];
     updated[index] = { ...updated[index], [field]: value };
     setClasses(updated);
+  };
+
+  const addClass = () => {
+    const lastClass = classes[classes.length - 1];
+    const nextStartTime = lastClass?.startTime ? getNextClassStartTime(lastClass.startTime) : '14:00';
+    const newClass = createDefaultClass(classes.length + 1, nextStartTime);
+    setClasses((prev) => [...prev, newClass]);
+  };
+
+  const removeClass = (index: number) => {
+    if (classes.length <= 1) {
+      return;
+    }
+    setClasses((prev) => prev.filter((_, classIndex) => classIndex !== index));
   };
 
   return (
@@ -694,33 +723,28 @@ const SessionEditor: React.FC<{
           
           {classes.map((cls, index) => (
             <div key={index} className="class-editor">
-              <select
-                value={cls.type}
-                onChange={(e) => updateClass(index, 'type', e.target.value)}
-              >
-                <option value="intermediate">
-                  {t.sessions.sessionCard.levelShort.intermediate}
-                </option>
-                <option value="experience">
-                  {t.sessions.sessionCard.levelShort.experience}
-                </option>
-                <option value="beginner">
-                  {t.sessions.sessionCard.levelShort.beginner}
-                </option>
-              </select>
+              <input
+                type="text"
+                value={cls.title || ''}
+                onChange={(e) => updateClass(index, 'title', e.target.value)}
+                placeholder={t.admin.classContent}
+                required
+              />
               
               <input
                 type="time"
                 value={cls.startTime}
                 onChange={(e) => updateClass(index, 'startTime', e.target.value)}
+                required
               />
               
               <input
                 type="number"
                 value={cls.maxParticipants}
-                onChange={(e) => updateClass(index, 'maxParticipants', parseInt(e.target.value))}
+                onChange={(e) => updateClass(index, 'maxParticipants', parseInt(e.target.value) || 1)}
                 min="1"
                 max="50"
+                required
               />
               
               <input
@@ -729,8 +753,33 @@ const SessionEditor: React.FC<{
                 onChange={(e) => updateClass(index, 'instructor', e.target.value)}
                 placeholder={language === 'zh' ? '讲师' : language === 'ja' ? '講師' : 'Instructor'}
               />
+
+              <button
+                type="button"
+                className="class-delete-button"
+                onClick={() => removeClass(index)}
+                disabled={classes.length <= 1}
+                aria-label={t.admin.removeClass}
+                title={t.admin.removeClass}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M3 6h18" />
+                  <path d="M8 6V4h8v2" />
+                  <path d="M19 6l-1 14H6L5 6" />
+                  <path d="M10 11v6" />
+                  <path d="M14 11v6" />
+                </svg>
+              </button>
             </div>
           ))}
+
+          <button
+            type="button"
+            className="class-add-button"
+            onClick={addClass}
+          >
+            {t.admin.addClass}
+          </button>
         </>
       )}
 

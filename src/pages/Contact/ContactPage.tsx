@@ -38,22 +38,12 @@ const ContactPage: React.FC = () => {
               <p>{t.contact.wechatId}: keisuke34</p>
             </div>
 
-            <div className="info-item">
-              <h3>🕐 {t.contact.responseTime.title}</h3>
-              <p>{t.contact.responseTime.description}</p>
-            </div>
-
             <div className="faq-section">
               <h3>{t.contact.faq.title}</h3>
               
               <div className="faq-item">
                 <h4>{t.contact.faq.questions.ownSanshin.question}</h4>
                 <p>{t.contact.faq.questions.ownSanshin.answer}</p>
-              </div>
-
-              <div className="faq-item">
-                <h4>{t.contact.faq.questions.cost.question}</h4>
-                <p>{t.contact.faq.questions.cost.answer}</p>
               </div>
 
               <div className="faq-item">

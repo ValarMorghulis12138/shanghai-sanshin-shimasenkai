@@ -28,12 +28,14 @@ export const ClassCard: React.FC<ClassCardProps> = ({
     return typeMap[type as keyof typeof typeMap] || type;
   };
 
+  const classTitle = classSession.title?.trim() || getClassTypeName(classSession.type);
+
   const isFull = classSession.registrations.length >= classSession.maxParticipants;
 
   return (
     <div className="class-card">
       <div className="class-header">
-        <h4>{getClassTypeName(classSession.type)}</h4>
+        <h4>{classTitle}</h4>
         <span className="class-time">{classSession.startTime}</span>
       </div>
       <div className="class-info">
@@ -63,7 +65,7 @@ export const ClassCard: React.FC<ClassCardProps> = ({
             {classSession.registrations.map((reg, idx) => (
               <span 
                 key={idx} 
-                className={`name-tag ${userRegistration && reg.email === userRegistration.email ? 'user-registration' : ''}`}
+                className={`name-tag ${userRegistration && reg.id === userRegistration.id ? 'user-registration' : ''}`}
                 style={{ backgroundColor: reg.color || '#E53E3E' }}
               >
                 {reg.name}

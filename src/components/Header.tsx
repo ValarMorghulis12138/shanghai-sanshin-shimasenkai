@@ -14,8 +14,8 @@ const Header: React.FC = () => {
 
   const navItems = [
     { path: '/', label: t.common.home },
-    { path: '/tokyo', label: t.citiesNav.tokyo },
     { path: '/shanghai', label: t.citiesNav.shanghai },
+    { path: '/tokyo', label: t.citiesNav.tokyo },
     { path: '/beijing', label: t.citiesNav.beijing },
     { path: '/contact', label: t.common.contact }
   ];

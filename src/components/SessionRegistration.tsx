@@ -41,7 +41,6 @@ const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrati
   // Custom hooks - pass city parameter
   const { sessions, loading: dataLoading, reloadData, updateSessionsDirectly, syncFromLocalStorage } = useSessionData(city);
   const {
-    userEmail,
     userName,
     userColor,
     loading: registrationLoading,
@@ -94,7 +93,7 @@ const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrati
         beginner: t.sessions.sessionCard.level.beginner,
         intermediate: t.sessions.sessionCard.level.intermediate
       };
-      const classTypeName = typeMap[classSession.type as keyof typeof typeMap] || classSession.type;
+      const classTypeName = classSession.title?.trim() || typeMap[classSession.type as keyof typeof typeMap] || classSession.type;
       
       handleOpenRegistrationModal(
         classId,
@@ -117,13 +116,12 @@ const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrati
   };
 
   // Handler for submitting registration
-  const handleSubmitRegistration = (name: string, email: string, color: string) => {
+  const handleSubmitRegistration = (name: string, color: string) => {
     if (!selectedSessionId) return;
 
     submitRegistration(
       selectedSessionId,
       name,
-      email,
       color,
       () => {
         setShowRegistrationModal(false);
@@ -171,12 +169,12 @@ const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrati
               <SessionCard
                 key={session.id}
                 session={session}
-                userEmail={userEmail}
+                userName={userName}
                 onRegisterClass={handleRegisterClass}
                 onRegisterEvent={handleRegisterEvent}
                 onCancelRegistration={handleCancelRegistration}
                 checkUserRegistration={(registrations: Registration[]) => 
-                  registrations.find((reg: Registration) => reg.email === userEmail) || null
+                  userName ? registrations.find((reg: Registration) => reg.name === userName) || null : null
                 }
                 loading={loading}
               />
@@ -196,7 +194,6 @@ const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrati
         sessionTitle={modalSessionTitle}
         sessionTime={modalSessionTime}
         userName={userName}
-        userEmail={userEmail}
         userColor={userColor}
         onClearUserInfo={() => {
           clearUserInfo();

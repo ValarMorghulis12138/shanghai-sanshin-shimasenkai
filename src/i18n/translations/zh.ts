@@ -192,8 +192,9 @@ export const zh: Translations = {
     location: {
       title: '地址',
       address: [
-        '冲绳县北京事务所',
-        '北京市朝阳区东三环北路3号 幸福大厦B座1701室'
+        '上海：酒友·燒酎&琉球泡盛bar 上海市长宁区水城南路71号',
+        '北京：冲绳县北京事务所，北京市朝阳区东三环北路3号 幸福大厦B座1701室',
+        '东京：沖縄料理と泡盛の店【美ら海（ちゅらうみ）】東京都港区新橋2-15-13 エレガンス新橋ビル　４Ｆ'
       ]
     },
     email: '电子邮箱',
@@ -274,6 +275,8 @@ export const zh: Translations = {
     maxParticipants: '最大参与人数',
     classSchedule: '课程安排',
     addClass: '添加课程',
+    removeClass: '删除该小节',
+    classContent: '课程内容',
     confirmDelete: '确定要删除这个课程吗？',
     deleteSuccess: '删除成功',
     deleteFailed: '删除失败',

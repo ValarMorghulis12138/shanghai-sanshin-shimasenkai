@@ -5,11 +5,10 @@ import ColorPicker from '../ColorPicker';
 interface RegistrationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (name: string, email: string, color: string) => void;
+  onSubmit: (name: string, color: string) => void;
   sessionTitle: string;
   sessionTime: string;
   userName: string | null;
-  userEmail: string | null;
   userColor: string;
   onClearUserInfo: () => void;
 }
@@ -21,34 +20,30 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
   sessionTitle,
   sessionTime,
   userName,
-  userEmail,
   userColor,
   onClearUserInfo
 }) => {
   const { t, language } = useI18n();
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [color, setColor] = useState(userColor);
 
   useEffect(() => {
     if (isOpen) {
       setName(userName || '');
-      setEmail(userEmail || '');
       setColor(userColor);
     }
-  }, [isOpen, userName, userEmail, userColor]);
+  }, [isOpen, userName, userColor]);
 
   if (!isOpen) return null;
 
   const handleSubmit = () => {
-    if (name.trim() && email.trim()) {
-      onSubmit(name, email, color);
+    if (name.trim()) {
+      onSubmit(name, color);
     }
   };
 
   const handleClose = () => {
     setName(userName || '');
-    setEmail(userEmail || '');
     setColor(userColor);
     onClose();
   };
@@ -75,22 +70,13 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
             autoFocus
           />
           
-          <label>{t.sessions.registration.yourEmail}</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={t.sessions.registration.enterEmail}
-            required
-          />
-          
           <ColorPicker 
             selectedColor={color}
             onColorChange={setColor}
             language={language}
           />
           
-          {(userName || userEmail) && (
+          {userName && (
             <div className="saved-info-container">
               <p className="saved-info-note">
                 {t.sessions.registration.savedInfo}
@@ -109,7 +95,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
             <button
               className="submit-button"
               onClick={handleSubmit}
-              disabled={!name.trim() || !email.trim()}
+              disabled={!name.trim()}
             >
               {t.sessions.registration.confirmRegistration}
             </button>

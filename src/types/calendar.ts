@@ -2,6 +2,7 @@ export interface ClassSession {
   id: string;
   date: string; // YYYY-MM-DD
   type: 'beginner' | 'intermediate' | 'experience'; // 素人体验、初级、中高级
+  title?: string; // 自定义课程内容
   startTime: string; // HH:mm
   duration: number; // minutes
   maxParticipants: number;
@@ -24,7 +25,7 @@ export interface SessionDay {
 export interface Registration {
   id: string;
   name: string;
-  email: string;
+  email?: string;
   color?: string;
   timestamp: number;
   sessionId: string;

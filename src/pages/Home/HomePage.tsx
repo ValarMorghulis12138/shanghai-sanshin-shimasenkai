@@ -229,33 +229,6 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Our Community Section */}
-      <section className="section features-section">
-        <div className="container">
-          <h2 className="section-title text-center">{t.home.features.title}</h2>
-          
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">📅</div>
-              <h3>{t.home.features.biweekly.title}</h3>
-              <p>{t.home.features.biweekly.description}</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">🎓</div>
-              <h3>{t.home.features.instruction.title}</h3>
-              <p>{t.home.features.instruction.description}</p>
-            </div>
-            
-            <div className="feature-card">
-              <div className="feature-icon">🌏</div>
-              <h3>{t.home.features.cultural.title}</h3>
-              <p>{t.home.features.cultural.description}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Photo Gallery Section */}
       <section className="section gallery-section">
         <div className="container">
@@ -322,7 +295,6 @@ const HomePage: React.FC = () => {
           <h2>{t.home.cta.title}</h2>
           <p className="cta-description">{t.home.cta.description}</p>
           <div className="cta-buttons">
-            <Link to="/shanghai" className="cta-button primary">{t.home.cta.viewSessions}</Link>
             <Link to="/contact" className="cta-button secondary">{t.home.cta.getInTouch}</Link>
           </div>
         </div>
