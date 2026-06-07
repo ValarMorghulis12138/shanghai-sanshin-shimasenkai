@@ -1,25 +1,31 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { useI18n } from '../../i18n/useI18n';
 import SessionRegistration, { type SessionRegistrationRef } from '../../components/SessionRegistration';
 import AdminPanel from '../../components/AdminPanel';
+import CityGallerySlider from '../../components/CityGallerySlider';
+import tokyoBranchPhoto from '../../assets/photos/tokyo/tokyo_branch_1.jpg';
 import './TokyoPage.css';
 
 const TokyoPage: React.FC = () => {
-  const { t, language } = useI18n();
+  const { t } = useI18n();
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const sessionRegistrationRef = useRef<SessionRegistrationRef>(null);
-
-  const cityName = {
-    zh: t.cities.tokyo.branch,
-    ja: t.cities.tokyo.branch,
-    en: t.cities.tokyo.branch,
-  };
+  const galleryImages = useMemo(
+    () => [
+      { src: tokyoBranchPhoto, alt: 'Tokyo Branch Activity Photo' },
+    ],
+    []
+  );
 
   return (
     <div className="sessions-page">
       <div className="container">
         <section className="page-header">
-          <h1>{cityName[language]}</h1>
+          <h1>{t.cities.tokyo.branch}</h1>
+        </section>
+
+        <section className="section gallery-section">
+          <CityGallerySlider images={galleryImages} />
         </section>
 
         <SessionRegistration

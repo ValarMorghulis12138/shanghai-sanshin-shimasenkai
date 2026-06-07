@@ -31,8 +31,8 @@ export const ja: Translations = {
       cta: '講師について'
     },
     teacher: {
-      title: '講師紹介',
-      name: 'KEISUKE（西原圭佑）',
+      title: 'バイオグラフィー',
+      name: '西原圭佑',
       subtitle: '唄三線(Sanshin)演奏者・琉球島うた音楽協会教師',
       introduction: [
         'KEISUKE（西原圭佑）は沖縄出身。上海を拠点に唄三線の演奏者として活躍中。琉球島うた音楽協会教師免許保持者。',
@@ -109,7 +109,7 @@ export const ja: Translations = {
   
   sessions: {
     description: '月二回の三線練習会、隔週土曜日午後に開催。すべてのレベルの方を歓迎します！',
-    scheduleTitle: '練習会情報',
+    scheduleTitle: 'レッスン / イベントスケジュール',
     scheduleDescription: '',
     whatToBring: {
       title: '持ち物',
@@ -292,25 +292,26 @@ export const ja: Translations = {
   cities: {
     shanghai: {
       name: '上海',
-      branch: '三線島線会上海分会'
+      branch: '上海分会',
+      galleryTitle: '上海分会フォトギャラリー'
     },
     beijing: {
       name: '北京',
-      branch: '三線島線会北京分会',
+      branch: '北京分会',
       underConstruction: 'ウェブサイト構築中',
       comingSoon: '北京分会は近日公開予定！更新情報をお待ちください。'
     },
     tokyo: {
       name: '東京',
-      branch: '三線島線会東京分会',
+      branch: '東京分会',
       underConstruction: 'ウェブサイト構築中',
       comingSoon: '東京分会は近日公開予定！更新情報をお待ちください。'
     }
   },
 
   citiesNav: {
-    tokyo: '東京分会',
-    shanghai: '上海分会',
-    beijing: '北京分会'
+    tokyo: '東京',
+    shanghai: '上海',
+    beijing: '北京'
   }
 };

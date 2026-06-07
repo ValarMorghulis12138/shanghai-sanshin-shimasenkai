@@ -1,7 +1,7 @@
 @import './variables.css';
 
-/* Import beautiful fonts for Chinese and Japanese */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Ma+Shan+Zheng&family=Inter:wght@400;500;600;700&display=swap');
+/* Japanese minimalist font stack */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+JP:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Ma+Shan+Zheng&display=swap');
 
 /* Custom font - HuaWen LiShu (available for future use) */
 /*
@@ -14,65 +14,9 @@
 }
 */
 
-/* Beautiful number styling with Inter font */
-:root {
-  --font-numbers: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-/* Enable better number display globally */
 body {
-  font-feature-settings: 'kern' 1, 'liga' 1, 'tnum' 1;
-}
-
-/* Apply Inter font to specific elements containing numbers */
-.hero-title,
-.hero-subtitle, 
-.hero-description,
-.section-description,
-.timeline-year,
-.stats-number,
-.price,
-time,
-.date,
-.session-time,
-.session-date,
-.participants-count,
-.faq-item p,
-.award-content p,
-.teacher-content p {
-  font-family: var(--font-numbers), var(--font-primary);
-  /* Enable tabular numbers for better alignment */
+  font-feature-settings: 'kern' 1, 'liga' 1;
   font-variant-numeric: tabular-nums;
-  font-feature-settings: 'tnum' 1;
-}
-
-/* Special styling for prominent numbers */
-.price,
-.stats-number,
-.timeline-year {
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-/* Utility class for number-heavy content */
-.number-content {
-  font-family: var(--font-numbers), var(--font-primary);
-  font-variant-numeric: tabular-nums;
-}
-
-/* Style for inline numbers in paragraphs */
-p, li, h1, h2, h3, h4, h5, h6, span, div {
-  /* Mix font for better number display */
-  font-family: inherit;
-}
-
-/* Override for elements that should always use Inter for numbers */
-.session-info,
-.contact-info,
-.timeline-content,
-.certification-content,
-.awards-section {
-  font-family: var(--font-numbers), var(--font-primary);
 }
 
 * {
@@ -90,31 +34,34 @@ body {
   font-family: var(--font-primary);
   color: var(--text-primary);
   background-color: var(--background-color);
-  line-height: 1.6;
+  background-image: linear-gradient(180deg, rgba(195, 58, 51, 0.03) 0%, rgba(213, 141, 63, 0.02) 45%, rgba(31, 59, 92, 0.025) 100%);
+  line-height: 1.72;
+  letter-spacing: 0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  line-height: 1.2;
+  line-height: 1.35;
+  letter-spacing: 0.015em;
   margin-bottom: var(--spacing-md);
-  color: var(--text-primary);
+  color: var(--heading-color);
 }
 
 h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 2.35rem;
+  font-weight: 600;
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 1.9rem;
   font-weight: 600;
 }
 
 h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.42rem;
+  font-weight: 500;
 }
 
 h4 {
@@ -125,16 +72,17 @@ h4 {
 p {
   margin-bottom: var(--spacing-md);
   color: var(--text-secondary);
+  letter-spacing: 0.008em;
 }
 
 a {
-  color: var(--primary-color);
+  color: var(--secondary-color);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 a:hover {
-  color: var(--primary-dark);
+  color: var(--primary-color);
   text-decoration: underline;
 }
 
@@ -177,6 +125,11 @@ input:focus, textarea:focus, select:focus {
 
 .section {
   padding: var(--spacing-xxl) 0;
+}
+
+::selection {
+  background: rgba(195, 58, 51, 0.2);
+  color: var(--secondary-dark);
 }
 
 /* Utility classes */

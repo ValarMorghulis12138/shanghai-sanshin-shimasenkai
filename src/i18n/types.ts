@@ -278,6 +278,7 @@ export interface Translations {
     shanghai: {
       name: string;
       branch: string;
+      galleryTitle: string;
     };
     beijing: {
       name: string;

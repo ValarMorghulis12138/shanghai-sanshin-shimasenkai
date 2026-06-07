@@ -1,8 +1,10 @@
 .header {
   position: sticky;
   top: 0;
-  background-color: var(--surface-color);
-  box-shadow: 0 2px 8px var(--shadow-color);
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 4px 18px rgba(21, 42, 64, 0.08);
   z-index: var(--z-header);
   transition: all var(--transition-normal);
 }
@@ -11,7 +13,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-md) 0;
+  min-height: 84px;
+  padding: 20px 0;
 }
 
 .logo {
@@ -28,16 +31,16 @@
 
 .logo-text {
   font-size: 1.75rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--primary-color);
   line-height: 1;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.035em;
 }
 
-/* Language-specific font styles */
+/* Restore original language-specific logo styling */
 :lang(zh) .logo-text {
   font-family: 'Ma Shan Zheng', cursive;
-  font-size: 2rem;
+  font-size: 2.2rem;
   letter-spacing: 0.1em;
   font-weight: 400;
 }
@@ -58,16 +61,16 @@
   height: 36px;
   object-fit: contain;
   margin-right: 12px;
-  padding: 6px;
-  background-color: #333;
-  border-radius: 8px;
-  filter: invert(1) brightness(2);
+  padding: 0;
+  background-color: transparent;
+  border-radius: 0;
+  filter: sepia(85%) saturate(260%) hue-rotate(338deg) brightness(0.24) contrast(1.18);
   transition: all var(--transition-fast);
 }
 
 .logo:hover .logo-icon {
-  background-color: #000;
-  filter: invert(1) brightness(2.5);
+  background-color: transparent;
+  filter: sepia(88%) saturate(270%) hue-rotate(338deg) brightness(0.2) contrast(1.22);
   transform: scale(1.05);
 }
 
@@ -75,21 +78,26 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xl);
+  gap: calc(var(--spacing-xl) + 4px);
 }
 
 .nav-list {
   display: flex;
   list-style: none;
-  gap: var(--spacing-xl);
+  gap: calc(var(--spacing-xl) + 12px);
   margin: 0;
   padding: 0;
+}
+
+.nav .language-switcher {
+  margin-left: var(--spacing-lg);
 }
 
 .nav-link {
   position: relative;
   color: var(--text-primary);
   font-weight: 500;
+  letter-spacing: 0.01em;
   padding: var(--spacing-sm) 0;
   transition: color var(--transition-fast);
 }
@@ -101,6 +109,7 @@
 
 .nav-link.active {
   color: var(--primary-color);
+  font-weight: 600;
 }
 
 .nav-link::after {
@@ -110,7 +119,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background-color: var(--primary-color);
+  background-color: var(--accent-color);
   transition: width var(--transition-fast);
 }
 
@@ -144,18 +153,20 @@
 @media (max-width: 768px) {
   .header-content {
     position: relative;
+    min-height: auto;
+    padding: var(--spacing-md) 0;
   }
   
   .logo-text {
     font-size: 1.5rem;
   }
-  
+
   :lang(zh) .logo-text {
-    font-size: 1.6rem;
+    font-size: 1.75rem;
   }
-  
+
   :lang(en) .logo-text {
-    font-size: 1.1rem;
+    font-size: 1.12rem;
   }
   
   /* Adjust logo icon for mobile */
@@ -163,7 +174,7 @@
     width: 28px;
     height: 28px;
     margin-right: 8px;
-    padding: 4px;
+    padding: 0;
   }
 
   .menu-toggle {
@@ -240,13 +251,5 @@
 
   .nav-open + .menu-toggle .menu-icon:nth-child(3) {
     transform: translateY(-10px) rotate(-45deg);
-  }
-}
-
-/* Small mobile devices */
-@media (max-width: 480px) {
-  :lang(en) .logo-text {
-    font-size: 0.95rem;
-    letter-spacing: 0;
   }
 }

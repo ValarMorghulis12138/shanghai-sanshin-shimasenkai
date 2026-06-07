@@ -31,8 +31,8 @@ export const zh: Translations = {
       cta: '认识我们的老师'
     },
     teacher: {
-      title: '讲师介绍',
-      name: 'KEISUKE（西原圭佑/琉球小哥keisuke）',
+      title: '人物简介',
+      name: '西原圭佑/琉球小哥keisuke',
       subtitle: '冲绳传统乐器三线的传承人',
       introduction: [
         'KEISUKE（西原圭佑）是冲绳县人，冲绳传统乐器三线(Sanshin)的传承人。持有"琉球岛うた(歌)音乐协会"教师证。',
@@ -109,7 +109,7 @@ export const zh: Translations = {
   
   sessions: {
     description: '每月两次三线课程，隔周周六下午进行。欢迎所有级别的学员参加！',
-    scheduleTitle: '课程信息',
+    scheduleTitle: '课程 / 活动安排',
     scheduleDescription: '',
     whatToBring: {
       title: '需要携带',
@@ -292,25 +292,26 @@ export const zh: Translations = {
   cities: {
     shanghai: {
       name: '上海',
-      branch: '三线岛线会上海分会'
+      branch: '上海分会',
+      galleryTitle: '上海分会活动相册'
     },
     beijing: {
       name: '北京',
-      branch: '三线岛线会北京分会',
+      branch: '北京分会',
       underConstruction: '网站建设中',
       comingSoon: '北京分会即将推出！请继续关注我们的更新。'
     },
     tokyo: {
       name: '东京',
-      branch: '三线岛线会东京分会',
+      branch: '东京分会',
       underConstruction: '网站建设中',
       comingSoon: '东京分会即将推出！请继续关注我们的更新。'
     }
   },
 
   citiesNav: {
-    tokyo: '东京分会',
-    shanghai: '上海分会',
-    beijing: '北京分会'
+    tokyo: '东京',
+    shanghai: '上海',
+    beijing: '北京'
   }
 };

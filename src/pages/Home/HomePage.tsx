@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { useI18n } from '../../i18n/useI18n';
 import './HomePage.css';
 import keisukeSenseiPhoto from '../../assets/photos/keisuke_sensei/keisuke_sensei_photo.jpg';
@@ -7,110 +6,9 @@ import teacherCertificate from '../../assets/photos/keisuke_sensei/teacher_certi
 import ambassadorAward from '../../assets/photos/keisuke_sensei/okinawa_ambassador_award.jpg';
 import consulGeneralAward from '../../assets/photos/keisuke_sensei/consul_general_award_2024.jpg';
 import heroBackground from '../../assets/photos/sanshin_member/shanghai_sanshin_shimasenkai.jpg';
-import bandPhoto from '../../assets/photos/haisai/haisai_sanshin_band.jpg';
-// Import new member photos for gallery
-import memberPhoto1 from '../../assets/photos/sanshin_member/shimasenkai_member_1.jpg';
-import memberPhoto2 from '../../assets/photos/sanshin_member/shimasenkai_member_2.jpg';
-import memberPhoto3 from '../../assets/photos/sanshin_member/shimasenkai_member_3.jpg';
-import kobudoPhoto from '../../assets/photos/sanshin_member/sanshin_kobudo.jpg';
-import eventPhoto from '../../assets/photos/sanshin_member/shimasenkai_event.jpg';
 
 const HomePage: React.FC = () => {
   const { t } = useI18n();
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isImageLoading, setIsImageLoading] = useState(false);
-  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0]));
-  
-  // Gallery images array
-  const galleryImages = useMemo(() => [
-    { src: bandPhoto, alt: "Haisai Sanshin Band Performance" },
-    { src: memberPhoto1, alt: "Sanshin Shimasenkai Members" },
-    { src: memberPhoto2, alt: "Teaching Scene" },
-    { src: memberPhoto3, alt: "Group Practice Session" },
-    { src: kobudoPhoto, alt: "Sanshin and Okinawan Kobudo Collaboration" },
-    { src: eventPhoto, alt: "Sanshin Shimasenkai Event" }
-  ], []);
-  
-  // 预加载下一张图片
-  const preloadImage = useCallback((index: number) => {
-    if (index >= 0 && index < galleryImages.length && !loadedImages.has(index)) {
-      const img = new Image();
-      img.src = galleryImages[index].src;
-      img.onload = () => {
-        setLoadedImages(prev => new Set(prev).add(index));
-      };
-    }
-  }, [galleryImages, loadedImages]);
-  
-  // 预加载第一张和第二张图片
-  useEffect(() => {
-    preloadImage(0);
-    preloadImage(1);
-  }, [preloadImage]);
-  
-  const changeImage = (newIndex: number) => {
-    if (isTransitioning) return;
-    
-    // 如果图片还没加载过，显示加载状态
-    if (!loadedImages.has(newIndex)) {
-      setIsImageLoading(true);
-    }
-    
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setCurrentImageIndex(newIndex);
-      setIsTransitioning(false);
-    }, 150);
-  };
-  
-  const nextImage = () => {
-    const newIndex = currentImageIndex === galleryImages.length - 1 ? 0 : currentImageIndex + 1;
-    changeImage(newIndex);
-    // 预加载再下一张
-    const preloadIndex = newIndex === galleryImages.length - 1 ? 0 : newIndex + 1;
-    preloadImage(preloadIndex);
-  };
-  
-  const prevImage = () => {
-    const newIndex = currentImageIndex === 0 ? galleryImages.length - 1 : currentImageIndex - 1;
-    changeImage(newIndex);
-    // 预加载再上一张
-    const preloadIndex = newIndex === 0 ? galleryImages.length - 1 : newIndex - 1;
-    preloadImage(preloadIndex);
-  };
-  
-  const goToImage = (index: number) => {
-    if (index !== currentImageIndex) {
-      changeImage(index);
-    }
-  };
-  
-  // Touch handlers for swipe functionality
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-  
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-  
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-    
-    if (isLeftSwipe) {
-      nextImage();
-    } else if (isRightSwipe) {
-      prevImage();
-    }
-  };
   
   return (
     <div className="home-page">
@@ -120,11 +18,6 @@ const HomePage: React.FC = () => {
           className="hero-background" 
           style={{ backgroundImage: `url(${heroBackground})` }}
         ></div>
-        <div className="container">
-          <div className="hero-content">
-            <h1 className="hero-title fade-in">{t.home.hero.title}</h1>
-          </div>
-        </div>
       </section>
 
       {/* Hero Description Section */}
@@ -157,8 +50,7 @@ const HomePage: React.FC = () => {
             </div>
             
             <div className="about-content">
-              <h3>{t.home.teacher.name}</h3>
-              <p className="teacher-title">{t.home.teacher.subtitle}</p>
+              <h3 className="teacher-heading">{t.home.teacher.name}</h3>
               {t.home.teacher.introduction.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
@@ -229,76 +121,6 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Photo Gallery Section */}
-      <section className="section gallery-section">
-        <div className="container">
-          <h2 className="section-title text-center">{t.home.gallery.title}</h2>
-          
-          <div className="gallery-slider">
-            <div className="gallery-main">
-              <button className="gallery-nav gallery-nav-prev" onClick={prevImage} aria-label="Previous image">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M15 18l-6-6 6-6" />
-                </svg>
-              </button>
-              
-              <div 
-                className="gallery-image-container"
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
-              >
-                {isImageLoading && (
-                  <div className="gallery-loading">
-                    <div className="loading-spinner"></div>
-                  </div>
-                )}
-                <img
-                  key={currentImageIndex}
-                  src={galleryImages[currentImageIndex].src}
-                  alt={galleryImages[currentImageIndex].alt}
-                  className={`gallery-main-image ${isTransitioning ? 'transitioning' : ''} ${isImageLoading ? 'loading' : ''}`}
-                  onLoad={() => {
-                    setIsImageLoading(false);
-                    setLoadedImages(prev => new Set(prev).add(currentImageIndex));
-                  }}
-                  onError={() => {
-                    setIsImageLoading(false);
-                  }}
-                />
-              </div>
-              
-              <button className="gallery-nav gallery-nav-next" onClick={nextImage} aria-label="Next image">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </button>
-            </div>
-            
-            <div className="gallery-dots">
-              {galleryImages.map((_, index) => (
-                <button
-                  key={index}
-                  className={`gallery-dot ${index === currentImageIndex ? 'active' : ''}`}
-                  onClick={() => goToImage(index)}
-                  aria-label={`Go to image ${index + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="section cta-section">
-        <div className="container text-center">
-          <h2>{t.home.cta.title}</h2>
-          <p className="cta-description">{t.home.cta.description}</p>
-          <div className="cta-buttons">
-            <Link to="/contact" className="cta-button secondary">{t.home.cta.getInTouch}</Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };

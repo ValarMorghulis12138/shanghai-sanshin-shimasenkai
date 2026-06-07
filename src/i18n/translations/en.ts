@@ -31,8 +31,8 @@ export const en: Translations = {
       cta: 'Meet Our Teacher'
     },
     teacher: {
-      title: 'Instructor Introduction',
-      name: 'KEISUKE (Nishihara Keisuke)',
+      title: 'Biography',
+      name: 'Nishihara Keisuke',
       subtitle: 'Sanshin Performer & Certified Instructor',
       introduction: [
         'KEISUKE is from Okinawa and currently based in Shanghai as an active Uta-Sanshin performer. He holds a teaching license from the Ryukyu Island Uta Music Association.',
@@ -109,7 +109,7 @@ export const en: Translations = {
   
   sessions: {
     description: 'Biweekly sanshin classes every other Saturday afternoon. All levels welcome!',
-    scheduleTitle: 'Session Information',
+    scheduleTitle: 'Classes / Events Schedule',
     scheduleDescription: '',
     whatToBring: {
       title: 'What to Bring',
@@ -292,25 +292,26 @@ export const en: Translations = {
   cities: {
     shanghai: {
       name: 'Shanghai',
-      branch: 'Sanshin Shimasenkai Shanghai Branch'
+      branch: 'Shanghai Branch',
+      galleryTitle: 'Shanghai Branch Photo Gallery'
     },
     beijing: {
       name: 'Beijing',
-      branch: 'Sanshin Shimasenkai Beijing Branch',
+      branch: 'Beijing Branch',
       underConstruction: 'Website Under Construction',
       comingSoon: 'Beijing branch coming soon! Please stay tuned for updates.'
     },
     tokyo: {
       name: 'Tokyo',
-      branch: 'Sanshin Shimasenkai Tokyo Branch',
+      branch: 'Tokyo Branch',
       underConstruction: 'Website Under Construction',
       comingSoon: 'Tokyo branch coming soon! Please stay tuned for updates.'
     }
   },
 
   citiesNav: {
-    tokyo: 'Tokyo Branch',
-    shanghai: 'Shanghai Branch',
-    beijing: 'Beijing Branch'
+    tokyo: 'Tokyo',
+    shanghai: 'Shanghai',
+    beijing: 'Beijing'
   }
 };

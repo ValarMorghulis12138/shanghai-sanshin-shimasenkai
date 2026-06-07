@@ -151,6 +151,8 @@ const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrati
 
   return (
     <div className="session-registration">
+      <h2 className="session-registration-title">{t.sessions.scheduleTitle}</h2>
+
       {/* Month Navigation and Sessions */}
       <section className="calendar-section">
         <MonthNavigation
@@ -205,19 +207,12 @@ const SessionRegistration = forwardRef<SessionRegistrationRef, SessionRegistrati
 
       {/* Teacher Admin Access */}
       {onAdminAccess && (
-        <section className="admin-hint">
-          <div className="hint-box">
-            <button 
-              className="admin-access-button"
-              onClick={onAdminAccess}
-            >
-              🔐 {t.admin.teacherAccess}
-            </button>
-            <p className="small-text">
-              {t.admin.teacherAccessHint}
-            </p>
-          </div>
-        </section>
+        <button
+          className="admin-access-button"
+          onClick={onAdminAccess}
+        >
+          🔐 {t.admin.teacherAccess}
+        </button>
       )}
     </div>
   );

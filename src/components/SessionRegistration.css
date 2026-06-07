@@ -3,6 +3,14 @@
   width: 100%;
 }
 
+.session-registration-title {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--secondary-dark);
+  letter-spacing: 0.02em;
+  margin-bottom: var(--spacing-xl);
+}
+
 /* Calendar Section */
 .calendar-section {
   margin-bottom: var(--spacing-xxl);
@@ -58,9 +66,10 @@
 
 .session-day {
   background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xl);
-  box-shadow: 0 2px 8px var(--shadow-color);
+  box-shadow: 0 8px 24px rgba(21, 42, 64, 0.06);
 }
 
 .session-date {
@@ -128,7 +137,7 @@
 }
 
 .class-card {
-  background-color: var(--background-color);
+  background-color: var(--background-light);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: var(--spacing-lg);
@@ -137,7 +146,8 @@
 
 .class-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--shadow-color);
+  border-color: rgba(195, 58, 51, 0.35);
+  box-shadow: 0 10px 24px rgba(21, 42, 64, 0.08);
 }
 
 .class-header {
@@ -248,7 +258,8 @@
   background-color: var(--primary-color);
   color: white;
   font-weight: 600;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
+  letter-spacing: 0.01em;
   transition: all var(--transition-fast);
   margin-top: var(--spacing-sm);
 }
@@ -272,7 +283,7 @@
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   transition: all var(--transition-fast);
   margin-top: var(--spacing-sm);
   width: 100%;
@@ -482,7 +493,8 @@
 }
 
 .hint-box {
-  background-color: var(--surface-color);
+  background-color: var(--background-light);
+  border: 1px solid var(--border-color);
   border-left: 4px solid var(--accent-color);
   padding: var(--spacing-lg);
   border-radius: var(--radius-md);
@@ -500,6 +512,7 @@
 }
 
 .admin-access-button {
+  display: block;
   background: var(--primary-color);
   color: white;
   border: none;
@@ -509,7 +522,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-fast);
-  margin-bottom: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
 }
 
 .admin-access-button:hover {
@@ -541,6 +554,10 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .session-registration-title {
+    font-size: 1.5rem;
+  }
+
   .month-navigation h2 {
     font-size: 1.5rem;
     min-width: 150px;
