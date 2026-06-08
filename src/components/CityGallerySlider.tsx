@@ -17,6 +17,7 @@ const CityGallerySlider: React.FC<CityGallerySliderProps> = ({
   autoPlayIntervalMs,
   pauseOnHover = false,
 }) => {
+  const [isGalleryReady, setIsGalleryReady] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
@@ -24,6 +25,29 @@ const CityGallerySlider: React.FC<CityGallerySliderProps> = ({
   const [isImageLoading, setIsImageLoading] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0]));
   const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    const windowWithIdleCallback = window as Window & {
+      requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+
+    if (windowWithIdleCallback.requestIdleCallback) {
+      const idleCallbackId = windowWithIdleCallback.requestIdleCallback(() => {
+        setIsGalleryReady(true);
+      }, { timeout: 1200 });
+
+      return () => {
+        windowWithIdleCallback.cancelIdleCallback?.(idleCallbackId);
+      };
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setIsGalleryReady(true);
+    }, 150);
+
+    return () => window.clearTimeout(timeoutId);
+  }, []);
 
   const preloadImage = useCallback(
     (index: number) => {
@@ -39,10 +63,9 @@ const CityGallerySlider: React.FC<CityGallerySliderProps> = ({
   );
 
   useEffect(() => {
-    if (images.length === 0) return;
+    if (!isGalleryReady || images.length === 0) return;
     preloadImage(0);
-    preloadImage(1);
-  }, [images.length, preloadImage]);
+  }, [images.length, isGalleryReady, preloadImage]);
 
   const changeImage = useCallback(
     (newIndex: number) => {
@@ -78,6 +101,7 @@ const CityGallerySlider: React.FC<CityGallerySliderProps> = ({
   }, [changeImage, currentImageIndex, images.length, preloadImage]);
 
   const goToImage = (index: number) => {
+    if (!isGalleryReady) return;
     if (index !== currentImageIndex) {
       changeImage(index);
     }
@@ -93,6 +117,7 @@ const CityGallerySlider: React.FC<CityGallerySliderProps> = ({
   };
 
   const handleTouchEnd = () => {
+    if (!isGalleryReady) return;
     if (!touchStart || !touchEnd) return;
 
     const distance = touchStart - touchEnd;
@@ -127,7 +152,12 @@ const CityGallerySlider: React.FC<CityGallerySliderProps> = ({
       onMouseLeave={pauseOnHover ? () => setIsPaused(false) : undefined}
     >
       <div className="city-gallery-main">
-        <button className="city-gallery-nav city-gallery-nav-prev" onClick={prevImage} aria-label="Previous image">
+        <button
+          className="city-gallery-nav city-gallery-nav-prev"
+          onClick={prevImage}
+          aria-label="Previous image"
+          disabled={!isGalleryReady || images.length <= 1}
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M15 18l-6-6 6-6" />
           </svg>
@@ -139,27 +169,42 @@ const CityGallerySlider: React.FC<CityGallerySliderProps> = ({
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
+          {!isGalleryReady && (
+            <div className="city-gallery-loading city-gallery-initial-loading">
+              <div className="city-gallery-loading-spinner"></div>
+            </div>
+          )}
           {isImageLoading && (
             <div className="city-gallery-loading">
               <div className="city-gallery-loading-spinner"></div>
             </div>
           )}
-          <img
-            key={currentImageIndex}
-            src={images[currentImageIndex].src}
-            alt={images[currentImageIndex].alt}
-            className={`city-gallery-main-image ${isTransitioning ? 'transitioning' : ''} ${isImageLoading ? 'loading' : ''}`}
-            onLoad={() => {
-              setIsImageLoading(false);
-              setLoadedImages((prev) => new Set(prev).add(currentImageIndex));
-            }}
-            onError={() => {
-              setIsImageLoading(false);
-            }}
-          />
+          {isGalleryReady && (
+            <img
+              key={currentImageIndex}
+              src={images[currentImageIndex].src}
+              alt={images[currentImageIndex].alt}
+              className={`city-gallery-main-image ${isTransitioning ? 'transitioning' : ''} ${isImageLoading ? 'loading' : ''}`}
+              loading="lazy"
+              decoding="async"
+              fetchPriority="low"
+              onLoad={() => {
+                setIsImageLoading(false);
+                setLoadedImages((prev) => new Set(prev).add(currentImageIndex));
+              }}
+              onError={() => {
+                setIsImageLoading(false);
+              }}
+            />
+          )}
         </div>
 
-        <button className="city-gallery-nav city-gallery-nav-next" onClick={nextImage} aria-label="Next image">
+        <button
+          className="city-gallery-nav city-gallery-nav-next"
+          onClick={nextImage}
+          aria-label="Next image"
+          disabled={!isGalleryReady || images.length <= 1}
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M9 18l6-6-6-6" />
           </svg>

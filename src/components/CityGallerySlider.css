@@ -16,6 +16,7 @@
 .city-gallery-image-container {
   flex: 1;
   position: relative;
+  min-height: 560px;
   border-radius: var(--border-radius);
   overflow: hidden;
   border: 1px solid var(--border-color);
@@ -62,6 +63,10 @@
   animation: city-gallery-simple-spin 0.8s linear infinite;
 }
 
+.city-gallery-initial-loading {
+  top: 50%;
+}
+
 @keyframes city-gallery-simple-spin {
   to {
     transform: rotate(360deg);
@@ -104,6 +109,11 @@
   color: var(--secondary-color);
 }
 
+.city-gallery-nav:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .city-gallery-dots {
   display: flex;
   justify-content: center;
@@ -131,6 +141,10 @@
 }
 
 @media (max-width: 768px) {
+  .city-gallery-image-container {
+    min-height: 340px;
+  }
+
   .city-gallery-main-image {
     height: 340px;
   }
