@@ -292,20 +292,20 @@ export const zh: Translations = {
   cities: {
     shanghai: {
       name: '上海',
-      branch: '上海分会',
-      galleryTitle: '上海分会活动相册'
+      branch: '上海支部',
+      galleryTitle: '上海支部活动相册'
     },
     beijing: {
       name: '北京',
-      branch: '北京分会',
+      branch: '北京支部',
       underConstruction: '网站建设中',
-      comingSoon: '北京分会即将推出！请继续关注我们的更新。'
+      comingSoon: '北京支部即将推出！请继续关注我们的更新。'
     },
     tokyo: {
       name: '东京',
-      branch: '东京分会',
+      branch: '东京支部',
       underConstruction: '网站建设中',
-      comingSoon: '东京分会即将推出！请继续关注我们的更新。'
+      comingSoon: '东京支部即将推出！请继续关注我们的更新。'
     }
   },
 

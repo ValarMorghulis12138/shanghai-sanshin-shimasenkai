@@ -292,20 +292,20 @@ export const ja: Translations = {
   cities: {
     shanghai: {
       name: '上海',
-      branch: '上海分会',
-      galleryTitle: '上海分会フォトギャラリー'
+      branch: '上海支部',
+      galleryTitle: '上海支部フォトギャラリー'
     },
     beijing: {
       name: '北京',
-      branch: '北京分会',
+      branch: '北京支部',
       underConstruction: 'ウェブサイト構築中',
-      comingSoon: '北京分会は近日公開予定！更新情報をお待ちください。'
+      comingSoon: '北京支部は近日公開予定！更新情報をお待ちください。'
     },
     tokyo: {
       name: '東京',
-      branch: '東京分会',
+      branch: '東京支部',
       underConstruction: 'ウェブサイト構築中',
-      comingSoon: '東京分会は近日公開予定！更新情報をお待ちください。'
+      comingSoon: '東京支部は近日公開予定！更新情報をお待ちください。'
     }
   },
 
