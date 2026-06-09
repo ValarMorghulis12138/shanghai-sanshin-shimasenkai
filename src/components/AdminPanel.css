@@ -319,16 +319,20 @@
 
 .class-editor {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.5fr auto;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 1.5fr) auto;
   gap: var(--spacing-sm);
   padding: var(--spacing-sm);
   background: var(--background-color);
   border-radius: var(--radius-sm);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: 2px;
+  align-items: center;
 }
 
 .class-editor select,
 .class-editor input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   padding: var(--spacing-xs);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);

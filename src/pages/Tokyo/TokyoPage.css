@@ -7,7 +7,7 @@
 
 .page-header {
   width: 100%;
-  margin: 0 0 var(--spacing-lg);
+  margin: 0 0 var(--spacing-sm);
   padding: 0;
   text-align: center;
 }
@@ -16,7 +16,7 @@
   font-size: 3rem;
   color: var(--heading-emphasis-color);
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 
 .page-description {
