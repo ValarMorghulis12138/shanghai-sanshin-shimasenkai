@@ -130,7 +130,7 @@ export function isCityConfigured(city: City): boolean {
 /**
  * Fetch data from JSONBin
  */
-async function fetchFromBin(binId: string, localStorageKey: string): Promise<any> {
+async function fetchFromBin<T>(binId: string, localStorageKey: string): Promise<T> {
   try {
     // Remove quotes if they're included in the API key (from .env file)
     const cleanApiKey = API_KEY?.replace(/^["']|["']$/g, '');
@@ -149,24 +149,29 @@ async function fetchFromBin(binId: string, localStorageKey: string): Promise<any
     }
     
     const data = await response.json();
-    const record = data.record || [];
+    const record = data.record ?? [];
     
     // Save to localStorage as cache (also helps with sync later)
     localStorage.setItem(localStorageKey, JSON.stringify(record));
     
-    return record;
+    return record as T;
   } catch (error) {
     console.error('JSONBin fetch error:', error);
     // Fallback to localStorage if JSONBin fails
     const localData = localStorage.getItem(localStorageKey);
-    return localData ? JSON.parse(localData) : [];
+    return (localData ? JSON.parse(localData) : []) as T;
   }
 }
 
 /**
  * Update data in JSONBin
  */
-async function updateBin(binId: string, data: any, localStorageKey: string, isSessionsBin: boolean): Promise<boolean> {
+async function updateBin(
+  binId: string,
+  data: unknown,
+  localStorageKey: string,
+  isSessionsBin: boolean
+): Promise<boolean> {
   try {
     // Remove quotes if they're included in the API key
     const cleanApiKey = API_KEY?.replace(/^["']|["']$/g, '');
@@ -252,7 +257,7 @@ export async function fetchSessions(city: City = 'shanghai'): Promise<SessionDay
   const localKey = getLocalStorageKey('sanshi_sessions', city);
   
   // Note: No cleanup here - cleanup only happens when teachers update sessions
-  let data = await fetchFromBin(config.sessionsBinId, localKey);
+  let data = await fetchFromBin<SessionDay[]>(config.sessionsBinId, localKey);
   
   // Filter out any placeholder sessions
   data = data.filter((session: SessionDay) => session.id !== 'placeholder');
@@ -266,7 +271,7 @@ export async function fetchRegistrations(city: City = 'shanghai'): Promise<Regis
   const config = getBinConfig(city);
   const localKey = getLocalStorageKey('sanshi_registrations', city);
   
-  const data = await fetchFromBin(config.registrationsBinId, localKey);
+  const data = await fetchFromBin<Registration[]>(config.registrationsBinId, localKey);
   // Filter out any placeholder registrations
   return data.filter((reg: Registration) => reg.id !== 'placeholder');
 }
@@ -408,7 +413,10 @@ export async function checkAdminPassword(password: string, city: City = 'shangha
   try {
     // Fetch admin config from cloud if not cached
     if (!adminConfigCache[city] && config.adminConfigBinId) {
-      const adminConfig = await fetchFromBin(config.adminConfigBinId, `sanshi_admin_config_${city}`);
+      const adminConfig = await fetchFromBin<{ passwordHash: string; lastUpdated: string } | null>(
+        config.adminConfigBinId,
+        `sanshi_admin_config_${city}`
+      );
       adminConfigCache[city] = adminConfig;
     }
     

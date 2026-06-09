@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import type { SessionDayWithRegistrations } from '../types/calendar';
+import type { Registration, SessionDayWithRegistrations } from '../types/calendar';
 import {
   fetchSessions,
   fetchRegistrations,
@@ -91,20 +91,24 @@ export const useSessionData = (city: City = 'shanghai') => {
       
       // Even if registrations is missing, we should still update sessions
       if (localSessions) {
-        const sessionsData = JSON.parse(localSessions).filter((s: any) => s.id !== 'placeholder');
+        const sessionsData = (JSON.parse(localSessions) as SessionDayWithRegistrations[]).filter(
+          (session) => session.id !== 'placeholder'
+        );
         const registrationsData = localRegistrations 
-          ? JSON.parse(localRegistrations).filter((r: any) => r.id !== 'placeholder')
+          ? (JSON.parse(localRegistrations) as Registration[]).filter(
+              (registration) => registration.id !== 'placeholder'
+            )
           : [];
         
         // Merge registrations into sessions (registrations might be empty array)
-        const mergedData: SessionDayWithRegistrations[] = sessionsData.map((session: any) => ({
+        const mergedData: SessionDayWithRegistrations[] = sessionsData.map((session) => ({
           ...session,
-          classes: session.classes.map((classItem: any) => ({
+          classes: session.classes.map((classItem) => ({
             ...classItem,
-            registrations: registrationsData.filter((reg: any) => reg.sessionId === classItem.id)
+            registrations: registrationsData.filter((registration) => registration.sessionId === classItem.id)
           })),
           eventRegistrations: session.isSpecialEvent 
-            ? registrationsData.filter((reg: any) => reg.sessionId === session.id)
+            ? registrationsData.filter((registration) => registration.sessionId === session.id)
             : undefined
         }));
         

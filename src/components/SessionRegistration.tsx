@@ -1,6 +1,6 @@
 import { useState, useMemo, useImperativeHandle, forwardRef } from 'react';
 import { useI18n } from '../i18n/useI18n';
-import type { Registration } from '../types/calendar';
+import type { Registration, SessionDayWithRegistrations } from '../types/calendar';
 import { useSessionData } from '../hooks/useSessionData';
 import { useRegistration } from '../hooks/useRegistration';
 import type { City } from '../services/jsonBinService';
@@ -19,7 +19,7 @@ interface SessionRegistrationProps {
 
 export interface SessionRegistrationRef {
   reloadData: () => Promise<void>;
-  updateSessionsDirectly: (sessions: any[]) => void;
+  updateSessionsDirectly: (sessions: SessionDayWithRegistrations[]) => void;
   syncFromLocalStorage: () => Promise<void>;
 }
 
