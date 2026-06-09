@@ -109,7 +109,7 @@ export const ja: Translations = {
   
   sessions: {
     description: '月二回の三線練習会、隔週土曜日午後に開催。すべてのレベルの方を歓迎します！',
-    scheduleTitle: 'レッスン / イベントスケジュール',
+    scheduleTitle: 'スケジュール',
     scheduleDescription: '',
     whatToBring: {
       title: '持ち物',
