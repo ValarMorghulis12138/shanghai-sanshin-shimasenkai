@@ -169,7 +169,7 @@ export const ja: Translations = {
       classRegistration: 'クラス登録'
     },
     noSessionsThisMonth: '今月の予定はありません',
-    specialEvent: '特別イベント',
+    specialEvent: 'イベント',
     registered: '登録済み',
     full: '満員',
     registerNow: '今すぐ登録',
@@ -264,7 +264,7 @@ export const ja: Translations = {
     passwordUpdated: 'パスワードが更新されました',
     passwordUpdateFailed: 'パスワードの更新に失敗しました',
     regularClasses: '通常クラス',
-    specialEvent: '特別イベント',
+    specialEvent: 'イベント',
     eventInfo: 'イベント情報',
     eventName: 'イベント名',
     eventNamePlaceholder: '例：沖縄県人会',

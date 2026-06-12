@@ -169,7 +169,7 @@ export const en: Translations = {
       classRegistration: 'Class Registration'
     },
     noSessionsThisMonth: 'No sessions scheduled this month',
-    specialEvent: 'Special Event',
+    specialEvent: 'Event',
     registered: 'registered',
     full: 'Full',
     registerNow: 'Register Now',
@@ -186,7 +186,7 @@ export const en: Translations = {
   },
   
   contact: {
-    title: 'Get In Touch',
+    title: 'Contact',
     description: 'Interested in learning sanshin or joining our community? We\'d love to hear from you!',
     contactInfo: 'Contact Information',
     location: {
@@ -264,7 +264,7 @@ export const en: Translations = {
     passwordUpdated: 'Password updated successfully',
     passwordUpdateFailed: 'Failed to update password',
     regularClasses: 'Regular Classes',
-    specialEvent: 'Special Event',
+    specialEvent: 'Event',
     eventInfo: 'Event Information',
     eventName: 'Event Name',
     eventNamePlaceholder: 'e.g. Okinawa Kenjinkai',

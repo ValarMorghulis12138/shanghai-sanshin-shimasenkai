@@ -82,14 +82,15 @@
 }
 
 .event-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   background-color: var(--accent-color);
   color: var(--text-primary);
   padding: var(--spacing-xs) var(--spacing-md);
   border-radius: var(--radius-full);
   font-size: 0.875rem;
   font-weight: 600;
-  margin-bottom: var(--spacing-sm);
+  line-height: 1.2;
 }
 
 /* Special Event Content */

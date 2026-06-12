@@ -169,7 +169,7 @@ export const zh: Translations = {
       classRegistration: '课程报名'
     },
     noSessionsThisMonth: '本月暂无课程安排',
-    specialEvent: '特殊活动',
+    specialEvent: '活动',
     registered: '已报名',
     full: '已满',
     registerNow: '立即报名',
@@ -264,7 +264,7 @@ export const zh: Translations = {
     passwordUpdated: '密码修改成功',
     passwordUpdateFailed: '密码修改失败',
     regularClasses: '常规组课',
-    specialEvent: '特殊活动',
+    specialEvent: '活动',
     eventInfo: '活动信息',
     eventName: '活动名称',
     eventNamePlaceholder: '例如：沖縄県人会',

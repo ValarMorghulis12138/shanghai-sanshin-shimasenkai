@@ -4,17 +4,35 @@
   padding-bottom: var(--spacing-xxl);
 }
 
+.page-header {
+  width: 100%;
+  margin: 0 0 var(--spacing-sm);
+  padding: 0;
+  text-align: center;
+}
+
+.page-header h1 {
+  font-size: 3rem;
+  color: var(--heading-emphasis-color);
+  margin: 0;
+  line-height: 1.1;
+}
+
 .contact-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-xxl);
-  margin-bottom: var(--spacing-xxl);
+  margin-bottom: 0;
 }
 
 .contact-content.single-column {
   grid-template-columns: 1fr;
   max-width: 800px;
-  margin: 0 auto var(--spacing-xxl);
+  margin: 0 auto 0;
+}
+
+.contact-info-section {
+  padding-top: 0;
 }
 
 /* Contact Info Section */
@@ -53,13 +71,14 @@
 }
 
 .info-item a {
-  color: var(--primary-color);
+  color: var(--text-primary);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 .info-item a:hover {
-  color: var(--primary-dark);
+  color: var(--text-primary);
+  text-decoration: underline;
 }
 
 /* WeChat QR placeholder removed - using WeChat ID instead */
@@ -178,6 +197,10 @@
 }
 
 @media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
   .contact-info,
   .contact-form-section {
     padding: var(--spacing-lg);
