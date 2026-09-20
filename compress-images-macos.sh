@@ -13,8 +13,6 @@ declare -a large_images=(
   "src/assets/photos/sanshin_member/三线会_古武道.jpg"
   "src/assets/photos/keisuke_sensei/2024年在外公馆长表彰.jpg"
   "src/assets/photos/sanshin_member/shanghai_sanshin_shimasenkai.jpg"
-  "src/assets/photos/sanshin_member/shimasenkai_event.jpg"
-  "src/assets/photos/sanshin_member/shimasenkai_member_3.jpg"
 )
 
 # 压缩函数

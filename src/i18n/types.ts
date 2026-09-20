@@ -255,6 +255,12 @@ export interface Translations {
     eventNamePlaceholder: string;
     eventDescription: string;
     eventDescriptionPlaceholder: string;
+    eventDescriptionHint: string;
+    eventDescriptionPreview: string;
+    formatBold: string;
+    formatItalic: string;
+    formatLink: string;
+    formatList: string;
     startTime: string;
     endTime: string;
     maxParticipants: string;

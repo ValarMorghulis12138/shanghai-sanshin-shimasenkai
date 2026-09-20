@@ -7,6 +7,7 @@ A modern website for the Shanghai Sanshin Shimasenkai group, dedicated to preser
 - **Homepage**: Introduction to the sanshin instrument and its history
 - **Sessions Page**: Interactive calendar with biweekly session schedules and registration
 - **Contact Page**: Contact form and information for interested participants
+- **Photo galleries**: Add or remove city photos by uploading files to `galleries/` on GitHub (no code change). See [`galleries/README.md`](galleries/README.md).
 
 ## Technology Stack
 

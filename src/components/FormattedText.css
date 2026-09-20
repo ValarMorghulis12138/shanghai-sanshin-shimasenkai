@@ -1,0 +1,45 @@
+.formatted-text {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.formatted-text p {
+  margin: 0 0 0.75em;
+  color: inherit;
+  line-height: inherit;
+}
+
+.formatted-text p:last-child,
+.formatted-text ul:last-child,
+.formatted-text ol:last-child {
+  margin-bottom: 0;
+}
+
+.formatted-text ul,
+.formatted-text ol {
+  margin: 0 0 0.75em;
+  padding-left: 1.35em;
+}
+
+.formatted-text li {
+  margin: 0.2em 0;
+}
+
+.formatted-text a {
+  color: var(--primary-color);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.formatted-text a:hover {
+  color: var(--primary-dark);
+}
+
+.formatted-text strong {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.formatted-text em {
+  font-style: italic;
+}

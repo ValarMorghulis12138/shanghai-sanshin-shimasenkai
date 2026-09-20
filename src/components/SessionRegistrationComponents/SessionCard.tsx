@@ -2,6 +2,7 @@ import React from 'react';
 import { useI18n } from '../../i18n/useI18n';
 import type { SessionDayWithRegistrations, Registration } from '../../types/calendar';
 import { ClassCard } from './ClassCard';
+import FormattedText from '../FormattedText';
 
 interface SessionCardProps {
   session: SessionDayWithRegistrations;
@@ -58,7 +59,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
       <div className="special-event-content">
         <h4 className="event-title">{session.eventTitle}</h4>
         {session.eventDescription && (
-          <p className="event-description">{session.eventDescription}</p>
+          <FormattedText className="event-description" text={session.eventDescription} />
         )}
         <div className="event-details">
           <p className="event-time">

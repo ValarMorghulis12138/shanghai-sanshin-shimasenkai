@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useI18n } from '../i18n/useI18n';
 import type { SessionDay, ClassSession } from '../types/calendar';
 import {
@@ -10,6 +10,7 @@ import {
   type City
 } from '../services/jsonBinService';
 import { generateSessionId, generateClassId } from '../utils/idGenerator';
+import FormattedText from './FormattedText';
 import './AdminPanel.css';
 
 interface AdminPanelProps {
@@ -416,7 +417,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onClose, onSessionsUpdate, city
                   {session.isSpecialEvent ? (
                     <>
                       <h4>{session.eventTitle}</h4>
-                      <p>{session.eventDescription}</p>
+                      <FormattedText text={session.eventDescription} className="session-event-description" />
                       <p>
                         {t.common.time}： 
                         {session.eventStartTime} - {session.eventEndTime}
@@ -474,6 +475,7 @@ const SessionEditor: React.FC<{
   const [isSpecialEvent, setIsSpecialEvent] = useState(session?.isSpecialEvent || false);
   const [eventTitle, setEventTitle] = useState(session?.eventTitle || '');
   const [eventDescription, setEventDescription] = useState(session?.eventDescription || '');
+  const eventDescriptionRef = useRef<HTMLTextAreaElement>(null);
   const [eventStartTime, setEventStartTime] = useState(session?.eventStartTime || '14:00');
   const [eventEndTime, setEventEndTime] = useState(session?.eventEndTime || '17:00');
   const [eventMaxParticipants, setEventMaxParticipants] = useState(session?.eventMaxParticipants || 50);
@@ -590,6 +592,51 @@ const SessionEditor: React.FC<{
     setClasses(updated);
   };
 
+  const restoreDescriptionSelection = (start: number, end: number) => {
+    requestAnimationFrame(() => {
+      const textarea = eventDescriptionRef.current;
+      if (!textarea) {
+        return;
+      }
+      textarea.focus();
+      textarea.setSelectionRange(start, end);
+    });
+  };
+
+  const wrapDescriptionSelection = (prefix: string, suffix: string, placeholder: string) => {
+    const textarea = eventDescriptionRef.current;
+    const start = textarea?.selectionStart ?? eventDescription.length;
+    const end = textarea?.selectionEnd ?? eventDescription.length;
+    const selected = eventDescription.slice(start, end);
+    const inner = selected || placeholder;
+    const next = `${eventDescription.slice(0, start)}${prefix}${inner}${suffix}${eventDescription.slice(end)}`;
+    const innerStart = start + prefix.length;
+    setEventDescription(next);
+    restoreDescriptionSelection(innerStart, innerStart + inner.length);
+  };
+
+  const insertDescriptionList = () => {
+    const textarea = eventDescriptionRef.current;
+    const start = textarea?.selectionStart ?? eventDescription.length;
+    const end = textarea?.selectionEnd ?? eventDescription.length;
+    const selected = eventDescription.slice(start, end);
+    const placeholder = t.admin.formatList;
+    const replacement = selected
+      ? selected
+          .split('\n')
+          .map((line) => {
+            if (!line.trim() || /^\s*[-*•・]\s+/.test(line) || /^\s*\d+[.)]\s+/.test(line)) {
+              return line;
+            }
+            return `- ${line}`;
+          })
+          .join('\n')
+      : `- ${placeholder}`;
+    const next = `${eventDescription.slice(0, start)}${replacement}${eventDescription.slice(end)}`;
+    setEventDescription(next);
+    restoreDescriptionSelection(start, start + replacement.length);
+  };
+
   const addClass = () => {
     const lastClass = classes[classes.length - 1];
     const nextStartTime = lastClass?.startTime ? getNextClassStartTime(lastClass.startTime) : '14:00';
@@ -677,12 +724,46 @@ const SessionEditor: React.FC<{
 
           <div className="form-group">
             <label>{t.admin.eventDescription}</label>
+            <div className="description-toolbar">
+              <button
+                type="button"
+                onClick={() => wrapDescriptionSelection('**', '**', t.admin.formatBold)}
+              >
+                {t.admin.formatBold}
+              </button>
+              <button
+                type="button"
+                onClick={() => wrapDescriptionSelection('*', '*', t.admin.formatItalic)}
+              >
+                {t.admin.formatItalic}
+              </button>
+              <button
+                type="button"
+                onClick={() => wrapDescriptionSelection('[', '](https://)', t.admin.formatLink)}
+              >
+                {t.admin.formatLink}
+              </button>
+              <button
+                type="button"
+                onClick={insertDescriptionList}
+              >
+                {t.admin.formatList}
+              </button>
+            </div>
             <textarea
+              ref={eventDescriptionRef}
               value={eventDescription}
               onChange={(e) => setEventDescription(e.target.value)}
-              rows={3}
+              rows={8}
               placeholder={t.admin.eventDescriptionPlaceholder}
             />
+            <p className="form-hint">{t.admin.eventDescriptionHint}</p>
+            {eventDescription.trim() && (
+              <div className="description-preview">
+                <div className="description-preview-label">{t.admin.eventDescriptionPreview}</div>
+                <FormattedText text={eventDescription} />
+              </div>
+            )}
           </div>
 
           <div className="form-group">

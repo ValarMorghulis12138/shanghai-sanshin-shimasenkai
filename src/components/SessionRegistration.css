@@ -129,15 +129,20 @@
   margin-top: var(--spacing-lg);
 }
 
-/* Classes Grid */
+/* Classes Grid: equal-width cards, max 50%, centered */
 .classes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch;
   gap: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
 }
 
 .class-card {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 50%;
   background-color: var(--background-light);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
@@ -565,7 +570,14 @@
   }
   
   .classes-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+  .class-card {
+    max-width: none;
+    width: 100%;
+    flex: 1 1 auto;
   }
   
   .modal-content {
